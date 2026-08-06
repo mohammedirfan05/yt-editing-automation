@@ -1,83 +1,75 @@
-# CapCut Desktop Tagged SRT Automation Tool
+# 🎬 Short-Form YouTube Editing Automation Pipeline
 
-A clean, zero-configuration Python CLI tool that programmatically generates CapCut Desktop video editing projects driven by a tagged SRT subtitle file.
+A clean, minimal, and fully automated pipeline that turns raw voiceover audio and images into **ready-to-open CapCut Desktop projects**.
+
+Powered by **Local Whisper STT**, **Google Gemini 3.6 Flash AI**, and **CapCut PyCapCut Engine**.
 
 ---
 
-## Workspace Structure
+## ⚡ Quick Start Workflow
+
+### 🚀 Step 1: Convert Audio (`.wav`/`.mp3`) to Tagged SRT
+
+1. Drop your voiceover audio file into `srt_generator/input_audio/`.
+2. Run:
+
+```bash
+python srt_generator/audio_to_tagged_srt.py
+```
+
+> **What this does:**
+> - Transcribes audio with millisecond-exact timestamps using local `faster-whisper`.
+> - Uses **Gemini 3.6 Flash AI** to read script context and insert mascot overlay tags (`[IMG:left]`, `[IMG:right]`, `[IMG:wtd]`, `[IMG:disagree]`, `[IMG:remember_this]`, `[IMG:speak_left]`, `[IMG:final_end]`).
+> - Auto-syncs `script.srt` and `voiceover.wav` into the main `input/` folder!
+
+---
+
+### 🎨 Step 2: Build Ready-to-Open CapCut Desktop Draft
+
+1. Drop your 2 comparison images (`image1` & `image2`) into `input/` (e.g. `input/image1.jpg` and `input/image2.png`).
+2. Run:
+
+```bash
+python build_draft.py SupermanVsShazam
+```
+
+> **What this does:**
+> - Creates a complete **6-Track Timeline** in CapCut Desktop:
+>   - **Track 6:** Subtitles (`LuckiestGuy-Rg`, Black color, 100% scale, `X=0, Y=81px`).
+>   - **Track 5:** Mascot Overlays (Merged PNG segments, Scale 42%, `X=-96px, Y=-816px`).
+>   - **Track 4:** Image 2 Top Right (**1:1 Auto Center Cropped**, Scale 40%, `X=551px, Y=909px`).
+>   - **Track 3:** Image 1 Top Left (**1:1 Auto Center Cropped**, Scale 40%, `X=-503px, Y=902px`).
+>   - **Track 2:** Background (`dotgrid.png`, extended to full audio length).
+>   - **Track 1:** Voiceover Audio (`00:00:00` to end).
+> - Opens directly in your CapCut Desktop projects list!
+
+---
+
+## 📁 Clean Directory Layout
 
 ```text
-yt_editing_automation/
-├── input/                      <-- Paste your tagged .srt file here! (e.g. script.srt)
-├── config/
-│   └── mapping.json            <-- Permanent tag-to-image mapping
+yt-editing-automation/
+├── .env                              <-- Contains GEMINI_API_KEY (git-ignored)
+├── build_draft.py                    <-- CapCut Desktop Draft Builder
+├── srt_generator/
+│   ├── audio_to_tagged_srt.py        <-- Speech Recognition & Gemini AI Mascot Tagger
+│   ├── input_audio/                  <-- Input folder for voiceover audio (.wav / .mp3)
+│   └── output_srt/                   <-- Generated tagged .srt files
+├── input/                            <-- Auto-synced draft builder input directory
+│   ├── script.srt                    <-- Auto-copied from srt_generator
+│   ├── voiceover.wav                 <-- Auto-copied from srt_generator
+│   ├── image1.jpg                    <-- Top Left Comparison Image
+│   └── image2.webp                   <-- Top Right Comparison Image
 ├── assets/
-│   ├── mascot/                 <-- Permanent mascot PNG library (left.png, right.png, etc.)
-│   └── background/             <-- Primary background (dotgrid.png)
-├── build_draft.py              <-- Main automation script
-└── README.md                   <-- Documentation
+│   ├── background/dotgrid.png        <-- Primary video background
+│   └── mascot/*.png                  <-- Character mascot overlays
+└── config/
+    └── mapping.json                  <-- Tag to mascot PNG mappings
 ```
 
 ---
 
-## Super Simple Usage
+## 🛠️ Configuration & Credentials
 
-### Step 1: Drop your files into `input/`
-
-Copy your files into `input/`:
-- Tagged SRT file (e.g. `input/script.srt`)
-- Voiceover Audio file (e.g. `input/voiceover.wav` or `input/script.mp3`)
-- Image 1 file (e.g. `input/image1.png` or `input/img1.jpg`)
-- Image 2 file (e.g. `input/image2.png` or `input/img2.jpg`)
-
-### Step 2: Run the script
-
-```bash
-# 1. Automatic project name (inferred from SRT filename):
-python build_draft.py
-
-# 2. Custom project name (e.g. 'capvsironman'):
-python build_draft.py capvsironman
-```
-
-That's it! The tool automatically:
-1. Picks the `.srt` file, `.wav`/`.mp3` audio, `image1`, and `image2` inside `input/`.
-2. Automatically performs **1:1 square center-crops** on Image 1 and Image 2 regardless of aspect ratio or orientation.
-3. Places Image 1 at **Scale 40%, X = -503px, Y = 902px** (`transform_x=-0.465741, transform_y=0.469792`).
-4. Places Image 2 at **Scale 40%, X = 551px, Y = 909px** (`transform_x=0.510185, transform_y=0.473438`).
-5. Adds the audio track into CapCut and measures its exact duration.
-6. Automatically extends `assets/background/dotgrid.png` across the entire video.
-7. Scales mascot PNGs to **42%** at **X = -96px, Y = -816px**.
-8. Formats captions with **LuckiestGuy-Rg** font, **Black** color, **100% scale**, and position **X = 0, Y = 81px**.
-9. Auto-detects your CapCut Desktop drafts folder on Windows or macOS.
-10. Generates a ready-to-open draft in CapCut Desktop!
-
----
-
-## Optional CLI Parameters
-
-If you want to customize specific runs, all defaults can be overridden:
-
-```bash
-# Process a specific SRT file and assign a custom project name
-python build_draft.py --srt input/my_video.srt --project-name "MyCustomDraft"
-
-# Custom position or background image
-python build_draft.py --pos-x -96 --pos-y -816 --bg-image assets/background/dotgrid.png
-```
-
-| Parameter | Default Value | Description |
-|---|---|---|
-| `--srt` | Auto-detected from `input/` | Path to input SRT file |
-| `--mapping` | `config/mapping.json` | Path to tag mapping file |
-| `--assets` | `assets/mascot` | Directory containing mascot PNGs |
-| `--bg-image` | `assets/background/dotgrid.png` | Primary background image |
-| `--drafts-dir` | Auto-detected CapCut folder | CapCut local drafts directory |
-| `--project-name` | SRT filename (stem) | Output project draft name |
-| `--image-scale` | `0.42` (42%) | Mascot PNG scale factor |
-| `--pos-x` | `-96.0` px | Mascot X offset from center |
-| `--pos-y` | `-816.0` px | Mascot Y offset from center |
-| `--text-font` | `LuckiestGuy-Rg` | Subtitle font family |
-| `--text-pos-x` | `0.0` px | Subtitle X offset from center |
-| `--text-pos-y` | `81.0` px | Subtitle Y offset from center |
-| `--debug-dir` | `None` (Optional) | Export debug JSON files for inspection |
+- **Gemini API Key:** Saved in `.env` as `GEMINI_API_KEY=your_key_here`.
+- **Mascot Tag Mapping:** Configured in `config/mapping.json`.

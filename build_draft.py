@@ -915,9 +915,7 @@ def main():
         image2_path = find_input_image_by_prefix(["image2", "img2", "right_image", "2"], "input")
 
     # Infer project name from flag, positional argument, or SRT filename
-    project_name = args.project_name_flag or args.name
-    if not project_name:
-        project_name = Path(srt_path).stem
+    project_name = (args.project_name_flag or args.name or Path(srt_path).stem).strip('\\/ ')
 
     logger.info("Starting CapCut Draft Builder pipeline...")
     logger.info(f"Input SRT: {srt_path}")

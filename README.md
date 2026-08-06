@@ -22,24 +22,35 @@ yt_editing_automation/
 
 ## Super Simple Usage
 
-### Step 1: Drop your `.srt` file into `input/`
+### Step 1: Drop your files into `input/`
 
-Copy your tagged SRT file into the `input/` directory (e.g. `input/script.srt` or `input/my_video.srt`).
+Copy your files into `input/`:
+- Tagged SRT file (e.g. `input/script.srt`)
+- Voiceover Audio file (e.g. `input/voiceover.wav` or `input/script.mp3`)
+- Image 1 file (e.g. `input/image1.png` or `input/img1.jpg`)
+- Image 2 file (e.g. `input/image2.png` or `input/img2.jpg`)
 
 ### Step 2: Run the script
 
 ```bash
+# 1. Automatic project name (inferred from SRT filename):
 python build_draft.py
+
+# 2. Custom project name (e.g. 'capvsironman'):
+python build_draft.py capvsironman
 ```
 
 That's it! The tool automatically:
-1. Picks the `.srt` file inside `input/`.
-2. Resolves mascot tags via `config/mapping.json` using `assets/mascot/`.
-3. Extends `assets/background/dotgrid.png` across the entire video.
-4. Scales mascot PNGs to **42%** at **X = -96px, Y = -816px**.
-5. Formats captions with **LuckiestGuy-Rg** font, **Black** color, **100% scale**, and position **X = 0, Y = 81px**.
-6. Auto-detects your CapCut Desktop drafts folder on Windows or macOS.
-7. Generates a draft named after your SRT file (e.g. `script`) ready to open in CapCut!
+1. Picks the `.srt` file, `.wav`/`.mp3` audio, `image1`, and `image2` inside `input/`.
+2. Automatically performs **1:1 square center-crops** on Image 1 and Image 2 regardless of aspect ratio or orientation.
+3. Places Image 1 at **Scale 40%, X = -503px, Y = 902px** (`transform_x=-0.465741, transform_y=0.469792`).
+4. Places Image 2 at **Scale 40%, X = 551px, Y = 909px** (`transform_x=0.510185, transform_y=0.473438`).
+5. Adds the audio track into CapCut and measures its exact duration.
+6. Automatically extends `assets/background/dotgrid.png` across the entire video.
+7. Scales mascot PNGs to **42%** at **X = -96px, Y = -816px**.
+8. Formats captions with **LuckiestGuy-Rg** font, **Black** color, **100% scale**, and position **X = 0, Y = 81px**.
+9. Auto-detects your CapCut Desktop drafts folder on Windows or macOS.
+10. Generates a ready-to-open draft in CapCut Desktop!
 
 ---
 

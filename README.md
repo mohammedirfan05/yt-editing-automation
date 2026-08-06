@@ -1,75 +1,64 @@
-# 🎬 Short-Form YouTube Editing Automation Pipeline
+# 🎬 YouTube Shorts Editing Automation Engine
 
-A clean, minimal, and fully automated pipeline that turns raw voiceover audio and images into **ready-to-open CapCut Desktop projects**.
+A clean, minimal, and 100% automated pipeline that turns script text and 2 images into **ready-to-open CapCut Desktop projects**.
 
-Powered by **Local Whisper STT**, **Google Gemini 3.6 Flash AI**, and **CapCut PyCapCut Engine**.
+Powered by **Google Gemini 3.1 Flash TTS**, **Local Whisper STT**, **Google Gemini 3.6 Flash AI**, and **CapCut PyCapCut Engine**.
 
 ---
 
-## ⚡ Quick Start Workflow
+## ⚡ 1-Click Interactive Workflow
 
-### 🚀 Step 1: Convert Audio (`.wav`/`.mp3`) to Tagged SRT
+### Step 1: Drop 2 Images into `input/`
+Drop your two comparison images into `input/` (e.g. `input/image1.jpg` and `input/image2.png`).
 
-1. Drop your voiceover audio file into `srt_generator/input_audio/`.
-2. Run:
+### Step 2: Run the Master CLI
 
 ```bash
-python srt_generator/audio_to_tagged_srt.py
+python run.py
 ```
 
-> **What this does:**
-> - Transcribes audio with millisecond-exact timestamps using local `faster-whisper`.
-> - Uses **Gemini 3.6 Flash AI** to read script context and insert mascot overlay tags (`[IMG:left]`, `[IMG:right]`, `[IMG:wtd]`, `[IMG:disagree]`, `[IMG:remember_this]`, `[IMG:speak_left]`, `[IMG:final_end]`).
-> - Auto-syncs `script.srt` and `voiceover.wav` into the main `input/` folder!
+1. Enter your **Project Name** (e.g. `SupermanVsShazam`).
+2. Paste your **Script Text** (e.g. `[amused] This is Superman. This is Shazam. So, what's the difference?`).
+3. Press **ENTER** (and `Ctrl+Z` / type `END`).
+
+**That's it!** The engine automatically:
+- 🔊 Generates expressive voiceover audio using Google TTS (`Puck` voice).
+- ⏱️ Extracts millisecond-exact timestamps using local Whisper STT.
+- 🤖 Tags mascot character overlays using Gemini 3.6 Flash AI.
+- ✂️ Center-crops Image 1 and Image 2 to 1:1 squares.
+- 🎬 Assembles a 6-Track CapCut Desktop project ready to open!
 
 ---
 
-### 🎨 Step 2: Build Ready-to-Open CapCut Desktop Draft
-
-1. Drop your 2 comparison images (`image1` & `image2`) into `input/` (e.g. `input/image1.jpg` and `input/image2.png`).
-2. Run:
+## 💻 Non-Interactive CLI Command
 
 ```bash
-python build_draft.py SupermanVsShazam
+python run.py SupermanVsShazam -t "[amused] This is Superman. This is Shazam. So, what's the difference?"
 ```
-
-> **What this does:**
-> - Creates a complete **6-Track Timeline** in CapCut Desktop:
->   - **Track 6:** Subtitles (`LuckiestGuy-Rg`, Black color, 100% scale, `X=0, Y=81px`).
->   - **Track 5:** Mascot Overlays (Merged PNG segments, Scale 42%, `X=-96px, Y=-816px`).
->   - **Track 4:** Image 2 Top Right (**1:1 Auto Center Cropped**, Scale 40%, `X=551px, Y=909px`).
->   - **Track 3:** Image 1 Top Left (**1:1 Auto Center Cropped**, Scale 40%, `X=-503px, Y=902px`).
->   - **Track 2:** Background (`dotgrid.png`, extended to full audio length).
->   - **Track 1:** Voiceover Audio (`00:00:00` to end).
-> - Opens directly in your CapCut Desktop projects list!
 
 ---
 
-## 📁 Clean Directory Layout
+## 📁 Clean Directory Architecture
 
 ```text
 yt-editing-automation/
-├── .env                              <-- Contains GEMINI_API_KEY (git-ignored)
+├── run.py                            <-- ⚡ Master 1-Click Interactive CLI
 ├── build_draft.py                    <-- CapCut Desktop Draft Builder
-├── srt_generator/
-│   ├── audio_to_tagged_srt.py        <-- Speech Recognition & Gemini AI Mascot Tagger
-│   ├── input_audio/                  <-- Input folder for voiceover audio (.wav / .mp3)
-│   └── output_srt/                   <-- Generated tagged .srt files
-├── input/                            <-- Auto-synced draft builder input directory
-│   ├── script.srt                    <-- Auto-copied from srt_generator
-│   ├── voiceover.wav                 <-- Auto-copied from srt_generator
+├── README.md                         <-- Master documentation
+├── .env                              <-- Contains GEMINI_API_KEY
+│
+├── input/                            <-- 🖼️ Drop image1 & image2 here
 │   ├── image1.jpg                    <-- Top Left Comparison Image
-│   └── image2.webp                   <-- Top Right Comparison Image
-├── assets/
-│   ├── background/dotgrid.png        <-- Primary video background
-│   └── mascot/*.png                  <-- Character mascot overlays
-└── config/
-    └── mapping.json                  <-- Tag to mascot PNG mappings
+│   ├── image2.webp                   <-- Top Right Comparison Image
+│   ├── script.srt                    <-- (Auto-generated)
+│   └── voiceover.wav                 <-- (Auto-generated)
+│
+├── tts_generator/                    <-- Google Gemini 3.1 Flash TTS Engine
+│   └── generate_tts.py
+│
+├── srt_generator/                    <-- Whisper STT & Gemini 3.6 Flash Mascot Tagger
+│   └── audio_to_tagged_srt.py
+│
+├── assets/                           <-- Mascot PNGs & Dotgrid background
+└── config/                           <-- Tag mapping configuration
 ```
-
----
-
-## 🛠️ Configuration & Credentials
-
-- **Gemini API Key:** Saved in `.env` as `GEMINI_API_KEY=your_key_here`.
-- **Mascot Tag Mapping:** Configured in `config/mapping.json`.

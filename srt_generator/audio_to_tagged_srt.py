@@ -267,19 +267,18 @@ First, identify the two main competing entities being compared in the script:
 
 ### STEP 2: MASCOT TAGGING RULES
 
-1. `[IMG:left]` -> Use when introducing or showing ENTITY A (Topic 1).
-2. `[IMG:right]` -> Use when introducing, showing, or talking about ENTITY B (Topic 2).
-   CRITICAL: Whenever the text discusses ENTITY B (e.g. Shazam, Rinnegan, Samsung, Sasuke), you MUST tag `[IMG:right]`. NEVER use `[IMG:speak_left]` or `[IMG:left]` for ENTITY B!
-3. `[IMG:speak_left]` -> Use ONLY when explaining or elaborating specifically about ENTITY A (Topic 1).
-4. `[IMG:wtd]` -> Use when asking a comparison question or expressing curiosity (e.g., "So, what's the difference?", "Which one are you picking?", "?").
-5. `[IMG:disagree]` -> Use for negations, debunks, or head-shaking statements (e.g., "They're not", "Wrong", "Incorrect", "No").
-6. `[IMG:remember_this]` -> Use for key pro-tips, memory hooks, or core takeaways (e.g., "That's why magic is one of Superman's biggest weaknesses").
-7. `[IMG:final_end]` -> Use for outro, CTA, or subscribe prompts (e.g., "Comment below and subscribe for more").
+1. `[IMG:left]` -> Use when introducing, showing, or explaining ENTITY A (Topic 1).
+2. `[IMG:right]` -> Use when introducing, showing, or explaining ENTITY B (Topic 2).
+   CRITICAL: Whenever the text discusses ENTITY B (e.g. Shazam, Rinnegan, Samsung, Sasuke), you MUST tag `[IMG:right]`. NEVER use `[IMG:left]` for ENTITY B!
+3. `[IMG:wtd]` -> Use when asking a comparison question or expressing curiosity (e.g., "So, what's the difference?", "Which one are you picking?", "?").
+4. `[IMG:disagree]` -> Use for negations, debunks, or head-shaking statements (e.g., "They're not", "Wrong", "Incorrect", "No").
+5. `[IMG:remember_this]` -> Use for key pro-tips, memory hooks, or core takeaways (e.g., "That's why magic is one of Superman's biggest weaknesses").
+6. `[IMG:final_end]` -> Use for outro, CTA, or subscribe prompts (e.g., "Comment below and subscribe for more").
 
 ### CRITICAL RULES:
 - Do NOT change any SRT index numbers or timestamps. Keep them EXACTLY identical.
 - Append `[IMG:tag_code]` to the end of the text line for blocks that trigger mascot visual overlays.
-- Ensure strict switching between ENTITY A (`[IMG:left]` / `[IMG:speak_left]`) and ENTITY B (`[IMG:right]`).
+- Ensure strict switching between ENTITY A (`[IMG:left]`) and ENTITY B (`[IMG:right]`).
 - Return ONLY the final complete tagged SRT content without any markdown formatting, backticks, or extra explanation text.
 
 --- INPUT SRT ---
@@ -388,7 +387,17 @@ def convert_audio_to_tagged_srt(
     # 5. Apply Gemini AI Mascot Tagging
     tagged_srt = tag_srt_with_gemini_ai(clean_srt, api_key=key, model_name=gemini_model)
 
-    # 6. Save final tagged SRT file
+    # 6. Save final tagged SRT file (purging old SRT files in output_srt to prevent mixups)
+    if os.path.isdir(DEFAULT_OUTPUT_DIR):
+        for f in os.listdir(DEFAULT_OUTPUT_DIR):
+            if os.path.splitext(f)[1].lower() == ".srt" and f != os.path.basename(output_srt_path):
+                old_file = os.path.join(DEFAULT_OUTPUT_DIR, f)
+                try:
+                    os.remove(old_file)
+                    print(Fore.YELLOW + f"[CLEANUP] Deleted old output SRT: {old_file}" + Style.RESET_ALL)
+                except Exception:
+                    pass
+
     with open(output_srt_path, "w", encoding="utf-8") as f:
         f.write(tagged_srt)
 
@@ -396,12 +405,25 @@ def convert_audio_to_tagged_srt(
 
     # 7. Optionally copy audio & tagged SRT to main project input/ directory
     if copy_to_project_input and os.path.isdir(PROJECT_ROOT_INPUT):
+        # Purge any old .srt files in input/
+        for f in os.listdir(PROJECT_ROOT_INPUT):
+            if os.path.splitext(f)[1].lower() == ".srt":
+                old_input_srt = os.path.join(PROJECT_ROOT_INPUT, f)
+                try:
+                    os.remove(old_input_srt)
+                    print(Fore.YELLOW + f"[CLEANUP] Deleted old input SRT: {old_input_srt}" + Style.RESET_ALL)
+                except Exception:
+                    pass
+
         dest_srt = os.path.join(PROJECT_ROOT_INPUT, "script.srt")
-        dest_audio = os.path.join(PROJECT_ROOT_INPUT, filename)
         shutil.copy2(output_srt_path, dest_srt)
-        shutil.copy2(audio_path, dest_audio)
         print(Fore.GREEN + f"[AUTO-SYNC] Copied tagged SRT to: {dest_srt}" + Style.RESET_ALL)
-        print(Fore.GREEN + f"[AUTO-SYNC] Copied audio to: {dest_audio}" + Style.RESET_ALL)
+
+        if os.path.exists(audio_path):
+            dest_audio = os.path.join(PROJECT_ROOT_INPUT, filename)
+            if os.path.abspath(audio_path) != os.path.abspath(dest_audio):
+                shutil.copy2(audio_path, dest_audio)
+                print(Fore.GREEN + f"[AUTO-SYNC] Copied audio to: {dest_audio}" + Style.RESET_ALL)
         print(Fore.CYAN + f"\nYou can now run: python build_draft.py {base_name}" + Style.RESET_ALL)
 
     return output_srt_path

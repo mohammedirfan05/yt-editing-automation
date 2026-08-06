@@ -257,22 +257,29 @@ def tag_srt_with_gemini_ai(
 
     print(Fore.CYAN + f"[Gemini AI] Analyzing script context and tagging mascot overlays (model={model_name})..." + Style.RESET_ALL)
 
-    prompt = f"""You are an expert AI Video Director for short-form YouTube videos. You are given a clean SRT subtitle file.
-Your task is to analyze the script context and append inline mascot image tags `[IMG:tag_code]` to subtitle text lines based on strict mascot persona guidelines.
+    prompt = f"""You are an expert AI Short-Form Video Director & Mascot Tagging Engine.
+Your job is to analyze an untagged SRT subtitle file for a comparison/versus video and insert mascot tags `[IMG:tag_code]` at the end of text lines.
 
-Here are the 8 Mascot Tag Rules:
-1. `[IMG:left]` - Use when presenting/introducing Option 1, item 1, or starting a comparison (e.g. Sharingan, Mungekyo, iPhone, Naruto, first item mentioned).
-2. `[IMG:right]` - Use when presenting/introducing Option 2, the opponent, or alternative item (e.g. Rinnegan, Samsung, Sasuke, second item mentioned).
-3. `[IMG:wtd]` - Use when asking a comparison question or expressing curiosity (e.g. "So what's the difference?", "Which one are you picking?", "?").
-4. `[IMG:disagree]` - Use when correcting a myth, shaking head, or stating a negation/contrast (e.g. "They're not", "Wrong", "Incorrect", "No", "However").
-5. `[IMG:remember_this]` - Use for pro-tips, memory hooks, or key lessons (e.g. "Here's the easiest way to remember it", "keep in mind").
-6. `[IMG:speak_left]` - Use when elaborating on details, explanations, or how a feature works.
-7. `[IMG:final_end]` - Use for outro, calls to action, or subscribe prompts (e.g. "Comment below and subscribe for more").
+### STEP 1: ENTITY MAPPING IN THE SCRIPT
+First, identify the two main competing entities being compared in the script:
+- ENTITY A (Topic 1 / Left Entity): e.g. Superman, Sharingan, iPhone, Naruto, first item mentioned.
+- ENTITY B (Topic 2 / Right Entity): e.g. Shazam, Rinnegan, Samsung, Sasuke, second item mentioned.
 
-RULES FOR TAG PLACEMENT:
+### STEP 2: MASCOT TAGGING RULES
+
+1. `[IMG:left]` -> Use when introducing or showing ENTITY A (Topic 1).
+2. `[IMG:right]` -> Use when introducing, showing, or talking about ENTITY B (Topic 2).
+   CRITICAL: Whenever the text discusses ENTITY B (e.g. Shazam, Rinnegan, Samsung, Sasuke), you MUST tag `[IMG:right]`. NEVER use `[IMG:speak_left]` or `[IMG:left]` for ENTITY B!
+3. `[IMG:speak_left]` -> Use ONLY when explaining or elaborating specifically about ENTITY A (Topic 1).
+4. `[IMG:wtd]` -> Use when asking a comparison question or expressing curiosity (e.g., "So, what's the difference?", "Which one are you picking?", "?").
+5. `[IMG:disagree]` -> Use for negations, debunks, or head-shaking statements (e.g., "They're not", "Wrong", "Incorrect", "No").
+6. `[IMG:remember_this]` -> Use for key pro-tips, memory hooks, or core takeaways (e.g., "That's why magic is one of Superman's biggest weaknesses").
+7. `[IMG:final_end]` -> Use for outro, CTA, or subscribe prompts (e.g., "Comment below and subscribe for more").
+
+### CRITICAL RULES:
 - Do NOT change any SRT index numbers or timestamps. Keep them EXACTLY identical.
 - Append `[IMG:tag_code]` to the end of the text line for blocks that trigger mascot visual overlays.
-- Keep contiguous blocks with the same topic tagged appropriately so they merge into smooth continuous segments.
+- Ensure strict switching between ENTITY A (`[IMG:left]` / `[IMG:speak_left]`) and ENTITY B (`[IMG:right]`).
 - Return ONLY the final complete tagged SRT content without any markdown formatting, backticks, or extra explanation text.
 
 --- INPUT SRT ---
@@ -289,7 +296,7 @@ RULES FOR TAG PLACEMENT:
             }
         ],
         "generationConfig": {
-            "temperature": 0.2,
+            "temperature": 0.1,
             "maxOutputTokens": 4096
         }
     }

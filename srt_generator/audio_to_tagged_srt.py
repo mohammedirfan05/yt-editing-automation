@@ -243,6 +243,47 @@ def extract_word_timestamps_from_audio(audio_path: str, model_size: str = "base"
         return all_words
 
 
+def merge_gemini_tags_into_raw_srt(raw_srt_content: str, gemini_tagged_text: str) -> str:
+    """
+    Safely merges [IMG:tag_code] tags from Gemini's response into the original raw SRT content,
+    guaranteeing that no original timestamps or block structures are corrupted or truncated.
+    """
+    raw_blocks = re.split(r'\n\s*\n', raw_srt_content.strip().replace('\r\n', '\n'))
+    gemini_blocks = re.split(r'\n\s*\n', gemini_tagged_text.strip().replace('\r\n', '\n'))
+
+    tag_map = {}
+    for g_block in gemini_blocks:
+        lines = [l.strip() for l in g_block.split('\n') if l.strip()]
+        if not lines:
+            continue
+        idx = None
+        if lines[0].isdigit():
+            idx = int(lines[0])
+            text_lines = lines[2:] if len(lines) >= 3 else lines[1:]
+        else:
+            text_lines = lines[1:] if '-->' in lines[0] else lines
+
+        full_text = ' '.join(text_lines)
+        tags = re.findall(r'\[IMG:\s*[^\]]+?\]', full_text)
+        if idx is not None and tags:
+            tag_map[idx] = tags
+
+    merged_blocks = []
+    for block_idx, r_block in enumerate(raw_blocks, start=1):
+        lines = [l.strip() for l in r_block.split('\n') if l.strip()]
+        if not lines:
+            continue
+        idx = int(lines[0]) if lines[0].isdigit() else block_idx
+        tags = tag_map.get(idx, [])
+        if tags:
+            tag_str = ' ' + ' '.join(tags)
+            if not any(t in lines[-1] for t in tags):
+                lines[-1] = lines[-1] + tag_str
+        merged_blocks.append('\n'.join(lines))
+
+    return '\n\n'.join(merged_blocks) + '\n'
+
+
 def tag_srt_with_gemini_ai(
     raw_srt_content: str,
     api_key: str,
@@ -314,10 +355,9 @@ First, identify the two main competing entities being compared in the script:
                     output_text = re.sub(r'^```\w*\n', '', output_text)
                     output_text = re.sub(r'\n```$', '', output_text).strip()
                     print(Fore.GREEN + f"[Gemini AI] Mascot tagging successfully completed with '{model_name}'!" + Style.RESET_ALL)
-                    return output_text
+                    return merge_gemini_tags_into_raw_srt(raw_srt_content, output_text)
         else:
             print(Fore.YELLOW + f"[Gemini AI Warning] API HTTP {r.status_code}: {r.text[:200]}" + Style.RESET_ALL)
-            # Try fallback model if specified model returned error
             fallback_model = "gemini-2.5-flash" if model_name != "gemini-2.5-flash" else "gemini-1.5-flash"
             print(Fore.CYAN + f"[Gemini AI] Trying fallback model '{fallback_model}'..." + Style.RESET_ALL)
             return tag_srt_with_gemini_ai(raw_srt_content, api_key, model_name=fallback_model)

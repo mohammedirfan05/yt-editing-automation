@@ -29,6 +29,7 @@ import pycapcut as pcc
 import pymediainfo
 from PIL import Image
 from pycapcut.metadata.effect_meta import EffectMeta
+from pycapcut.metadata.video_scene_effect import VideoSceneEffectType
 
 # Configure Logging
 logging.basicConfig(
@@ -69,6 +70,158 @@ class ImageSegmentSpec:
     end_us: int
     duration_us: int
     source_blocks: List[int] = field(default_factory=list)
+
+
+@dataclass
+class PairComparisonSpec:
+    pair_index: int
+    image1_path: Optional[str]
+    image2_path: Optional[str]
+    label_x: str
+    label_y: str
+    start_us: int
+    right_start_us: int
+    end_us: int
+
+
+def find_all_comparison_images(input_dir: str = "input") -> Dict[int, str]:
+    """
+    Finds all comparison images (image1, image2, image3, image4, image5, image6...) in input/.
+    Returns a dict mapping integer index -> file path.
+    """
+    if not os.path.isdir(input_dir):
+        return {}
+    valid_exts = {".png", ".jpg", ".jpeg", ".webp", ".bmp"}
+    found = {}
+    for f in os.listdir(input_dir):
+        name_lower = os.path.splitext(f)[0].lower()
+        ext_lower = os.path.splitext(f)[1].lower()
+        if ext_lower in valid_exts:
+            m = re.search(r'^(?:image|img|_)?(\d+)$', name_lower)
+            if m:
+                idx = int(m.group(1))
+                found[idx] = os.path.abspath(os.path.join(input_dir, f))
+    return found
+
+
+def build_compilation_pair_specs(
+    subtitle_blocks: List[SubtitleBlock],
+    image_dict: Dict[int, str],
+    labels_x: List[str],
+    labels_y: List[str],
+    total_duration_us: int,
+    mode: str = "auto"
+) -> List[PairComparisonSpec]:
+    """
+    Slices subtitle blocks into comparison units (pairs) and pairs them with corresponding
+    image1/image2, image3/image4, image5/image6... and red/blue labels.
+    """
+    if not subtitle_blocks:
+        return []
+
+    if mode == "deepdive":
+        # Deepdive mode: exactly 1 pair spanning full video duration
+        pair_start_us = subtitle_blocks[0].start_us if subtitle_blocks else 0
+        pair_right_start_us = pair_start_us
+        for b in subtitle_blocks:
+            if "right" in b.tags:
+                pair_right_start_us = b.start_us
+                break
+        if pair_right_start_us == pair_start_us and len(subtitle_blocks) >= 2:
+            pair_right_start_us = subtitle_blocks[1].start_us
+
+        img1_path = image_dict.get(1)
+        img2_path = image_dict.get(2)
+
+        lbl_x = labels_x[0] if labels_x else ""
+        lbl_y = labels_y[0] if labels_y else ""
+
+        return [
+            PairComparisonSpec(
+                pair_index=1,
+                image1_path=img1_path,
+                image2_path=img2_path,
+                label_x=lbl_x,
+                label_y=lbl_y,
+                start_us=pair_start_us,
+                right_start_us=pair_right_start_us,
+                end_us=total_duration_us
+            )
+        ]
+
+    pair_block_indices = []
+    in_explainer = False
+    intro_triggers = ["this is", "here is", "meet ", "option ", "topic ", "versus", "vs "]
+
+    for idx, b in enumerate(subtitle_blocks):
+        text_lower = b.clean_text.lower().strip()
+        has_intro_phrase = any(trig in text_lower for trig in intro_triggers)
+        has_wtd = "wtd" in b.tags or any(kw in text_lower for kw in ["difference", "wtd"])
+
+        if idx == 0:
+            pair_block_indices.append(idx)
+        elif in_explainer and has_intro_phrase:
+            pair_block_indices.append(idx)
+            in_explainer = False
+
+        if has_wtd:
+            in_explainer = True
+
+    pair_specs: List[PairComparisonSpec] = []
+    num_pairs = len(pair_block_indices)
+
+    # Fallback if no explicit intro triggers detected but multiple comparison images exist
+    num_images_pairs = len(image_dict) // 2
+    if mode == "compilation":
+        num_pairs = max(3, num_images_pairs)
+    elif num_images_pairs > num_pairs and num_images_pairs > 1:
+        num_pairs = num_images_pairs
+
+    if num_pairs > len(pair_block_indices):
+        chunk_size = max(1, len(subtitle_blocks) // num_pairs)
+        pair_block_indices = [i * chunk_size for i in range(num_pairs)]
+
+    for k in range(num_pairs):
+        start_blk_idx = pair_block_indices[k] if k < len(pair_block_indices) else len(subtitle_blocks) - 1
+        next_blk_idx = pair_block_indices[k + 1] if (k + 1 < len(pair_block_indices)) else len(subtitle_blocks)
+
+        pair_blocks = subtitle_blocks[start_blk_idx:next_blk_idx]
+        if not pair_blocks:
+            continue
+        pair_start_us = pair_blocks[0].start_us
+
+        if k + 1 < len(pair_block_indices):
+            pair_end_us = subtitle_blocks[pair_block_indices[k + 1]].start_us
+        else:
+            pair_end_us = total_duration_us
+
+        pair_right_start_us = pair_start_us
+        for b in pair_blocks:
+            if "right" in b.tags:
+                pair_right_start_us = b.start_us
+                break
+        if pair_right_start_us == pair_start_us and len(pair_blocks) >= 2:
+            pair_right_start_us = pair_blocks[1].start_us
+
+        img1_path = image_dict.get(2 * k + 1)
+        img2_path = image_dict.get(2 * k + 2)
+
+        lbl_x = labels_x[k] if k < len(labels_x) else ""
+        lbl_y = labels_y[k] if k < len(labels_y) else ""
+
+        spec = PairComparisonSpec(
+            pair_index=k + 1,
+            image1_path=img1_path,
+            image2_path=img2_path,
+            label_x=lbl_x,
+            label_y=lbl_y,
+            start_us=pair_start_us,
+            right_start_us=pair_right_start_us,
+            end_us=pair_end_us
+        )
+        pair_specs.append(spec)
+
+    return pair_specs
 
 
 class CustomFontWrapper:
@@ -220,7 +373,7 @@ def resolve_capcut_font_info(font_name: str = "LuckiestGuy-Rg") -> Tuple[str, st
     return resource_id, font_path
 
 
-def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-Rg") -> None:
+def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-Rg", label1_text: str = "", label2_text: str = "", all_labels: Optional[List[str]] = None) -> None:
     """
     Patches generated draft_content.json text materials to populate CapCut font fields
     (font_resource_id, font_path, font_title, font_name, fonts array) so CapCut Desktop renders LuckiestGuy-Rg natively.
@@ -230,6 +383,12 @@ def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-
         return
 
     res_id, font_path = resolve_capcut_font_info(font_name)
+
+    title_labels = [l.strip().upper() for l in (all_labels or []) if l and l.strip()]
+    if label1_text and label1_text.strip().upper() not in title_labels:
+        title_labels.append(label1_text.strip().upper())
+    if label2_text and label2_text.strip().upper() not in title_labels:
+        title_labels.append(label2_text.strip().upper())
 
     try:
         with open(draft_json_path, 'r', encoding='utf-8') as f:
@@ -266,9 +425,13 @@ def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-
             if 'content' in text_item and isinstance(text_item['content'], str):
                 try:
                     content_obj = json.loads(text_item['content'])
+                    text_str = content_obj.get('text', '')
                     if 'styles' in content_obj:
                         for s in content_obj['styles']:
                             s['font'] = {'id': res_id, 'path': font_path}
+                            # Set font size 9.0 for Title X and Title Y labels across all pairs
+                            if any(lbl and lbl in text_str.upper() for lbl in title_labels):
+                                s['size'] = 9.0
                     text_item['content'] = json.dumps(content_obj, ensure_ascii=False)
                 except Exception as e:
                     logger.warning(f"Could not update inline style JSON for text item: {e}")
@@ -279,6 +442,90 @@ def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-
         logger.info(f"Patched draft_content.json: Font set to '{font_name}' (resource_id={res_id}).")
     except Exception as e:
         logger.warning(f"Failed to patch font metadata in draft_content.json: {e}")
+
+
+def fix_effect_metadata_in_draft(project_path: str, effect_duration_us: int = 600_000, effect_name: str = "Jitter Beat") -> None:
+    """
+    Patches generated draft_content.json to:
+    1. Set track flag = 2 on all overlay video tracks (img1_track, img2_track, mascot_track) so CapCut treats them as Picture-in-Picture (PIP) sub-tracks.
+    2. Attach 'Jitter Beat' clip-bound video effects directly to each comparison image segment's extra_material_refs, so the effect is strictly isolated to that image clip and does NOT bleed onto the background.
+    """
+    draft_json_path = os.path.join(project_path, "draft_content.json")
+    if not os.path.isfile(draft_json_path):
+        return
+
+    local_appdata = os.environ.get("LOCALAPPDATA", "")
+    local_cache_path = os.path.join(
+        local_appdata, "CapCut", "User Data", "Cache", "effect",
+        "7626761686543830290", "ed61aeec3e6dae1262ce40fa34d86c95"
+    ).replace('\\', '/')
+
+    try:
+        with open(draft_json_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        effects_list = data.get('materials', {}).get('video_effects', [])
+        image_tracks = {'img1_track', 'img2_track'}
+        applied_count = 0
+
+        for track in data.get('tracks', []):
+            track_name = track.get('name', '')
+            # Set flag = 2 for overlay sub-tracks (PIP) so effects stay isolated to clip
+            if track.get('type') == 'video' and track_name != 'bg_track':
+                track['flag'] = 2
+
+            if track_name in image_tracks or (track.get('type') == 'video' and track_name not in {'bg_track', 'mascot_track'}):
+                for seg in track.get('segments', []):
+                    eff_mat_id = uuid.uuid4().hex.upper()
+
+                    if 'extra_material_refs' not in seg:
+                        seg['extra_material_refs'] = []
+                    seg['extra_material_refs'].append(eff_mat_id)
+
+                    effects_list.append({
+                        "id": eff_mat_id,
+                        "effect_id": "7626761686543830290",
+                        "resource_id": "7626761686543830290",
+                        "name": effect_name,
+                        "type": "video_effect",
+                        "sub_type": 0,
+                        "bind_segment_id": "",
+                        "transparent_params": "",
+                        "path": local_cache_path if os.path.exists(local_cache_path) else "",
+                        "value": 1.0,
+                        "category_id": "1111",
+                        "category_name": "Video effects",
+                        "platform": "all",
+                        "apply_target_type": 0,
+                        "source_platform": 1,
+                        "version": "",
+                        "item_effect_type": 0,
+                        "adjust_params": [
+                            {
+                                "name": "effects_adjust_speed",
+                                "value": 0.08,
+                                "default_value": 0.33333333333333
+                            }
+                        ],
+                        "time_range": {
+                            "start": 0,
+                            "duration": effect_duration_us
+                        },
+                        "render_index": 11000,
+                        "track_render_index": 0
+                    })
+                    applied_count += 1
+
+        if 'materials' not in data:
+            data['materials'] = {}
+        data['materials']['video_effects'] = effects_list
+
+        with open(draft_json_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+
+        logger.info(f"Patched draft_content.json: Set overlay tracks flag=2 and attached {applied_count} clip-bound '{effect_name}' effect(s).")
+    except Exception as e:
+        logger.warning(f"Failed to patch clip-bound effect metadata in draft_content.json: {e}")
 
 
 def get_audio_duration_us(audio_path: str, fallback_subtitle_end_us: int = 0) -> int:
@@ -388,17 +635,27 @@ def parse_srt_file(srt_path: str) -> List[SubtitleBlock]:
         # Next line: Timestamp line (00:00:01,000 --> 00:00:04,000)
         time_line = lines[line_offset]
         if '-->' not in time_line:
-            raise ValueError(f"Block #{idx}: Expected timestamp arrow '-->', got '{time_line}'")
+            logger.warning(f"Block #{idx}: Expected timestamp arrow '-->', got '{time_line}'. Skipping.")
+            continue
 
         time_parts = time_line.split('-->')
+        if len(time_parts) < 2:
+            logger.warning(f"Block #{idx}: Malformed timestamp '{time_line}'. Skipping.")
+            continue
+
         start_tc = time_parts[0].strip()
         end_tc = time_parts[1].strip()
 
-        start_us = parse_srt_timestamp_to_us(start_tc)
-        end_us = parse_srt_timestamp_to_us(end_tc)
+        try:
+            start_us = parse_srt_timestamp_to_us(start_tc)
+            end_us = parse_srt_timestamp_to_us(end_tc)
+        except ValueError as e_ts:
+            logger.warning(f"Block #{idx}: Invalid timestamp '{time_line}' ({e_ts}). Skipping.")
+            continue
 
         if end_us <= start_us:
-            raise ValueError(f"Block #{idx}: End timestamp ({end_tc}) must be after start timestamp ({start_tc})")
+            logger.warning(f"Block #{idx}: End timestamp ({end_tc}) must be after start timestamp ({start_tc}). Skipping.")
+            continue
 
         duration_us = end_us - start_us
 
@@ -530,62 +787,64 @@ def merge_contiguous_image_segments(
     blocks: List[SubtitleBlock],
     mapping: Dict[str, str],
     assets_dir: str,
-    max_gap_us: int = 100000  # 100ms threshold for bridging tiny gaps
+    max_gap_us: int = 500000
 ) -> List[ImageSegmentSpec]:
     """
-    Groups contiguous subtitle blocks that share the exact same resolved image asset
-    and merges them into a single continuous ImageSegmentSpec to prevent flickering.
+    Builds a continuous, gapless mascot overlay track across all subtitle blocks.
+    Propagates active tags to untagged blocks to prevent mascot disappearances and flickering.
     """
+    if not blocks:
+        return []
+
     image_specs: List[ImageSegmentSpec] = []
     current_spec: Optional[ImageSegmentSpec] = None
+    last_tag_code: str = "left"
 
-    for block in blocks:
-        if not block.tags:
-            # Block has no image tag -> close current spec if open
-            if current_spec:
-                image_specs.append(current_spec)
-                current_spec = None
-            continue
+    for idx, block in enumerate(blocks):
+        if block.tags:
+            tag_code = block.tags[0]
+            last_tag_code = tag_code
+        else:
+            tag_code = last_tag_code
 
-        # Use the first tag code for image placement
-        tag_code = block.tags[0]
-        img_filename = mapping[tag_code]
+        img_filename = mapping.get(tag_code, mapping.get("left", "left.png"))
         img_path = os.path.abspath(os.path.join(assets_dir, img_filename))
 
+        start_us = block.start_us
+        end_us = block.end_us
+
         if current_spec is None:
-            # Start a new image segment
             current_spec = ImageSegmentSpec(
                 img_path=img_path,
                 tag_code=tag_code,
                 start_tc=block.start_tc,
                 end_tc=block.end_tc,
-                start_us=block.start_us,
-                end_us=block.end_us,
-                duration_us=block.duration_us,
+                start_us=start_us,
+                end_us=end_us,
+                duration_us=end_us - start_us,
                 source_blocks=[block.index]
             )
         else:
-            # Check if this block continues the same image segment
-            is_same_image = (current_spec.img_path == img_path)
-            is_contiguous = (block.start_us - current_spec.end_us <= max_gap_us)
+            # Extend previous spec to start_us to bridge gaps between subtitle blocks
+            current_spec.end_us = max(current_spec.end_us, start_us)
 
-            if is_same_image and is_contiguous:
-                # Merge into existing continuous segment
-                current_spec.end_us = block.end_us
+            if current_spec.img_path == img_path:
+                current_spec.end_us = max(current_spec.end_us, end_us)
                 current_spec.end_tc = block.end_tc
                 current_spec.duration_us = current_spec.end_us - current_spec.start_us
                 current_spec.source_blocks.append(block.index)
             else:
-                # Finalize previous segment and start new segment
+                current_spec.duration_us = current_spec.end_us - current_spec.start_us
                 image_specs.append(current_spec)
+
                 current_spec = ImageSegmentSpec(
                     img_path=img_path,
                     tag_code=tag_code,
                     start_tc=block.start_tc,
                     end_tc=block.end_tc,
-                    start_us=block.start_us,
-                    end_us=block.end_us,
-                    duration_us=block.duration_us,
+                    start_us=start_us,
+                    end_us=end_us,
+                    duration_us=end_us - start_us,
                     source_blocks=[block.index]
                 )
 
@@ -593,6 +852,25 @@ def merge_contiguous_image_segments(
         image_specs.append(current_spec)
 
     return image_specs
+
+
+def add_sfx_segment(script, sfx_path: str, start_us: int, track_name: str) -> bool:
+    """Helper to add a sound effect audio clip at a specific microsecond timestamp."""
+    if not sfx_path or not os.path.isfile(sfx_path):
+        logger.warning(f"SFX file not found: {sfx_path}")
+        return False
+    sfx_abs_path = os.path.abspath(sfx_path)
+    sfx_duration_us = get_audio_duration_us(sfx_abs_path, fallback_subtitle_end_us=500_000)
+    if sfx_duration_us <= 0:
+        sfx_duration_us = 500_000  # Default 0.5s fallback
+    script.add_track(pcc.TrackType.audio, track_name)
+    sfx_material = pcc.AudioMaterial(sfx_abs_path)
+    sfx_material.duration = sfx_duration_us
+    timerange = pcc.Timerange(start_us, sfx_duration_us)
+    sfx_seg = pcc.AudioSegment(sfx_material, timerange)
+    script.add_segment(sfx_seg, track_name=track_name)
+    logger.info(f"Added SFX '{os.path.basename(sfx_path)}' to track '{track_name}' at {start_us / 1_000_000:.3f}s (duration: {sfx_duration_us / 1_000_000:.2f}s)")
+    return True
 
 
 def generate_capcut_draft(
@@ -604,6 +882,8 @@ def generate_capcut_draft(
     audio_path: Optional[str] = None,
     image1_path: Optional[str] = None,
     image2_path: Optional[str] = None,
+    click_sfx_path: Optional[str] = "assets/sound_effects/mouse_click.mp3",
+    pop_sfx_path: Optional[str] = "assets/sound_effects/pop.mp3",
     width: int = 1080,
     height: int = 1920,
     fps: int = 30,
@@ -621,7 +901,17 @@ def generate_capcut_draft(
     text_transform_y: float = 0.042188,
     text_font_name: str = "LuckiestGuy-Rg",
     text_scale: float = 1.0,
-    allow_replace: bool = True
+    label1_text: str = "",
+    label2_text: str = "",
+    labels_x: Optional[List[str]] = None,
+    labels_y: Optional[List[str]] = None,
+    label1_transform_x: float = -0.448148,
+    label1_transform_y: float = 0.781771,
+    label2_transform_x: float = 0.476852,
+    label2_transform_y: float = 0.778646,
+    allow_replace: bool = True,
+    mode: str = "auto",
+    effect_duration_us: int = 600_000
 ) -> Tuple[str, int]:
     """
     Creates CapCut draft project folder containing:
@@ -633,13 +923,25 @@ def generate_capcut_draft(
     Track 6: Subtitle Text Track (LuckiestGuy-Rg, Black, Scale 100%, X=0, Y=81)
     """
     draft_folder = pcc.DraftFolder(drafts_dir)
-    script = draft_folder.create_draft(
-        project_name,
-        width=width,
-        height=height,
-        fps=fps,
-        allow_replace=allow_replace
-    )
+    try:
+        script = draft_folder.create_draft(
+            project_name,
+            width=width,
+            height=height,
+            fps=fps,
+            allow_replace=allow_replace
+        )
+    except (PermissionError, OSError) as e_lock:
+        alt_name = f"{project_name}_new"
+        logger.warning(f"CapCut Desktop project '{project_name}' is currently locked/open in CapCut Desktop! Creating draft under '{alt_name}' instead.")
+        script = draft_folder.create_draft(
+            alt_name,
+            width=width,
+            height=height,
+            fps=fps,
+            allow_replace=allow_replace
+        )
+        project_name = alt_name
 
     max_subtitle_end_us = max((b.end_us for b in subtitle_blocks), default=30_000_000)
 
@@ -664,6 +966,38 @@ def generate_capcut_draft(
     # Total project duration matches max of audio length & subtitles
     total_project_duration_us = max(audio_duration_us, max_subtitle_end_us)
 
+    # Detect start time for Image 2 & Title Y (starts at subtitle block #2 / when [IMG:right] starts)
+    img2_start_us = 0
+    if subtitle_blocks:
+        found_right = False
+        for b in subtitle_blocks:
+            if "right" in b.tags:
+                img2_start_us = b.start_us
+                found_right = True
+                break
+        if not found_right and len(subtitle_blocks) >= 2:
+            img2_start_us = subtitle_blocks[1].start_us
+
+    # Build compilation pair specifications for single-pair or multi-pair compilation shorts
+    image_dict = find_all_comparison_images("input")
+    if image1_path and 1 not in image_dict:
+        image_dict[1] = os.path.abspath(image1_path)
+    if image2_path and 2 not in image_dict:
+        image_dict[2] = os.path.abspath(image2_path)
+
+    # Resolve labels lists
+    labels_x_list = labels_x if labels_x else ([label1_text] if label1_text else [])
+    labels_y_list = labels_y if labels_y else ([label2_text] if label2_text else [])
+
+    pair_specs = build_compilation_pair_specs(
+        subtitle_blocks=subtitle_blocks,
+        image_dict=image_dict,
+        labels_x=labels_x_list,
+        labels_y=labels_y_list,
+        total_duration_us=total_project_duration_us,
+        mode=mode
+    )
+
     # 2. Primary Background Track (Bottom Layer)
     if bg_image_path and os.path.isfile(bg_image_path):
         script.add_track(pcc.TrackType.video, "bg_track")
@@ -674,12 +1008,10 @@ def generate_capcut_draft(
         script.add_segment(bg_seg, track_name="bg_track")
         logger.info(f"Added Background Track ({os.path.basename(bg_image_path)}), extended to: {total_project_duration_us / 1_000_000:.2f}s")
 
-    # 3. Image 1 Track (Top Left Comparison Image - 1:1 Auto Cropped)
-    if image1_path and os.path.isfile(image1_path):
+    # 3. Image 1 Track (Top Left Comparison Images - 1:1 Auto Cropped, for each pair)
+    has_img1 = any(p.image1_path and os.path.isfile(p.image1_path) for p in pair_specs)
+    if has_img1:
         script.add_track(pcc.TrackType.video, "img1_track")
-        cropped_img1_path = ensure_1to1_crop(image1_path)
-        img1_material = pcc.VideoMaterial(cropped_img1_path)
-        img1_timerange = pcc.Timerange(0, total_project_duration_us)
         img1_settings = pcc.ClipSettings(
             scale_x=img1_scale,
             scale_y=img1_scale,
@@ -687,16 +1019,21 @@ def generate_capcut_draft(
             transform_x=img1_transform_x,
             transform_y=img1_transform_y
         )
-        img1_seg = pcc.VideoSegment(img1_material, img1_timerange, clip_settings=img1_settings)
-        script.add_segment(img1_seg, track_name="img1_track")
-        logger.info(f"Added Image 1 Track ({os.path.basename(image1_path)}), 1:1 cropped, scale={img1_scale*100:.0f}%, transform=({img1_transform_x}, {img1_transform_y})")
+        for p in pair_specs:
+            if p.image1_path and os.path.isfile(p.image1_path):
+                dur = max(0, p.end_us - p.start_us)
+                if dur > 0:
+                    cropped_img1 = ensure_1to1_crop(p.image1_path)
+                    mat = pcc.VideoMaterial(cropped_img1)
+                    timerange = pcc.Timerange(p.start_us, dur)
+                    seg = pcc.VideoSegment(mat, timerange, clip_settings=img1_settings)
+                    script.add_segment(seg, track_name="img1_track")
+                    logger.info(f"Added Image 1 (Pair {p.pair_index}: {os.path.basename(p.image1_path)}) starting at {p.start_us / 1_000_000:.2f}s (dur: {dur / 1_000_000:.2f}s)")
 
-    # 4. Image 2 Track (Top Right Comparison Image - 1:1 Auto Cropped)
-    if image2_path and os.path.isfile(image2_path):
+    # 4. Image 2 Track (Top Right Comparison Images - 1:1 Auto Cropped, for each pair)
+    has_img2 = any(p.image2_path and os.path.isfile(p.image2_path) for p in pair_specs)
+    if has_img2:
         script.add_track(pcc.TrackType.video, "img2_track")
-        cropped_img2_path = ensure_1to1_crop(image2_path)
-        img2_material = pcc.VideoMaterial(cropped_img2_path)
-        img2_timerange = pcc.Timerange(0, total_project_duration_us)
         img2_settings = pcc.ClipSettings(
             scale_x=img2_scale,
             scale_y=img2_scale,
@@ -704,9 +1041,16 @@ def generate_capcut_draft(
             transform_x=img2_transform_x,
             transform_y=img2_transform_y
         )
-        img2_seg = pcc.VideoSegment(img2_material, img2_timerange, clip_settings=img2_settings)
-        script.add_segment(img2_seg, track_name="img2_track")
-        logger.info(f"Added Image 2 Track ({os.path.basename(image2_path)}), 1:1 cropped, scale={img2_scale*100:.0f}%, transform=({img2_transform_x}, {img2_transform_y})")
+        for p in pair_specs:
+            if p.image2_path and os.path.isfile(p.image2_path):
+                dur = max(0, p.end_us - p.right_start_us)
+                if dur > 0:
+                    cropped_img2 = ensure_1to1_crop(p.image2_path)
+                    mat = pcc.VideoMaterial(cropped_img2)
+                    timerange = pcc.Timerange(p.right_start_us, dur)
+                    seg = pcc.VideoSegment(mat, timerange, clip_settings=img2_settings)
+                    script.add_segment(seg, track_name="img2_track")
+                    logger.info(f"Added Image 2 (Pair {p.pair_index}: {os.path.basename(p.image2_path)}) starting at {p.right_start_us / 1_000_000:.2f}s (dur: {dur / 1_000_000:.2f}s)")
 
     # 5. Merged Mascot Overlay Track (Middle Layer)
     script.add_track(pcc.TrackType.video, "mascot_track")
@@ -723,10 +1067,64 @@ def generate_capcut_draft(
         img_seg = pcc.VideoSegment(material, timerange, clip_settings=clip_settings)
         script.add_segment(img_seg, track_name="mascot_track")
 
-    # 6. Subtitle Text Track (Top Layer)
-    script.add_track(pcc.TrackType.text, "text_track")
+    # Resolve LuckiestGuy-Rg Font
     font_res_id, _ = resolve_capcut_font_info(text_font_name)
     custom_font = CustomFontWrapper(text_font_name, resource_id=font_res_id)
+
+    # 6. Title X Text Track (Red Label above Image 1 - pos_x=-484, pos_y=1501)
+    has_label_x = any(p.label_x for p in pair_specs)
+    if has_label_x:
+        script.add_track(pcc.TrackType.text, "title_x_track")
+        label1_style = pcc.TextStyle(color=(1.0, 0.117, 0.251))  # Red color #FF1E40
+        label1_clip_settings = pcc.ClipSettings(
+            scale_x=1.0,
+            scale_y=1.0,
+            transform_x=label1_transform_x,
+            transform_y=label1_transform_y
+        )
+        for p in pair_specs:
+            if p.label_x:
+                dur = max(0, p.end_us - p.start_us)
+                if dur > 0:
+                    label1_timerange = pcc.Timerange(p.start_us, dur)
+                    label1_seg = pcc.TextSegment(
+                        p.label_x.upper(),
+                        label1_timerange,
+                        font=custom_font,
+                        style=label1_style,
+                        clip_settings=label1_clip_settings
+                    )
+                    script.add_segment(label1_seg, track_name="title_x_track")
+                    logger.info(f"Added Title X (Pair {p.pair_index}: '{p.label_x.upper()}'), Red color, pos_x=-484px, pos_y=1501px")
+
+    # 7. Title Y Text Track (Blue Label above Image 2 - pos_x=515, pos_y=1495, starts at 'This is Y')
+    has_label_y = any(p.label_y for p in pair_specs)
+    if has_label_y:
+        script.add_track(pcc.TrackType.text, "title_y_track")
+        label2_style = pcc.TextStyle(color=(0.0, 0.533, 1.0))  # Blue color #0088FF
+        label2_clip_settings = pcc.ClipSettings(
+            scale_x=1.0,
+            scale_y=1.0,
+            transform_x=label2_transform_x,
+            transform_y=label2_transform_y
+        )
+        for p in pair_specs:
+            if p.label_y:
+                dur = max(0, p.end_us - p.right_start_us)
+                if dur > 0:
+                    label2_timerange = pcc.Timerange(p.right_start_us, dur)
+                    label2_seg = pcc.TextSegment(
+                        p.label_y.upper(),
+                        label2_timerange,
+                        font=custom_font,
+                        style=label2_style,
+                        clip_settings=label2_clip_settings
+                    )
+                    script.add_segment(label2_seg, track_name="title_y_track")
+                    logger.info(f"Added Title Y (Pair {p.pair_index}: '{p.label_y.upper()}'), Blue color, starting at {p.right_start_us / 1_000_000:.2f}s, pos_x=515px, pos_y=1495px")
+
+    # 8. Subtitle Text Track (Top Layer)
+    script.add_track(pcc.TrackType.text, "text_track")
     text_style = pcc.TextStyle(color=(0.0, 0.0, 0.0))  # Black color
     text_clip_settings = pcc.ClipSettings(
         scale_x=text_scale,
@@ -747,11 +1145,43 @@ def generate_capcut_draft(
             )
             script.add_segment(text_seg, track_name="text_track")
 
+    # 9. Sound Effects (SFX) Audio Tracks
+    # Click SFX: Played when Image 1 (left) and Image 2 (right) appear for each pair
+    if click_sfx_path and os.path.isfile(click_sfx_path):
+        for idx, p in enumerate(pair_specs):
+            if p.image1_path and os.path.isfile(p.image1_path):
+                add_sfx_segment(script, click_sfx_path, start_us=p.start_us, track_name=f"sfx_click_p{p.pair_index}_1")
+            if p.image2_path and os.path.isfile(p.image2_path) and p.right_start_us > p.start_us:
+                add_sfx_segment(script, click_sfx_path, start_us=p.right_start_us, track_name=f"sfx_click_p{p.pair_index}_2")
+
+    # Pop SFX: Played 80ms before EVERY "what's the difference" (wtd) subtitle block
+    if pop_sfx_path and os.path.isfile(pop_sfx_path) and subtitle_blocks:
+        wtd_count = 0
+        for b in subtitle_blocks:
+            if "wtd" in b.tags or any(kw in b.clean_text.lower() for kw in ["difference", "wtd"]):
+                wtd_count += 1
+                pop_start_us = max(0, b.start_us - 80_000)
+                add_sfx_segment(script, pop_sfx_path, start_us=pop_start_us, track_name=f"sfx_pop_wtd_{wtd_count}")
+
+    # Pop 2: Just before / during final_end.png overlay (follow / subscribe for more)
+    final_end_start_us = None
+    if subtitle_blocks:
+        for b in reversed(subtitle_blocks):
+            if any(t in b.tags for t in ["final_end", "final"]) or any(kw in b.clean_text.lower() for kw in ["subscribe", "follow", "comment"]):
+                final_end_start_us = b.start_us
+                break
+
+    if final_end_start_us is not None and pop_sfx_path and os.path.isfile(pop_sfx_path):
+        pop2_start_us = max(0, final_end_start_us - 50_000)  # 50ms before final_end appears
+        add_sfx_segment(script, pop_sfx_path, start_us=pop2_start_us, track_name="sfx_pop_final")
+
     script.save()
     project_path = os.path.join(drafts_dir, project_name)
 
-    # Post-process draft_content.json to set exact CapCut font metadata fields
-    fix_font_metadata_in_draft(project_path, font_name=text_font_name)
+    # Post-process draft_content.json to set exact CapCut font & clip-bound effect metadata fields
+    fix_font_metadata_in_draft(project_path, font_name=text_font_name, label1_text=label1_text, label2_text=label2_text)
+    if effect_duration_us > 0:
+        fix_effect_metadata_in_draft(project_path, effect_duration_us=effect_duration_us, effect_name="Jitter Beat")
 
     return project_path, total_project_duration_us
 
@@ -877,13 +1307,31 @@ def main():
     parser.add_argument("--img2-pos-y", type=float, default=909.0, help="Image 2 Y position in pixels (default: 909.0)")
     parser.add_argument("--img2-scale", type=float, default=0.40, help="Image 2 scale factor (default: 0.40 = 40%%)")
 
+    # Title Labels for Image 1..N (Red/Blue)
+    parser.add_argument("--label1", "--label-x", default="", help="Label text string for Image 1 (Left / Red, e.g. 'MCU')")
+    parser.add_argument("--label2", "--label-y", default="", help="Label text string for Image 2 (Right / Blue, e.g. 'MARVEL COMICS')")
+    for idx in range(3, 13):
+        parser.add_argument(f"--label{idx}", default="", help=f"Label text string for Image {idx}")
+    parser.add_argument("--labels", default="", help="Comma/Semicolon separated list of labels for all comparison pairs")
+    parser.add_argument("--label1-pos-x", type=float, default=-484.0, help="Label 1 X position in pixels (default: -484.0)")
+    parser.add_argument("--label1-pos-y", type=float, default=1501.0, help="Label 1 Y position in pixels (default: 1501.0)")
+    parser.add_argument("--label2-pos-x", type=float, default=515.0, help="Label 2 X position in pixels (default: 515.0)")
+    parser.add_argument("--label2-pos-y", type=float, default=1495.0, help="Label 2 Y position in pixels (default: 1495.0)")
+
     # Subtitle Text Formatting & Position (Fixed Defaults: X=0, Y=81 pixels from center; Font: LuckiestGuy-Rg; Color: Black)
     parser.add_argument("--text-pos-x", type=float, default=0.0, help="Subtitle X position in pixels from canvas center (default: 0.0)")
     parser.add_argument("--text-pos-y", type=float, default=81.0, help="Subtitle Y position in pixels from canvas center (default: 81.0)")
     parser.add_argument("--text-font", default="LuckiestGuy-Rg", help="Subtitle font family name (default: LuckiestGuy-Rg)")
     parser.add_argument("--text-scale", type=float, default=1.0, help="Subtitle scale factor (default: 1.0 = 100%%)")
 
+    # Sound Effects (SFX) Paths
+    parser.add_argument("--click-sfx", default="assets/sound_effects/mouse_click.mp3", help="Path to mouse click sound effect (default: assets/sound_effects/mouse_click.mp3)")
+    parser.add_argument("--pop-sfx", default="assets/sound_effects/pop.mp3", help="Path to pop sound effect (default: assets/sound_effects/pop.mp3)")
+
     # Options
+    parser.add_argument("--mode", "-m", choices=["deepdive", "compilation", "auto"], default="auto", help="Video Short Mode: 'deepdive' (1 pair / 2 images), 'compilation' (3 pairs / 6 images), or 'auto'")
+    parser.add_argument("--effect-duration-ms", type=int, default=600, help="Duration in ms for 'Jitter Beat' popup effect at image start (default: 600 = 0.6s)")
+    parser.add_argument("--no-effect", action="store_true", help="Disable 'Jitter Beat' popup effect at image start")
     parser.add_argument("--max-gap-ms", type=int, default=100, help="Max gap in ms to bridge contiguous blocks with same tag (default: 100)")
     parser.add_argument("--debug-dir", help="Directory path to dump debug JSON files for inspection")
     parser.add_argument("--no-overwrite", action="store_true", help="Do not overwrite draft if project folder already exists")
@@ -922,6 +1370,8 @@ def main():
     logger.info(f"Input Audio: {audio_path if audio_path else 'None (subtitles only)'}")
     logger.info(f"Image 1: {image1_path if image1_path else 'None'}")
     logger.info(f"Image 2: {image2_path if image2_path else 'None'}")
+    logger.info(f"Click SFX: {args.click_sfx if os.path.isfile(args.click_sfx) else 'None'}")
+    logger.info(f"Pop SFX: {args.pop_sfx if os.path.isfile(args.pop_sfx) else 'None'}")
     logger.info(f"Input Mapping: {args.mapping}")
     logger.info(f"Assets Directory: {args.assets}")
     logger.info(f"Background Image: {args.bg_image}")
@@ -939,6 +1389,10 @@ def main():
         img2_transform_y = args.img2_pos_y
         text_transform_x = args.text_pos_x
         text_transform_y = args.text_pos_y
+        label1_transform_x = args.label1_pos_x
+        label1_transform_y = args.label1_pos_y
+        label2_transform_x = args.label2_pos_x
+        label2_transform_y = args.label2_pos_y
     else:
         transform_x = round(args.pos_x / args.width, 6)
         transform_y = round(args.pos_y / args.height, 6)
@@ -948,12 +1402,20 @@ def main():
         img2_transform_y = round(args.img2_pos_y / args.height, 6)
         text_transform_x = round(args.text_pos_x / args.width, 6)
         text_transform_y = round(args.text_pos_y / args.height, 6)
+        label1_transform_x = round(args.label1_pos_x / args.width, 6)
+        label1_transform_y = round(args.label1_pos_y / args.height, 6)
+        label2_transform_x = round(args.label2_pos_x / args.width, 6)
+        label2_transform_y = round(args.label2_pos_y / args.height, 6)
 
     logger.info(f"Mascot Overlay: pos_x={args.pos_x}px, pos_y={args.pos_y}px, scale={args.image_scale*100:.1f}% => transform_x={transform_x}, transform_y={transform_y}")
     if image1_path:
         logger.info(f"Image 1: pos_x={args.img1_pos_x}px, pos_y={args.img1_pos_y}px, scale={args.img1_scale*100:.1f}% => transform_x={img1_transform_x}, transform_y={img1_transform_y}")
     if image2_path:
         logger.info(f"Image 2: pos_x={args.img2_pos_x}px, pos_y={args.img2_pos_y}px, scale={args.img2_scale*100:.1f}% => transform_x={img2_transform_x}, transform_y={img2_transform_y}")
+    if args.label1:
+        logger.info(f"Title X (Red): '{args.label1}', pos_x={args.label1_pos_x}px, pos_y={args.label1_pos_y}px => transform_x={label1_transform_x}, transform_y={label1_transform_y}")
+    if args.label2:
+        logger.info(f"Title Y (Blue): '{args.label2}', pos_x={args.label2_pos_x}px, pos_y={args.label2_pos_y}px => transform_x={label2_transform_x}, transform_y={label2_transform_y}")
     logger.info(f"Subtitles: pos_x={args.text_pos_x}px, pos_y={args.text_pos_y}px, font='{args.text_font}', color=Black, scale={args.text_scale*100:.1f}% => transform_x={text_transform_x}, transform_y={text_transform_y}")
 
     # 1. Parse SRT File
@@ -1008,6 +1470,34 @@ def main():
 
     logger.info(f"Merged subtitle block tags into {len(image_segments)} continuous image overlay segment(s).")
 
+    # Extract labels_x and labels_y for multi-pair compilation shorts
+    labels_x = []
+    labels_y = []
+    if args.labels:
+        raw = args.labels
+        if ";" in raw:
+            pair_strs = raw.split(";")
+            for p in pair_strs:
+                parts = [x.strip() for x in p.split(",") if x.strip()]
+                if len(parts) >= 2:
+                    labels_x.append(parts[0])
+                    labels_y.append(parts[1])
+                elif len(parts) == 1:
+                    labels_x.append(parts[0])
+                    labels_y.append("")
+        else:
+            parts = [x.strip() for x in raw.split(",") if x.strip()]
+            for idx in range(0, len(parts), 2):
+                labels_x.append(parts[idx])
+                labels_y.append(parts[idx + 1] if idx + 1 < len(parts) else "")
+    else:
+        for idx in range(1, 13, 2):
+            lx = getattr(args, f"label{idx}", "")
+            ly = getattr(args, f"label{idx+1}", "")
+            if lx or ly:
+                labels_x.append(lx)
+                labels_y.append(ly)
+
     # 4. Generate CapCut Draft
     try:
         project_path, total_duration_us = generate_capcut_draft(
@@ -1019,6 +1509,8 @@ def main():
             audio_path=audio_path,
             image1_path=image1_path,
             image2_path=image2_path,
+            click_sfx_path=args.click_sfx,
+            pop_sfx_path=args.pop_sfx,
             width=args.width,
             height=args.height,
             fps=args.fps,
@@ -1036,7 +1528,17 @@ def main():
             text_transform_y=text_transform_y,
             text_font_name=args.text_font,
             text_scale=args.text_scale,
-            allow_replace=not args.no_overwrite
+            label1_text=args.label1,
+            label2_text=args.label2,
+            labels_x=labels_x,
+            labels_y=labels_y,
+            label1_transform_x=label1_transform_x,
+            label1_transform_y=label1_transform_y,
+            label2_transform_x=label2_transform_x,
+            label2_transform_y=label2_transform_y,
+            allow_replace=not args.no_overwrite,
+            mode=args.mode,
+            effect_duration_us=0 if args.no_effect else (args.effect_duration_ms * 1000)
         )
         logger.info(f"SUCCESS: CapCut draft created at: {project_path}")
     except Exception as e:

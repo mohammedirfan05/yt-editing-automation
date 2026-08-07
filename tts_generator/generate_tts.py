@@ -24,6 +24,13 @@ from typing import Optional
 import requests
 from colorama import Fore, Style, init
 
+# Ensure UTF-8 output encoding for Windows terminal
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 # Safe SDK Import (Falls back to HTTP REST API if SDK not available)
 try:
     from google import genai
@@ -185,33 +192,54 @@ def generate_speech_audio_rest(
         }
     }
     headers = {"Content-Type": "application/json"}
-    try:
-        r = requests.post(url, headers=headers, json=payload, timeout=60)
-        if r.status_code == 200:
-            res_data = r.json()
-            candidates = res_data.get("candidates", [])
-            if candidates:
-                parts = candidates[0].get("content", {}).get("parts", [])
-                collected_data = bytearray()
-                last_mime = "audio/L16;rate=24000"
-                for part in parts:
-                    if "inlineData" in part:
-                        data_b64 = part["inlineData"].get("data", "")
-                        if part["inlineData"].get("mimeType"):
-                            last_mime = part["inlineData"].get("mimeType")
-                        collected_data.extend(base64.b64decode(data_b64))
 
-                if collected_data:
-                    file_extension = mimetypes.guess_extension(last_mime)
-                    data_buffer = bytes(collected_data)
-                    if file_extension is None or file_extension == "":
-                        data_buffer = convert_to_wav(data_buffer, last_mime)
-                    save_binary_file(output_wav_path, data_buffer)
-                    return output_wav_path
-        else:
-            print(Fore.RED + f"REST API HTTP Error ({r.status_code}): {r.text[:300]}" + Style.RESET_ALL)
-    except Exception as e:
-        print(Fore.RED + f"REST API Request Exception: {e}" + Style.RESET_ALL)
+    import time
+    max_retries = 4
+    for attempt in range(1, max_retries + 1):
+        try:
+            r = requests.post(url, headers=headers, json=payload, timeout=60)
+            if r.status_code == 200:
+                res_data = r.json()
+                candidates = res_data.get("candidates", [])
+                if candidates:
+                    parts = candidates[0].get("content", {}).get("parts", [])
+                    collected_data = bytearray()
+                    last_mime = "audio/L16;rate=24000"
+                    for part in parts:
+                        if "inlineData" in part:
+                            data_b64 = part["inlineData"].get("data", "")
+                            if part["inlineData"].get("mimeType"):
+                                last_mime = part["inlineData"].get("mimeType")
+                            collected_data.extend(base64.b64decode(data_b64))
+
+                    if collected_data:
+                        file_extension = mimetypes.guess_extension(last_mime)
+                        data_buffer = bytes(collected_data)
+                        if file_extension is None or file_extension == "":
+                            data_buffer = convert_to_wav(data_buffer, last_mime)
+                        save_binary_file(output_wav_path, data_buffer)
+                        return output_wav_path
+            elif r.status_code == 429:
+                retry_seconds = (attempt + 1) * 5
+                try:
+                    err_json = r.json()
+                    details = err_json.get("error", {}).get("details", [])
+                    for d in details:
+                        if "retryDelay" in d:
+                            delay_str = str(d["retryDelay"]).rstrip("s")
+                            retry_seconds = int(float(delay_str)) + 2
+                except Exception:
+                    pass
+
+                print(Fore.YELLOW + f"⚠️ Google Rate Limit (429). Retrying in {retry_seconds}s (Attempt {attempt}/{max_retries})..." + Style.RESET_ALL)
+                time.sleep(retry_seconds)
+            else:
+                print(Fore.RED + f"REST API HTTP Error ({r.status_code}): {r.text[:300]}" + Style.RESET_ALL)
+                break
+        except Exception as e:
+            print(Fore.RED + f"REST API Request Exception: {e}" + Style.RESET_ALL)
+            time.sleep(2)
+
     return None
 
 
@@ -404,19 +432,22 @@ def main():
         sample_context=args.context
     )
 
-    if result:
-        sync_audio_to_workflow(result)
+    if not result:
+        print(Fore.RED + "\n[ERROR] Stage 1: Speech audio generation failed (Google Gemini API Quota Exceeded / Rate Limit). Aborting pipeline." + Style.RESET_ALL)
+        sys.exit(1)
 
-        if args.auto_build:
-            print(Fore.MAGENTA + f"\n============================================================" + Style.RESET_ALL)
-            print(Fore.MAGENTA + f"Running End-to-End Pipeline: Tagged SRT + CapCut Draft..." + Style.RESET_ALL)
-            print(Fore.MAGENTA + f"============================================================" + Style.RESET_ALL)
+    sync_audio_to_workflow(result)
 
-            srt_script = os.path.join(PROJECT_ROOT, "srt_generator", "audio_to_tagged_srt.py")
-            build_script = os.path.join(PROJECT_ROOT, "build_draft.py")
+    if args.auto_build:
+        print(Fore.MAGENTA + f"\n============================================================" + Style.RESET_ALL)
+        print(Fore.MAGENTA + f"Running End-to-End Pipeline: Tagged SRT + CapCut Draft..." + Style.RESET_ALL)
+        print(Fore.MAGENTA + f"============================================================" + Style.RESET_ALL)
 
-            os.system(f'"{sys.executable}" "{srt_script}" -i "{result}"')
-            os.system(f'"{sys.executable}" "{build_script}" "{args.auto_build}"')
+        srt_script = os.path.join(PROJECT_ROOT, "srt_generator", "audio_to_tagged_srt.py")
+        build_script = os.path.join(PROJECT_ROOT, "build_draft.py")
+
+        os.system(f'"{sys.executable}" "{srt_script}" -i "{result}"')
+        os.system(f'"{sys.executable}" "{build_script}" "{args.auto_build}"')
 
 
 if __name__ == "__main__":

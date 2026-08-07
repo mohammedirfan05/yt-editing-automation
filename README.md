@@ -1,64 +1,55 @@
 # 🎬 YouTube Shorts Editing Automation Engine
 
-A clean, minimal, and 100% automated pipeline that turns script text and 2 images into **ready-to-open CapCut Desktop projects**.
+A clean, minimal, and 100% automated pipeline that turns script text/audio and images into **ready-to-open CapCut Desktop projects**.
 
 Powered by **Google Gemini 3.1 Flash TTS**, **Local Whisper STT**, **Google Gemini 3.6 Flash AI**, and **CapCut PyCapCut Engine**.
 
 ---
 
-## ⚡ 1-Click Interactive Workflow
+## ⚡ Video Creation Modes
 
-### Step 1: Drop 2 Images into `input/`
-Drop your two comparison images into `input/` (e.g. `input/image1.jpg` and `input/image2.png`).
+The engine supports two primary video formats:
 
-### Step 2: Run the Master CLI
+### 1️⃣ Option 1: Deepdive (Single Pair - 2 Images)
+Focuses on a single detailed comparison pair (`image1.png` vs `image2.png`) spanning the full video duration.
 
-```bash
-python run.py
-```
-
-1. Enter your **Project Name** (e.g. `SupermanVsShazam`).
-2. Paste your **Script Text** (e.g. `[amused] This is Superman. This is Shazam. So, what's the difference?`).
-3. Press **ENTER** (and `Ctrl+Z` / type `END`).
-
-**That's it!** The engine automatically:
-- 🔊 Generates expressive voiceover audio using Google TTS (`Puck` voice).
-- ⏱️ Extracts millisecond-exact timestamps using local Whisper STT.
-- 🤖 Tags mascot character overlays using Gemini 3.6 Flash AI.
-- ✂️ Center-crops Image 1 and Image 2 to 1:1 squares.
-- 🎬 Assembles a 6-Track CapCut Desktop project ready to open!
+- **Interactive Selection:** Choose Option `1` when running `python run.py`.
+- **Non-Interactive CLI Command:**
+  ```bash
+  python run.py SupermanVsShazam --mode deepdive -x "SUPERMAN" -y "SHAZAM"
+  ```
 
 ---
 
-## 💻 Non-Interactive CLI Command
+### 2️⃣ Option 2: Compilation (3 Pairs - 6 Images)
+Features 3 distinct comparison pairs (`image1/image2`, `image3/image4`, `image5/image6`) switching dynamically as the voiceover advances.
 
-```bash
-python run.py SupermanVsShazam -t "[amused] This is Superman. This is Shazam. So, what's the difference?"
-```
+- **Interactive Selection:** Choose Option `2` when running `python run.py`.
+- **Non-Interactive CLI Command:**
+  ```bash
+  python run.py compilationtest --mode compilation --labels "MCU,MARVEL COMICS;DCEU,DCU;CANON,CONTINUITY"
+  ```
+
+#### 🎬 Timeline & Sound Effects (SFX) Features for Compilations
+- 🖼️ **Dynamic Image Transitions:** `image1`/`image2` transition seamlessly into `image3`/`image4` and `image5`/`image6`!
+- 🏷️ **Dynamic Titles:** Red Title X & Blue Title Y switch automatically for each pair (`MCU` ➔ `DCEU` ➔ `CANON`).
+- 🎵 **Mouse Click SFX (6x):** Plays the exact millisecond each of the 6 images pops on screen!
+- 🍿 **Pop SFX (3x):** Plays 80ms before **EVERY** *"what's the difference"* segment in your video!
 
 ---
 
-## 📁 Clean Directory Architecture
+## 🎧 How to Use Pre-Recorded Audio (Skip Google TTS)
 
-```text
-yt-editing-automation/
-├── run.py                            <-- ⚡ Master 1-Click Interactive CLI
-├── build_draft.py                    <-- CapCut Desktop Draft Builder
-├── README.md                         <-- Master documentation
-├── .env                              <-- Contains GEMINI_API_KEY
-│
-├── input/                            <-- 🖼️ Drop image1 & image2 here
-│   ├── image1.jpg                    <-- Top Left Comparison Image
-│   ├── image2.webp                   <-- Top Right Comparison Image
-│   ├── script.srt                    <-- (Auto-generated)
-│   └── voiceover.wav                 <-- (Auto-generated)
-│
-├── tts_generator/                    <-- Google Gemini 3.1 Flash TTS Engine
-│   └── generate_tts.py
-│
-├── srt_generator/                    <-- Whisper STT & Gemini 3.6 Flash Mascot Tagger
-│   └── audio_to_tagged_srt.py
-│
-├── assets/                           <-- Mascot PNGs & Dotgrid background
-└── config/                           <-- Tag mapping configuration
+You can skip script text entry and Google TTS audio generation:
+
+### Option A: Automatic Detection (Interactive CLI)
+1. Drop your pre-recorded audio file (e.g. `voiceover.wav` or `my_audio.mp3`) into `input/`.
+2. Run `python run.py`.
+3. Press **ENTER** when prompted to use existing audio!
+
+### Option B: CLI Flag `--skip-tts` (Non-Interactive)
+
+```bash
+python run.py my_project --mode deepdive -x "SUPERMAN" -y "SHAZAM" --skip-tts
 ```
+

@@ -1,18 +1,98 @@
 {
-  "completed_at": "2026-08-08T17:10:49.492508",
-  "total_topics": 1,
-  "successful_count": 1,
+  "completed_at": "2026-08-08T23:27:50.033063",
+  "total_topics": 9,
+  "successful_count": 9,
   "failed_count": 0,
   "topics": [
+    {
+      "id": "gemini_dd_01",
+      "project_name": "Auto_Deepdive_Jedi_vs_Sith_The_Force_Divide",
+      "type": "deepdive",
+      "status": "SUCCESS (DRY-RUN)",
+      "duration_sec": 0.0,
+      "draft_path": "",
+      "error": null,
+      "timestamp": "2026-08-08T23:27:49.915206"
+    },
+    {
+      "id": "gemini_dd_02",
+      "project_name": "Auto_Deepdive_Wizard_vs_Istari_Middleearths_",
+      "type": "deepdive",
+      "status": "SUCCESS (DRY-RUN)",
+      "duration_sec": 0.0,
+      "draft_path": "",
+      "error": null,
+      "timestamp": "2026-08-08T23:27:49.923668"
+    },
+    {
+      "id": "gemini_dd_03",
+      "project_name": "Auto_Deepdive_Genjutsu_vs_Ninjutsu_Narutos_J",
+      "type": "deepdive",
+      "status": "SUCCESS (DRY-RUN)",
+      "duration_sec": 0.0,
+      "draft_path": "",
+      "error": null,
+      "timestamp": "2026-08-08T23:27:49.926806"
+    },
+    {
+      "id": "gemini_dd_04",
+      "project_name": "Auto_Deepdive_Legendary_vs_Mythical_Pok\u00e9mon",
+      "type": "deepdive",
+      "status": "SUCCESS (DRY-RUN)",
+      "duration_sec": 0.0,
+      "draft_path": "",
+      "error": null,
+      "timestamp": "2026-08-08T23:27:49.929766"
+    },
+    {
+      "id": "gemini_dd_05",
+      "project_name": "Auto_Deepdive_Metahuman_vs_Mutant_DC_and_Mar",
+      "type": "deepdive",
+      "status": "SUCCESS (DRY-RUN)",
+      "duration_sec": 0.0,
+      "draft_path": "",
+      "error": null,
+      "timestamp": "2026-08-08T23:27:49.932715"
+    },
+    {
+      "id": "gemini_comp_01",
+      "project_name": "Auto_Compilation_Marvel_MixUp_Avengers_Inhumans",
+      "type": "compilation",
+      "status": "SUCCESS (DRY-RUN)",
+      "duration_sec": 0.0,
+      "draft_path": "",
+      "error": null,
+      "timestamp": "2026-08-08T23:27:49.999814"
+    },
+    {
+      "id": "gemini_comp_02",
+      "project_name": "Auto_Compilation_Star_Wars_Troopers_Sabers__Gov",
+      "type": "compilation",
+      "status": "SUCCESS (DRY-RUN)",
+      "duration_sec": 0.0,
+      "draft_path": "",
+      "error": null,
+      "timestamp": "2026-08-08T23:27:50.008802"
+    },
+    {
+      "id": "gemini_comp_03",
+      "project_name": "Auto_Compilation_Harry_Potter_Magic_Jobs__Trave",
+      "type": "compilation",
+      "status": "SUCCESS (DRY-RUN)",
+      "duration_sec": 0.0,
+      "draft_path": "",
+      "error": null,
+      "timestamp": "2026-08-08T23:27:50.021518"
+    },
     {
       "id": "gemini_comp_04",
       "project_name": "Auto_Compilation_Jujutsu_Kaisen_Sorcerers_Curse",
       "type": "compilation",
-      "status": "SUCCESS",
-      "duration_sec": 39.36,
-      "draft_path": "C:\\Users\\moham\\AppData\\Local\\CapCut\\User Data\\Projects\\com.lveditor.draft\\Auto_Compilation_Jujutsu_Kaisen_Sorcerers_Curse",
+      "status": "SUCCESS (DRY-RUN)",
+      "duration_sec": 0.0,
+      "draft_path": "",
       "error": null,
-      "timestamp": "2026-08-08T17:09:54.425771"
+      "timestamp": "2026-08-08T23:27:50.032527"
     }
   ]
 }

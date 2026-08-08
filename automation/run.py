@@ -67,6 +67,9 @@ def get_multiline_input(prompt_msg: str) -> str:
             lines.append(line)
         except EOFError:
             break
+    return "\n".join(lines)
+
+
 def find_existing_input_audio() -> Optional[str]:
     """Finds any pre-existing audio file in input/ folder."""
     if not os.path.isdir(INPUT_DIR):

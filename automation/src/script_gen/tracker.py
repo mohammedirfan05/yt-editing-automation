@@ -18,9 +18,9 @@ class ContentTracker:
 
     def __init__(
         self,
-        tracker_path: str = r"c:\yt_editing_automation\automation\config\content_tracker.json",
-        transcripts_path: str = r"c:\yt_editing_automation\automation\dont_mix_this_-_shorts_shorts_transcripts.json",
-        ideas_path: str = r"c:\yt_editing_automation\automation\config\ideas.json"
+        tracker_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "config", "content_tracker.json"),
+        transcripts_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "dont_mix_this_-_shorts_shorts_transcripts.json"),
+        ideas_path: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "config", "ideas.json")
     ):
         self.tracker_path = tracker_path
         self.transcripts_path = transcripts_path

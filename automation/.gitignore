@@ -1,2 +1,14 @@
 .env
 .env.*
+
+# Python bytecache
+__pycache__/
+*.pyc
+*.pyo
+
+# Runtime batch artifacts
+batch_status.json
+batch_report.json
+
+# Scratch directory
+scratch/

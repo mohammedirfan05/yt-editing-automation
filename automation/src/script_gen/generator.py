@@ -21,7 +21,7 @@ class ScriptGenerator:
     def __init__(
         self,
         tracker: Optional[ContentTracker] = None,
-        output_dir: str = r"c:\yt_editing_automation\automation\generated_scripts"
+        output_dir: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "generated_scripts")
     ):
         self.tracker = tracker if tracker else ContentTracker()
         self.output_dir = output_dir

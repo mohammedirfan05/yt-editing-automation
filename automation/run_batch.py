@@ -51,11 +51,9 @@ CONFIG_DIR = os.path.join(SCRIPT_DIR, "config")
 
 DEFAULT_IDEAS_FILE = os.path.join(CONFIG_DIR, "ideas.json") if os.path.isfile(os.path.join(CONFIG_DIR, "ideas.json")) else os.path.join(SCRIPT_DIR, "ideas.json")
 SAMPLE_IDEAS_FILE = os.path.join(CONFIG_DIR, "sample_ideas.json") if os.path.isfile(os.path.join(CONFIG_DIR, "sample_ideas.json")) else os.path.join(SCRIPT_DIR, "sample_ideas.json")
-SCHEMA_FILE = os.path.join(CONFIG_DIR, "ideas_schema.json") if os.path.isfile(os.path.join(CONFIG_DIR, "ideas_schema.json")) else os.path.join(SCRIPT_DIR, "ideas_schema.json")
 STATUS_FILE = os.path.join(SCRIPT_DIR, "batch_status.json")
 REPORT_FILE = os.path.join(SCRIPT_DIR, "batch_report.json")
 BATCH_WORKSPACE = os.path.join(SCRIPT_DIR, "batch_workspace")
-BATCH_INPUT_DIR = os.path.join(SCRIPT_DIR, "batch_input")
 DEFAULT_INPUT_DIR = os.path.join(SCRIPT_DIR, "input")
 
 TTS_SCRIPT = os.path.join(SCRIPT_DIR, "tts_generator", "generate_tts.py")
@@ -208,7 +206,8 @@ def prepare_topic_sandbox(topic: Dict[str, Any]) -> str:
 
     # Resolve custom asset directory if specified, else look in batch_input/{topic_id}
     custom_assets = topic.get("assets_dir")
-    src_asset_dir = custom_assets if (custom_assets and os.path.isdir(custom_assets)) else os.path.join(BATCH_INPUT_DIR, topic_id)
+    batch_input_dir = os.path.join(SCRIPT_DIR, "batch_input")
+    src_asset_dir = custom_assets if (custom_assets and os.path.isdir(custom_assets)) else os.path.join(batch_input_dir, topic_id)
 
     needed_images = 2 if topic["type"] == "deepdive" else 6
 

@@ -1,0 +1,27 @@
+{
+  "id": "gemini_dd_04",
+  "title": "Legendary vs Mythical Pokémon",
+  "type": "deepdive",
+  "status": "approved",
+  "fandom": "Pokémon",
+  "pairs": [
+    [
+      "Legendary Pokémon",
+      "Mythical Pokémon"
+    ]
+  ],
+  "script": "This is a Legendary Pokémon. This is a Mythical Pokémon. So what's the difference? Most people think they're the same rare, powerful Pokémon. They're not. Legendary Pokémon are typically caught in-game, often central to the main story. Mythical Pokémon are even rarer, usually distributed through real-world events or special promotions, often having unique lore. That's why you *can catch Rayquaza in Emerald*, while you *needed an event for Mew*. Follow for more.",
+  "word_count": 74,
+  "estimated_duration_sec": 27.41,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [
+    "[Word Count] 74 words is outside ideal range (75-85)."
+  ],
+  "labels": {
+    "label1": "Legendary Pokémon",
+    "label2": "Mythical Pokémon"
+  },
+  "created_at": "2026-08-08T17:07:46.180887",
+  "updated_at": "2026-08-08T17:07:46.180887"
+}

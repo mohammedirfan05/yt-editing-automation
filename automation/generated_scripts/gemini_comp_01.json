@@ -1,0 +1,45 @@
+{
+  "id": "gemini_comp_01",
+  "title": "Marvel Mix-Up: Avengers, Inhumans & Asgardians",
+  "type": "compilation",
+  "status": "approved",
+  "fandom": "Marvel",
+  "pairs": [
+    [
+      "Avenger",
+      "Defender"
+    ],
+    [
+      "Inhuman",
+      "Kree"
+    ],
+    [
+      "Asgardian",
+      "Jotun"
+    ]
+  ],
+  "script": "This is an Avenger. This is a Defender. So what's the difference? Avengers are Earth's mightiest heroes, often government-backed, tackling global threats. Defenders are street-level heroes, dealing with local issues. This is an Inhuman. This is a Kree. So what's the difference? Inhumans are humans genetically altered by Kree experimentation. Kree are an alien race, often the manipulators. This is an Asgardian. This is a Jotun. So what's the difference? Asgardians are powerful beings from Asgard. Jotuns are Frost Giants, their ancient enemies. Follow for more.",
+  "word_count": 88,
+  "estimated_duration_sec": 32.59,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [
+    "[Word Count] 88 words is outside ideal range (90-95)."
+  ],
+  "labels": {
+    "pair1": [
+      "Avenger",
+      "Defender"
+    ],
+    "pair2": [
+      "Inhuman",
+      "Kree"
+    ],
+    "pair3": [
+      "Asgardian",
+      "Jotun"
+    ]
+  },
+  "created_at": "2026-08-08T17:07:46.187412",
+  "updated_at": "2026-08-08T17:07:46.187412"
+}

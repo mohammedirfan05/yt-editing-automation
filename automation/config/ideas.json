@@ -1,212 +1,132 @@
 [
   {
-    "id": "topic_01",
-    "project_name": "Overnight_01_SupermanVsShazam",
+    "id": "gemini_dd_01",
+    "project_name": "Auto_Deepdive_Jedi_vs_Sith_The_Force_Divide",
     "type": "deepdive",
-    "script": "[amused] This is Superman. This is Shazam. So, what's the difference? While both possess god-like flight and invulnerability, Superman gains his solar power from Earth's yellow sun. Shazam draws magic directly from six ancient gods! In raw speed Superman wins, but magic bypasses Kryptonian durability completely.",
+    "script": "This is a Jedi. This is a Sith. So what's the difference? Most people think they're simply good versus evil. They're not. While both wield the Force, their philosophies diverge fundamentally. Jedi embrace the cosmic Force, seeking balance and selflessness through peace. Sith harness the living Force, driven by raw emotion, power, and personal gain. That's why a Jedi *defends the galaxy from tyranny*, while a Sith *seeks to rule it absolutely*. Follow for more.",
     "labels": {
-      "label1": "SUPERMAN",
-      "label2": "SHAZAM"
+      "label1": "Jedi",
+      "label2": "Sith"
     }
   },
   {
-    "id": "topic_02",
-    "project_name": "Overnight_02_MCU_vs_Comics",
-    "type": "compilation",
-    "script": "Comparing MCU and Marvel Comics across three massive shifts! First, Iron Man's armor. Movie Tony relies on nanotech, but comic Tony crafted dozens of elemental suits. Second, Thanos' motivation. MCU Thanos wanted universe balance, while comic Thanos fought for Lady Death. Third, Infinity Stones power!",
-    "labels": {
-      "pair1": ["MCU", "MARVEL COMICS"],
-      "pair2": ["CINEMATIC", "COMIC LORE"],
-      "pair3": ["MOVIES", "GRAPHIC NOVELS"]
-    }
-  },
-  {
-    "id": "topic_03",
-    "project_name": "Overnight_03_BatmanVsIronMan",
+    "id": "gemini_dd_02",
+    "project_name": "Auto_Deepdive_Wizard_vs_Istari_Middleearths_",
     "type": "deepdive",
-    "script": "[thoughtful] Batman vs Iron Man. Both are billionaire geniuses without superpowers, but their battle strategies couldn't be more different! Iron Man relies on AI automation and heavy repulsor firepower. Batman relies on stealth, tactical prep time, and targeted EMP weapons to disable electronics instantly.",
+    "script": "This is a Wizard. This is an Istari. So what's the difference? Most people think they're interchangeable terms for magical beings. They're not. A 'Wizard' is a general term for magic-user in Middle-earth. An 'Istari' is a specific, powerful Maiar spirit sent by the Valar to aid mortals against Sauron, embodying a Wizard's form. That's why Gandalf *is an Istari*, while a random sorcerer *is just a wizard*. Follow for more.",
     "labels": {
-      "label1": "BATMAN",
-      "label2": "IRON MAN"
+      "label1": "Wizard",
+      "label2": "Istari"
     }
   },
   {
-    "id": "topic_04",
-    "project_name": "Overnight_04_AnimeVsManga_Power",
-    "type": "compilation",
-    "script": "Three massive differences between Anime adaptations and original Manga panels! First, animation pacing adds epic sound design. Second, manga panels showcase finer line detail and uncut violence. Third, filler arcs exist only in anime to let the manga author catch up!",
-    "labels": {
-      "pair1": ["ANIME", "MANGA"],
-      "pair2": ["ANIMATED", "HAND DRAWN"],
-      "pair3": ["SCREEN", "PAGES"]
-    }
-  },
-  {
-    "id": "topic_05",
-    "project_name": "Overnight_05_FlashVsQuicksilver",
+    "id": "gemini_dd_03",
+    "project_name": "Auto_Deepdive_Genjutsu_vs_Ninjutsu_Narutos_J",
     "type": "deepdive",
-    "script": "[excited] Flash vs Quicksilver! Who is the true speed king? Quicksilver runs at supersonic speeds by mutating his physique. But Flash taps into the Speed Force, allowing him to phase through solid matter, travel back in time, and outrun light itself!",
+    "script": "This is Genjutsu. This is Ninjutsu. So what's the difference? Most people think they're both just types of jutsu for fighting. They're not. Ninjutsu manipulates chakra to affect the physical world, like Rasengan or Chidori. Genjutsu, however, targets the opponent's senses and chakra flow to create illusions, affecting their mind. That's why Ninjutsu *can break bones*, while Genjutsu *can make you see things that aren't there*. Follow for more.",
     "labels": {
-      "label1": "THE FLASH",
-      "label2": "QUICKSILVER"
+      "label1": "Genjutsu",
+      "label2": "Ninjutsu"
     }
   },
   {
-    "id": "topic_06",
-    "project_name": "Overnight_06_DC_vs_Marvel_Multiverse",
-    "type": "compilation",
-    "script": "Comparing DC Multiverse with Marvel Multiverse across three core rules! First, DC centers around 52 primary Earths guarded by the Orrery of Worlds. Second, Marvel uses infinite Earth designations like Earth-616 and Earth-1610. Third, DC resets reality with Crises while Marvel uses Secret Wars!",
-    "labels": {
-      "pair1": ["DC MULTIVERSE", "MARVEL MULTIVERSE"],
-      "pair2": ["DC COMICS", "MARVEL STUDIOS"],
-      "pair3": ["52 EARTHS", "INFINITE TIMELINES"]
-    }
-  },
-  {
-    "id": "topic_07",
-    "project_name": "Overnight_07_ThorVsSuperman",
+    "id": "gemini_dd_04",
+    "project_name": "Auto_Deepdive_Legendary_vs_Mythical_Pokémon",
     "type": "deepdive",
-    "script": "[confident] Thor vs Superman! Heavyweight deity battle! Superman has raw physical strength and heat vision. But Thor wields Mjolnir, control over cosmic lightning, and ancient magical force that strikes directly at Superman's weakness!",
+    "script": "This is a Legendary Pokémon. This is a Mythical Pokémon. So what's the difference? Most people think they're the same rare, powerful Pokémon. They're not. Legendary Pokémon are typically caught in-game, often central to the main story. Mythical Pokémon are even rarer, usually distributed through real-world events or special promotions, often having unique lore. That's why you *can catch Rayquaza in Emerald*, while you *needed an event for Mew*. Follow for more.",
     "labels": {
-      "label1": "THOR",
-      "label2": "SUPERMAN"
+      "label1": "Legendary Pokémon",
+      "label2": "Mythical Pokémon"
     }
   },
   {
-    "id": "topic_08",
-    "project_name": "Overnight_08_Gaming_PC_vs_Console",
-    "type": "compilation",
-    "script": "PC Gaming versus Console Gaming in three rapid rounds! First, custom modding and unlocked framerates favor PC. Second, plug-and-play simplicity and exclusive optimized titles favor Consoles. Third, long-term upgradeability gives PC the ultimate longevity advantage!",
-    "labels": {
-      "pair1": ["GAMING PC", "CONSOLE"],
-      "pair2": ["CUSTOM RIG", "PLUG AND PLAY"],
-      "pair3": ["MODS UNLOCKED", "OPTIMIZED GAMES"]
-    }
-  },
-  {
-    "id": "topic_09",
-    "project_name": "Overnight_09_SpiderMan_TobeyVsTom",
+    "id": "gemini_dd_05",
+    "project_name": "Auto_Deepdive_Metahuman_vs_Mutant_DC_and_Mar",
     "type": "deepdive",
-    "script": "[amused] Tobey Maguire's Spider-Man vs Tom Holland's Spider-Man! Tobey relies on organic webbing and raw emotional resilience. Tom wields Stark tech suits, nanotech, and web shooters with fifty different firing modes!",
+    "script": "This is a Metahuman. This is a Mutant. So what's the difference? Most people think these terms describe the same type of superpowered individual. They're not. In DC, Metahumans gain powers through external factors like genetic anomalies, alien exposure, or scientific experimentation. In Marvel, Mutants are born with the X-gene, developing powers naturally at puberty. That's why Flash *became a Metahuman from the S.T.A.R. Labs explosion*, while Wolverine *was born a Mutant*. Follow for more.",
     "labels": {
-      "label1": "TOBEY SPIDERMAN",
-      "label2": "TOM SPIDERMAN"
+      "label1": "Metahuman",
+      "label2": "Mutant"
     }
   },
   {
-    "id": "topic_10",
-    "project_name": "Overnight_10_iOS_vs_Android",
+    "id": "gemini_comp_01",
+    "project_name": "Auto_Compilation_Marvel_MixUp_Avengers_Inhumans",
     "type": "compilation",
-    "script": "iOS vs Android broken down in three quick comparisons! First, iOS delivers smooth 7-year software updates and tight ecosystem integration. Second, Android offers total custom launcher freedom and side-loading. Third, camera post-processing produces distinct color profiles!",
+    "script": "This is an Avenger. This is a Defender. So what's the difference? Avengers are Earth's mightiest heroes, often government-backed, tackling global threats. Defenders are street-level heroes, dealing with local issues. This is an Inhuman. This is a Kree. So what's the difference? Inhumans are humans genetically altered by Kree experimentation. Kree are an alien race, often the manipulators. This is an Asgardian. This is a Jotun. So what's the difference? Asgardians are powerful beings from Asgard. Jotuns are Frost Giants, their ancient enemies. Follow for more.",
     "labels": {
-      "pair1": ["APPLE IOS", "ANDROID OS"],
-      "pair2": ["ECOSYSTEM", "CUSTOMIZATION"],
-      "pair3": ["LONG UPDATES", "SIDE LOADING"]
+      "pair1": [
+        "Avenger",
+        "Defender"
+      ],
+      "pair2": [
+        "Inhuman",
+        "Kree"
+      ],
+      "pair3": [
+        "Asgardian",
+        "Jotun"
+      ]
     }
   },
   {
-    "id": "topic_11",
-    "project_name": "Overnight_11_GokuVsSaitama",
-    "type": "deepdive",
-    "script": "[shocked] Goku vs Saitama! Can the One Punch Man defeat a Saiyan God? Goku ascends through Ultra Instinct and divine energy. But Saitama's gag power scaling allows him to exponentially grow without limits during any battle!",
-    "labels": {
-      "label1": "GOKU",
-      "label2": "SAITAMA"
-    }
-  },
-  {
-    "id": "topic_12",
-    "project_name": "Overnight_12_StarWars_JediVsSith",
+    "id": "gemini_comp_02",
+    "project_name": "Auto_Compilation_Star_Wars_Troopers_Sabers__Gov",
     "type": "compilation",
-    "script": "Jedi Order vs Sith Order across three core philosophies! First, Jedi channel peace and defensive lightsaber forms. Second, Sith embrace passion, aggression, and destructive Force Lightning. Third, Jedi operate in councils while Sith follow the Rule of Two!",
+    "script": "This is a Clone Trooper. This is a Stormtrooper. So what's the difference? Clone Troopers are genetically identical soldiers for the Republic. Stormtroopers are conscripted or recruited soldiers for the Empire. This is a Lightsaber. This is a Darksaber. So what's the difference? A Lightsaber is a plasma blade used by Force-sensitives. A Darksaber is a unique, black-bladed lightsaber, an ancient Mandalorian relic. This is the Republic. This is the Empire. So what's the difference? The Republic was a democratic government. The Empire was a tyrannical regime. Follow for more.",
     "labels": {
-      "pair1": ["JEDI ORDER", "SITH ORDER"],
-      "pair2": ["LIGHT SIDE", "DARK SIDE"],
-      "pair3": ["COUNCIL", "RULE OF TWO"]
+      "pair1": [
+        "Clone Trooper",
+        "Stormtrooper"
+      ],
+      "pair2": [
+        "Lightsaber",
+        "Darksaber"
+      ],
+      "pair3": [
+        "Republic",
+        "Empire"
+      ]
     }
   },
   {
-    "id": "topic_13",
-    "project_name": "Overnight_13_WolverineVsDeadpool",
-    "type": "deepdive",
-    "script": "[amused] Wolverine vs Deadpool! Who wins the healing factor battle? Wolverine has an Adamantium skeleton and lethal claws. Deadpool has fourth-wall breaking awareness and instantaneous cellular regeneration that renders him virtually immortal!",
-    "labels": {
-      "label1": "WOLVERINE",
-      "label2": "DEADPOOL"
-    }
-  },
-  {
-    "id": "topic_14",
-    "project_name": "Overnight_14_SciFi_WarpVsHyperdrive",
+    "id": "gemini_comp_03",
+    "project_name": "Auto_Compilation_Harry_Potter_Magic_Jobs__Trave",
     "type": "compilation",
-    "script": "Star Trek Warp Drive vs Star Wars Hyperdrive! First, Warp distorts space-time around the vessel. Second, Hyperdrive enters an alternate dimension called Hyperspace. Third, Hyperdrive is exponentially faster across galaxies!",
+    "script": "This is an Animagus. This is a Werewolf. So what's the difference? An Animagus is a wizard who can voluntarily transform into an animal. A Werewolf is a human cursed to involuntarily transform under the full moon. This is an Auror. This is a Hit-Wizard. So what's the difference? Aurors are dark wizard catchers for the Ministry. Hit-Wizards are international magical law enforcement. This is Apparition. This is a Portkey. So what's the difference? Apparition is instant self-teleportation. A Portkey is an enchanted object for group travel. Follow for more.",
     "labels": {
-      "pair1": ["WARP DRIVE", "HYPERDRIVE"],
-      "pair2": ["STAR TREK", "STAR WARS"],
-      "pair3": ["SPACE DISTORTION", "HYPERSPACE"]
+      "pair1": [
+        "Animagus",
+        "Werewolf"
+      ],
+      "pair2": [
+        "Auror",
+        "Hit-Wizard"
+      ],
+      "pair3": [
+        "Apparition",
+        "Portkey"
+      ]
     }
   },
   {
-    "id": "topic_15",
-    "project_name": "Overnight_15_GodzillaVsKong",
-    "type": "deepdive",
-    "script": "[dramatic] Godzilla vs King Kong! Alpha Titan showdown! Godzilla boasts dense atomic armor and devastating Atomic Breath. Kong relies on agile movement, tool usage with the axe, and tactical intelligence!",
-    "labels": {
-      "label1": "GODZILLA",
-      "label2": "KING KONG"
-    }
-  },
-  {
-    "id": "topic_16",
-    "project_name": "Overnight_16_PythonVsJavaScript",
+    "id": "gemini_comp_04",
+    "project_name": "Auto_Compilation_Jujutsu_Kaisen_Sorcerers_Curse",
     "type": "compilation",
-    "script": "Python vs JavaScript for modern developers! First, Python excels in AI, data science, and clean syntax. Second, JavaScript rules front-end web apps and full-stack Node backends. Third, Python is synchronous by default while JS thrives on asynchronous event loops!",
+    "script": "This is a Jujutsu Sorcerer. This is a Curse User. So what's the difference? Sorcerers use Cursed Energy to protect humanity from Curses. Curse Users manipulate Cursed Energy for selfish or malevolent purposes. This is a Cursed Spirit. This is a Curse. So what's the difference? A Cursed Spirit is a sentient being born from negative emotions. A Curse is the negative energy itself, the source. This is a Domain Expansion. This is a Barrier Technique. So what's the difference? Domain Expansion manifests an innate domain. Barrier Techniques create enclosed spaces. Follow for more.",
     "labels": {
-      "pair1": ["PYTHON", "JAVASCRIPT"],
-      "pair2": ["DATA AND AI", "WEB AND APP"],
-      "pair3": ["SYNCHRONOUS", "EVENT LOOP"]
-    }
-  },
-  {
-    "id": "topic_17",
-    "project_name": "Overnight_17_VampireVsWerewolf",
-    "type": "deepdive",
-    "script": "[mysterious] Vampires vs Werewolves! Classical monster matchup! Vampires possess hypnosis, immortality, and bat transformation. Werewolves unleash unbridled brute strength and apex predatory speed under the full moon!",
-    "labels": {
-      "label1": "VAMPIRES",
-      "label2": "WEREWOLVES"
-    }
-  },
-  {
-    "id": "topic_18",
-    "project_name": "Overnight_18_OLED_vs_MiniLED",
-    "type": "compilation",
-    "script": "OLED vs Mini-LED display technology! First, OLED offers infinite contrast with self-emissive pixels. Second, Mini-LED delivers blinding peak brightness without burn-in risk. Third, OLED response times excel for high-speed gaming!",
-    "labels": {
-      "pair1": ["OLED DISPLAY", "MINI LED"],
-      "pair2": ["INFINITE CONTRAST", "PEAK BRIGHTNESS"],
-      "pair3": ["ZERO BURN IN", "FAST RESPONSE"]
-    }
-  },
-  {
-    "id": "topic_19",
-    "project_name": "Overnight_19_SubsterVsDubber",
-    "type": "deepdive",
-    "script": "[thoughtful] Anime Subs vs Dubs! The eternal debate! Subtitles preserve original voice actor emotion and Japanese nuance. Dubs allow effortless multitasking and direct visual immersion without reading lower screen text!",
-    "labels": {
-      "label1": "SUBTITLES",
-      "label2": "ENGLISH DUB"
-    }
-  },
-  {
-    "id": "topic_20",
-    "project_name": "Overnight_20_CyberpunkVsSteampunk",
-    "type": "compilation",
-    "script": "Cyberpunk vs Steampunk aesthetic battle! First, Cyberpunk features high-tech neon, AI, and dystopian megacorporations. Second, Steampunk showcases Victorian brass, steam engines, and clockwork machinery. Third, Cyberpunk looks to the future while Steampunk reimagines the past!",
-    "labels": {
-      "pair1": ["CYBERPUNK", "STEAMPUNK"],
-      "pair2": ["HIGH TECH NEON", "VICTORIAN BRASS"],
-      "pair3": ["FUTURE DYSTOPIA", "RETRO PAST"]
+      "pair1": [
+        "Jujutsu Sorcerer",
+        "Curse User"
+      ],
+      "pair2": [
+        "Cursed Spirit",
+        "Curse"
+      ],
+      "pair3": [
+        "Domain Expansion",
+        "Barrier Technique"
+      ]
     }
   }
 ]

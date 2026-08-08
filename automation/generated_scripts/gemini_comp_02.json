@@ -1,0 +1,43 @@
+{
+  "id": "gemini_comp_02",
+  "title": "Star Wars: Troopers, Sabers & Governments",
+  "type": "compilation",
+  "status": "approved",
+  "fandom": "Star Wars",
+  "pairs": [
+    [
+      "Clone Trooper",
+      "Stormtrooper"
+    ],
+    [
+      "Lightsaber",
+      "Darksaber"
+    ],
+    [
+      "Republic",
+      "Empire"
+    ]
+  ],
+  "script": "This is a Clone Trooper. This is a Stormtrooper. So what's the difference? Clone Troopers are genetically identical soldiers for the Republic. Stormtroopers are conscripted or recruited soldiers for the Empire. This is a Lightsaber. This is a Darksaber. So what's the difference? A Lightsaber is a plasma blade used by Force-sensitives. A Darksaber is a unique, black-bladed lightsaber, an ancient Mandalorian relic. This is the Republic. This is the Empire. So what's the difference? The Republic was a democratic government. The Empire was a tyrannical regime. Follow for more.",
+  "word_count": 92,
+  "estimated_duration_sec": 34.07,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "pair1": [
+      "Clone Trooper",
+      "Stormtrooper"
+    ],
+    "pair2": [
+      "Lightsaber",
+      "Darksaber"
+    ],
+    "pair3": [
+      "Republic",
+      "Empire"
+    ]
+  },
+  "created_at": "2026-08-08T17:07:46.189412",
+  "updated_at": "2026-08-08T17:07:46.189412"
+}

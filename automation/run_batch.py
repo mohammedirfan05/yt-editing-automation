@@ -26,6 +26,7 @@ import argparse
 import json
 import logging
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -46,9 +47,11 @@ from colorama import Fore, Style, init
 init(autoreset=True)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_IDEAS_FILE = os.path.join(SCRIPT_DIR, "ideas.json")
-SAMPLE_IDEAS_FILE = os.path.join(SCRIPT_DIR, "sample_ideas.json")
-SCHEMA_FILE = os.path.join(SCRIPT_DIR, "ideas_schema.json")
+CONFIG_DIR = os.path.join(SCRIPT_DIR, "config")
+
+DEFAULT_IDEAS_FILE = os.path.join(CONFIG_DIR, "ideas.json") if os.path.isfile(os.path.join(CONFIG_DIR, "ideas.json")) else os.path.join(SCRIPT_DIR, "ideas.json")
+SAMPLE_IDEAS_FILE = os.path.join(CONFIG_DIR, "sample_ideas.json") if os.path.isfile(os.path.join(CONFIG_DIR, "sample_ideas.json")) else os.path.join(SCRIPT_DIR, "sample_ideas.json")
+SCHEMA_FILE = os.path.join(CONFIG_DIR, "ideas_schema.json") if os.path.isfile(os.path.join(CONFIG_DIR, "ideas_schema.json")) else os.path.join(SCRIPT_DIR, "ideas_schema.json")
 STATUS_FILE = os.path.join(SCRIPT_DIR, "batch_status.json")
 REPORT_FILE = os.path.join(SCRIPT_DIR, "batch_report.json")
 BATCH_WORKSPACE = os.path.join(SCRIPT_DIR, "batch_workspace")
@@ -391,13 +394,141 @@ def process_single_topic(topic: Dict[str, Any], dry_run: bool = False) -> Dict[s
     return result
 
 
+def generate_and_save_ideas(count: int = 5, target_file: str = DEFAULT_IDEAS_FILE) -> List[Dict[str, Any]]:
+    """Generates fresh Playbook-compliant scripts using ScriptGenerator and updates ideas.json."""
+    from src.script_gen.generator import ScriptGenerator
+    print(Fore.CYAN + f"⚡ Generating {count} fresh Playbook-compliant scripts..." + Style.RESET_ALL)
+
+    generator = ScriptGenerator()
+    new_topics = generator.generate_scripts(count=count, mode="auto")
+
+    formatted_ideas = []
+    for t in new_topics:
+        # Sanitize project name
+        clean_name = re.sub(r"[^\w\s]", "", t["title"]).strip().replace(" ", "_")
+        proj_name = f"Auto_{t['type'].capitalize()}_{clean_name[:30]}"
+        formatted_ideas.append({
+            "id": t["id"],
+            "project_name": proj_name,
+            "type": t["type"],
+            "script": t["script"],
+            "labels": t.get("labels", {})
+        })
+
+    os.makedirs(os.path.dirname(os.path.abspath(target_file)), exist_ok=True)
+    with open(target_file, "w", encoding="utf-8") as f:
+        json.dump(formatted_ideas, f, indent=2, ensure_ascii=False)
+
+    print(Fore.GREEN + f"✨ Generated {len(formatted_ideas)} fresh Playbook-compliant script topics into '{target_file}'." + Style.RESET_ALL)
+    return formatted_ideas
+
+
+def interactive_batch_review(ideas: List[Dict[str, Any]], target_file: str) -> List[Dict[str, Any]]:
+    """
+    Displays a clean interactive CLI for reviewing and validating generated ideas
+    before starting batch execution.
+    Shows X vs Y, Topic Title, and Format (Deep Dive vs Compilation).
+    """
+    selected_ideas = list(ideas)
+
+    while True:
+        print(Fore.MAGENTA + "\n" + "=" * 70 + Style.RESET_ALL)
+        print(Fore.CYAN + Style.BRIGHT + f"📋 BATCH REVIEW & VALIDATION ({len(selected_ideas)} Topics Selected)" + Style.RESET_ALL)
+        print(Fore.MAGENTA + "=" * 70 + Style.RESET_ALL)
+
+        if not selected_ideas:
+            print(Fore.YELLOW + "  (No topics currently selected for this batch)" + Style.RESET_ALL)
+
+        for idx, item in enumerate(selected_ideas, 1):
+            mode = item.get("type", "deepdive").upper()
+            proj_name = item.get("project_name", item.get("id"))
+            script_text = item.get("script", "")
+
+            # Format X vs Y representation
+            labels = item.get("labels", {})
+            pairs_str = ""
+            if mode == "DEEPDIVE":
+                l1 = labels.get("label1", "Topic X")
+                l2 = labels.get("label2", "Topic Y")
+                pairs_str = f"{l1} vs {l2}"
+            else:
+                pairs = []
+                if isinstance(labels, dict):
+                    for k in sorted(labels.keys()):
+                        v = labels[k]
+                        if isinstance(v, list) and len(v) >= 2:
+                            pairs.append(f"{v[0]} vs {v[1]}")
+                        elif isinstance(v, str):
+                            pairs.append(v)
+                pairs_str = " | ".join(pairs) if pairs else "Multi-Pair Compilation"
+
+            mode_color = Fore.GREEN if mode == "DEEPDIVE" else Fore.CYAN
+            print(f"[{idx:02d}] FORMAT: {mode_color}{mode:<11}{Style.RESET_ALL} | X vs Y: {Fore.YELLOW}{pairs_str}{Style.RESET_ALL}")
+            print(f"     TOPIC : {proj_name}")
+            script_snippet = (script_text[:85] + "...") if len(script_text) > 85 else script_text
+            print(f"     SCRIPT: \"{script_snippet}\"\n")
+
+        print(Fore.MAGENTA + "=" * 70 + Style.RESET_ALL)
+        print(Fore.GREEN + "  [A / ALL] Approve All & Start Batch Execution" + Style.RESET_ALL)
+        print(Fore.CYAN + "  [1, 3, 5] Select Specific Numbers to Build Drafts For" + Style.RESET_ALL)
+        print(Fore.CYAN + "  [G] Generate 10 Fresh 50/50 Scripts (5 Deepdives + 5 Compilations)" + Style.RESET_ALL)
+        print(Fore.RED + "  [Q] Quit" + Style.RESET_ALL)
+        print(Fore.MAGENTA + "=" * 70 + Style.RESET_ALL)
+
+        try:
+            user_input = input(Fore.YELLOW + "👉 Select scripts to generate drafts for (e.g. '1, 3, 5' or 'ALL' / 'A'): " + Style.RESET_ALL).strip().upper()
+        except (KeyboardInterrupt, EOFError):
+            print("\nBatch execution cancelled.")
+            sys.exit(0)
+
+        if not user_input or user_input in ["A", "ALL"]:
+            print(Fore.GREEN + f"\n✓ Approved ALL {len(selected_ideas)} topics for draft generation!" + Style.RESET_ALL)
+            return selected_ideas
+
+        if user_input == "G":
+            try:
+                n_str = input(Fore.YELLOW + "👉 How many fresh 50/50 scripts to generate? (default: 10): " + Style.RESET_ALL).strip()
+                n = int(n_str) if n_str else 10
+            except (ValueError, KeyboardInterrupt, EOFError):
+                n = 10
+            generate_and_save_ideas(count=n, target_file=target_file)
+            selected_ideas = load_ideas(target_file)
+            continue
+
+        if user_input == "Q":
+            print(Fore.YELLOW + "Exiting batch execution." + Style.RESET_ALL)
+            sys.exit(0)
+
+        # Parse numeric selections like "1, 3, 5" or "1 3 5"
+        raw_nums = re.findall(r"\d+", user_input)
+        if raw_nums:
+            picked_indices = set()
+            for n_s in raw_nums:
+                idx = int(n_s) - 1
+                if 0 <= idx < len(selected_ideas):
+                    picked_indices.add(idx)
+            
+            if picked_indices:
+                chosen_ideas = [selected_ideas[i] for i in sorted(picked_indices)]
+                print(Fore.GREEN + f"\n✓ Selected {len(chosen_ideas)} specific topics for draft generation:" + Style.RESET_ALL)
+                for c_item in chosen_ideas:
+                    print(Fore.CYAN + f"  • [{c_item.get('id')}] {c_item.get('project_name')}" + Style.RESET_ALL)
+                return chosen_ideas
+            else:
+                print(Fore.RED + f"❌ Invalid numbers specified. Please enter numbers between 1 and {len(selected_ideas)}." + Style.RESET_ALL)
+        else:
+            print(Fore.RED + "❌ Unrecognized choice. Please enter numbers (e.g. '1, 3, 5'), 'ALL', 'G', or 'Q'." + Style.RESET_ALL)
+
+
 def main():
     parser = argparse.ArgumentParser(description="Batch Video Generator (Overnight Automation Engine)")
     parser.add_argument("--ideas", "-i", type=str, default=DEFAULT_IDEAS_FILE, help="Path to ideas.json file")
+    parser.add_argument("--generate", "-g", type=int, default=0, help="Generate N fresh Playbook-compliant scripts before batch run")
     parser.add_argument("--init", action="store_true", help="Initialize a sample ideas.json file")
     parser.add_argument("--resume", "-r", action="store_true", help="Resume batch run from batch_status.json")
     parser.add_argument("--validate", action="store_true", help="Validate ideas.json schema and exit")
     parser.add_argument("--dry-run", action="store_true", help="Run structure & setup checks without external API calls")
+    parser.add_argument("--non-interactive", "--no-prompt", action="store_true", help="Skip interactive CLI review menu and run batch directly")
     args = parser.parse_args()
 
     if args.init:
@@ -408,15 +539,29 @@ def main():
     print(Fore.CYAN + Style.BRIGHT + "   ⚡ BATCH VIDEO GENERATOR — OVERNIGHT AUTOMATION ENGINE   " + Style.RESET_ALL)
     print(Fore.MAGENTA + "=" * 70 + Style.RESET_ALL)
 
-    try:
-        ideas = load_ideas(args.ideas)
-    except Exception as e:
-        print(Fore.RED + f"❌ Configuration Error: {e}" + Style.RESET_ALL)
-        sys.exit(1)
+    # Automatically generate fresh 50/50 scripts if requested or if ideas file is empty/missing
+    if args.generate > 0:
+        ideas = generate_and_save_ideas(count=args.generate, target_file=args.ideas)
+    elif not os.path.exists(args.ideas) or os.path.getsize(args.ideas) <= 5:
+        print(Fore.CYAN + f"📌 Ideas file '{args.ideas}' is empty. Generating 10 fresh Playbook scripts (5 Deepdives + 5 Compilations)..." + Style.RESET_ALL)
+        ideas = generate_and_save_ideas(count=10, target_file=args.ideas)
+    else:
+        try:
+            ideas = load_ideas(args.ideas)
+            if not ideas:
+                print(Fore.CYAN + f"📌 No ideas found in '{args.ideas}'. Generating 10 fresh Playbook scripts (5 Deepdives + 5 Compilations)..." + Style.RESET_ALL)
+                ideas = generate_and_save_ideas(count=10, target_file=args.ideas)
+        except Exception as e:
+            print(Fore.RED + f"❌ Configuration Error loading '{args.ideas}': {e}. Regenerating fresh scripts..." + Style.RESET_ALL)
+            ideas = generate_and_save_ideas(count=10, target_file=args.ideas)
 
     if args.validate:
         print(Fore.GREEN + f"✓ Pre-flight validation passed for '{args.ideas}'. Found {len(ideas)} valid topics." + Style.RESET_ALL)
         sys.exit(0)
+
+    # Launch Interactive CLI Review unless --non-interactive or --dry-run is passed
+    if not args.non_interactive and not args.dry_run:
+        ideas = interactive_batch_review(ideas, args.ideas)
 
     status_data = load_status() if args.resume else {"start_time": datetime.now().isoformat(), "topics": {}}
     completed_ids = set(status_data.get("topics", {}).keys()) if args.resume else set()
@@ -439,6 +584,11 @@ def main():
         status_data["topics"][topic_id] = res
         save_status(status_data)
         report_topics.append(res)
+
+        # Rate-limiting inter-topic delay to respect Google AI Studio quotas (15 RPM)
+        if idx < total_topics and not args.dry_run:
+            print(Fore.CYAN + "⏳ Pausing 4.0s for API rate-limit compliance..." + Style.RESET_ALL)
+            time.sleep(4.0)
 
     # Build Final Summary Report
     successful = [t for t in report_topics if t.get("status", "").startswith("SUCCESS")]

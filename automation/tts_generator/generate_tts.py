@@ -194,7 +194,12 @@ def generate_speech_audio_rest(
     headers = {"Content-Type": "application/json"}
 
     import time
-    max_retries = 4
+    max_retries = 5
+    backoff_delay = 5.0
+
+    # Minimum inter-request delay to respect Google AI Studio 15 RPM limit
+    time.sleep(4.0)
+
     for attempt in range(1, max_retries + 1):
         try:
             r = requests.post(url, headers=headers, json=payload, timeout=60)
@@ -220,25 +225,28 @@ def generate_speech_audio_rest(
                         save_binary_file(output_wav_path, data_buffer)
                         return output_wav_path
             elif r.status_code == 429:
-                retry_seconds = (attempt + 1) * 5
+                retry_seconds = backoff_delay
                 try:
                     err_json = r.json()
                     details = err_json.get("error", {}).get("details", [])
                     for d in details:
                         if "retryDelay" in d:
                             delay_str = str(d["retryDelay"]).rstrip("s")
-                            retry_seconds = int(float(delay_str)) + 2
+                            retry_seconds = float(delay_str) + 2.0
                 except Exception:
                     pass
 
-                print(Fore.YELLOW + f"⚠️ Google Rate Limit (429). Retrying in {retry_seconds}s (Attempt {attempt}/{max_retries})..." + Style.RESET_ALL)
+                print(Fore.YELLOW + f"⚠️ Google AI Studio Rate Limit (429). Waiting {retry_seconds:.1f}s before retry (Attempt {attempt}/{max_retries})..." + Style.RESET_ALL)
                 time.sleep(retry_seconds)
+                backoff_delay *= 2.5
             else:
                 print(Fore.RED + f"REST API HTTP Error ({r.status_code}): {r.text[:300]}" + Style.RESET_ALL)
-                break
+                time.sleep(backoff_delay)
+                backoff_delay *= 2.0
         except Exception as e:
             print(Fore.RED + f"REST API Request Exception: {e}" + Style.RESET_ALL)
-            time.sleep(2)
+            time.sleep(backoff_delay)
+            backoff_delay *= 2.0
 
     return None
 

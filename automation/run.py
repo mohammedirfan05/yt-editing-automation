@@ -92,6 +92,7 @@ def main():
     print(Fore.CYAN + Style.BRIGHT + "   🎬 YOUTUBE SHORTS EDITING AUTOMATION ENGINE   " + Style.RESET_ALL)
     parser = argparse.ArgumentParser(description="Master Interactive CLI for Shorts Video Creation Pipeline")
     parser.add_argument("project_name", nargs="?", help="Project name for CapCut Desktop (e.g. SupermanVsShazam)")
+    parser.add_argument("--batch", "-b", action="store_true", help="Run full batch video generation pipeline")
     parser.add_argument("--mode", "-m", choices=["deepdive", "compilation"], help="Select Video Short Mode: 'deepdive' (1 pair / 2 images) or 'compilation' (3 pairs / 6 images)")
     parser.add_argument("--text", "-t", type=str, help="Script text string to generate voiceover for")
     parser.add_argument("--label1", "--label-x", "-x", type=str, help="Label text for Image 1 / Topic X (Left / Red, e.g. MCU)")
@@ -102,7 +103,13 @@ def main():
     parser.add_argument("--skip-tts", "--no-tts", action="store_true", help="Skip Google TTS generation and use pre-recorded audio in input/ folder")
     parser.add_argument("--audio", "-a", type=str, help="Path to pre-recorded audio file to use instead of generating TTS")
 
-    args = parser.parse_args()
+    args, remaining = parser.parse_known_args()
+
+    if args.batch:
+        import run_batch
+        sys.argv = [sys.argv[0]] + remaining
+        run_batch.main()
+        return
 
     # 0. Select Video Mode (Deepdive vs Compilation)
     mode = args.mode

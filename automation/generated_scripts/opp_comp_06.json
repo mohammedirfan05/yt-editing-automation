@@ -1,0 +1,45 @@
+{
+  "id": "opp_comp_06",
+  "title": "3 Transformers Factions You Mix Up",
+  "type": "compilation",
+  "status": "approved",
+  "fandom": "PopCulture",
+  "pairs": [
+    [
+      "Autobots",
+      "Decepticons"
+    ],
+    [
+      "Dinobots",
+      "Predacons"
+    ],
+    [
+      "Primus",
+      "Unicron"
+    ]
+  ],
+  "script": "This is Autobots. This is Decepticons. So what's the difference? Autobots fight to protect freedom and peace, while Decepticons fight for total conquest and energy dominion. This is Dinobots. This is Predacons. So what's the difference? Dinobots are prehistoric Autobot warriors with blunt force, while Predacons are beast-mode conquerors seeking energon. This is Primus. This is Unicron. So what's the difference? Primus is the creator god of Cybertron, while Unicron is the world-eating chaos bringer. Follow for more.",
+  "word_count": 80,
+  "estimated_duration_sec": 29.63,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [
+    "[Word Count] 80 words is outside ideal range (90-95)."
+  ],
+  "labels": {
+    "pair1": [
+      "Autobots",
+      "Decepticons"
+    ],
+    "pair2": [
+      "Dinobots",
+      "Predacons"
+    ],
+    "pair3": [
+      "Primus",
+      "Unicron"
+    ]
+  },
+  "created_at": "2026-08-08T17:00:59.692336",
+  "updated_at": "2026-08-08T17:00:59.692336"
+}

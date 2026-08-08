@@ -1,0 +1,25 @@
+{
+  "id": "gemini_dd_01",
+  "title": "Jedi vs Sith: The Force Divide",
+  "type": "deepdive",
+  "status": "approved",
+  "fandom": "Star Wars",
+  "pairs": [
+    [
+      "Jedi",
+      "Sith"
+    ]
+  ],
+  "script": "This is a Jedi. This is a Sith. So what's the difference? Most people think they're simply good versus evil. They're not. While both wield the Force, their philosophies diverge fundamentally. Jedi embrace the cosmic Force, seeking balance and selflessness through peace. Sith harness the living Force, driven by raw emotion, power, and personal gain. That's why a Jedi *defends the galaxy from tyranny*, while a Sith *seeks to rule it absolutely*. Follow for more.",
+  "word_count": 75,
+  "estimated_duration_sec": 27.78,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "label1": "Jedi",
+    "label2": "Sith"
+  },
+  "created_at": "2026-08-08T17:07:46.171343",
+  "updated_at": "2026-08-08T17:07:46.171343"
+}

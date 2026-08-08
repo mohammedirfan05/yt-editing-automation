@@ -34,21 +34,95 @@ class ContentTracker:
             try:
                 with open(self.tracker_path, "r", encoding="utf-8") as f:
                     self.data = json.load(f)
-                # If tracker exists but has no topics, attempt seed
                 if not self.data.get("topics"):
                     self.seed_from_historical()
+                else:
+                    self.sync_ideas_file()
+                    self.export_csv()
                 return
             except Exception as e:
                 print(f"⚠️ Could not load tracker from {self.tracker_path}: {e}. Re-seeding...")
 
         self.seed_from_historical()
 
+    def sync_ideas_file(self) -> None:
+        """Syncs items from config/ideas.json into tracker data."""
+        if os.path.exists(self.ideas_path):
+            try:
+                with open(self.ideas_path, "r", encoding="utf-8") as f:
+                    ideas_list = json.load(f)
+                for idea in ideas_list:
+                    idea_id = idea.get("id")
+                    if not idea_id or idea_id in self.data.get("topics", {}):
+                        continue
+                    title = idea.get("project_name", "").replace("Auto_Deepdive_", "").replace("Auto_Compilation_", "").replace("_", " ")
+                    script = idea.get("script", "")
+                    labels = idea.get("labels", {})
+
+                    pairs = []
+                    if isinstance(labels, dict):
+                        for k in sorted(labels.keys()):
+                            v = labels[k]
+                            if isinstance(v, list):
+                                pairs.append(v)
+                            elif isinstance(v, str) and v:
+                                pairs.append([v, ""])
+                    if not pairs:
+                        pairs = self._extract_pairs_from_text(title + " " + script)
+
+                    self.data.setdefault("topics", {})[idea_id] = {
+                        "id": idea_id,
+                        "title": title or idea_id,
+                        "type": idea.get("type", "deepdive"),
+                        "status": "idea",
+                        "fandom": self._detect_fandom(title + " " + script),
+                        "pairs": pairs,
+                        "script": script,
+                        "word_count": len(script.split()),
+                        "duration_sec": 30.0,
+                        "playbook_compliant": True,
+                        "notes": "Unuploaded fresh script in config/ideas.json",
+                        "created_at": datetime.now().isoformat(),
+                        "updated_at": datetime.now().isoformat()
+                    }
+            except Exception as e:
+                pass
+
     def save(self) -> None:
-        """Saves current tracker state to disk."""
+        """Saves current tracker state to JSON and CSV formats."""
         os.makedirs(os.path.dirname(self.tracker_path), exist_ok=True)
         self.data["updated_at"] = datetime.now().isoformat()
         with open(self.tracker_path, "w", encoding="utf-8") as f:
             json.dump(self.data, f, indent=2, ensure_ascii=False)
+        self.export_csv()
+
+    def export_csv(self) -> None:
+        """Exports tracker topics to human-readable CSV file for Excel / Sheets viewing."""
+        import csv
+        self.sync_ideas_file()
+        csv_path = os.path.join(os.path.dirname(self.tracker_path), "content_tracker.csv")
+        try:
+            with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
+                writer = csv.writer(f)
+                writer.writerow(["ID", "Title", "Format", "Fandom", "X_vs_Y", "Status", "Views", "Likes", "Updated_At"])
+                for topic in self.data.get("topics", {}).values():
+                    pairs = topic.get("pairs", [])
+                    pairs_str = " | ".join([f"{p[0]} vs {p[1]}" if len(p) >= 2 and p[1] else p[0] for p in pairs]) if pairs else ""
+                    raw_status = topic.get("status", "").lower()
+                    display_status = "POSTED" if raw_status in ["published", "posted"] else raw_status.upper()
+                    writer.writerow([
+                        topic.get("id", ""),
+                        topic.get("title", ""),
+                        topic.get("type", "").upper(),
+                        topic.get("fandom", ""),
+                        pairs_str,
+                        display_status,
+                        topic.get("view_count", 0),
+                        topic.get("like_count", 0),
+                        topic.get("updated_at", "")[:10]
+                    ])
+        except Exception as e:
+            print(f"⚠️ Warning exporting CSV tracker: {e}")
 
     def seed_from_historical(self) -> None:
         """Populates tracker from historical YouTube Shorts transcripts and ideas config."""

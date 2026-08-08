@@ -1,0 +1,27 @@
+{
+  "id": "gemini_dd_03",
+  "title": "Genjutsu vs Ninjutsu: Naruto's Jutsu Explained",
+  "type": "deepdive",
+  "status": "approved",
+  "fandom": "Naruto",
+  "pairs": [
+    [
+      "Genjutsu",
+      "Ninjutsu"
+    ]
+  ],
+  "script": "This is Genjutsu. This is Ninjutsu. So what's the difference? Most people think they're both just types of jutsu for fighting. They're not. Ninjutsu manipulates chakra to affect the physical world, like Rasengan or Chidori. Genjutsu, however, targets the opponent's senses and chakra flow to create illusions, affecting their mind. That's why Ninjutsu *can break bones*, while Genjutsu *can make you see things that aren't there*. Follow for more.",
+  "word_count": 69,
+  "estimated_duration_sec": 25.56,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [
+    "[Word Count] 69 words is outside ideal range (75-85)."
+  ],
+  "labels": {
+    "label1": "Genjutsu",
+    "label2": "Ninjutsu"
+  },
+  "created_at": "2026-08-08T17:07:46.175858",
+  "updated_at": "2026-08-08T17:07:46.175858"
+}

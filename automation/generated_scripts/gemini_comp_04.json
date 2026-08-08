@@ -1,0 +1,43 @@
+{
+  "id": "gemini_comp_04",
+  "title": "Jujutsu Kaisen: Sorcerers, Curses & Domains",
+  "type": "compilation",
+  "status": "approved",
+  "fandom": "Jujutsu Kaisen",
+  "pairs": [
+    [
+      "Jujutsu Sorcerer",
+      "Curse User"
+    ],
+    [
+      "Cursed Spirit",
+      "Curse"
+    ],
+    [
+      "Domain Expansion",
+      "Barrier Technique"
+    ]
+  ],
+  "script": "This is a Jujutsu Sorcerer. This is a Curse User. So what's the difference? Sorcerers use Cursed Energy to protect humanity from Curses. Curse Users manipulate Cursed Energy for selfish or malevolent purposes. This is a Cursed Spirit. This is a Curse. So what's the difference? A Cursed Spirit is a sentient being born from negative emotions. A Curse is the negative energy itself, the source. This is a Domain Expansion. This is a Barrier Technique. So what's the difference? Domain Expansion manifests an innate domain. Barrier Techniques create enclosed spaces. Follow for more.",
+  "word_count": 94,
+  "estimated_duration_sec": 34.81,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "pair1": [
+      "Jujutsu Sorcerer",
+      "Curse User"
+    ],
+    "pair2": [
+      "Cursed Spirit",
+      "Curse"
+    ],
+    "pair3": [
+      "Domain Expansion",
+      "Barrier Technique"
+    ]
+  },
+  "created_at": "2026-08-08T17:07:46.194602",
+  "updated_at": "2026-08-08T17:07:46.194602"
+}

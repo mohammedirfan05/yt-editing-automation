@@ -71,7 +71,21 @@ class ConceptCatalog:
             "punchline": "Classic Peter holds back his strength, while the Symbiote unleashes his rage."
         },
 
-        # --- DC DEEPDIVES ---
+        # --- DC / POP CULTURE DEEPDIVES ---
+        {
+            "id": "opp_dc_03",
+            "title": "Superman vs Homelander: Power vs Restraint",
+            "type": "deepdive",
+            "fandom": "DC",
+            "pairs": [["Superman", "Homelander"]],
+            "template_id": 1,
+            "entity_a": "Superman",
+            "entity_b": "Homelander",
+            "concept_hook": "Most people think Homelander is just a corrupted Superman. He's not.",
+            "mechanism_a": "Superman gets his powers naturally from Earth's yellow sun and grew up taught to protect people no matter what",
+            "mechanism_b": "Homelander's powers came from a lab-injected compound called Compound V, and he was raised as a weapon with no real love, only control",
+            "punchline": "Superman constantly holds back his power. Homelander doesn't."
+        },
         {
             "id": "opp_dc_01",
             "title": "Batman's Hellbat Suit vs Iron Man's Hulkbuster",
@@ -179,6 +193,198 @@ class ConceptCatalog:
                     "entity_b": "Mother Box",
                     "contrast_a": "rewrites free will to obey Darkseid",
                     "contrast_b": "is a living supercomputer opening Boom Tubes"
+                }
+            ]
+        },
+        {
+            "id": "opp_comp_03",
+            "title": "3 Anime Transformations People Mix Up",
+            "type": "compilation",
+            "fandom": "Anime",
+            "pairs": [
+                ["Super Saiyan", "Kaioken"],
+                ["Bankai", "Shikai"],
+                ["Sage Mode", "Nine-Tails Chakra"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Super Saiyan",
+                    "entity_b": "Kaioken",
+                    "contrast_a": "is a genetic Saiyan transformation triggered by rage",
+                    "contrast_b": "is a trained technique that multiplies ki at severe body strain"
+                },
+                {
+                    "entity_a": "Bankai",
+                    "entity_b": "Shikai",
+                    "contrast_a": "is the ultimate final form of a Soul Reaper Zanpakuto",
+                    "contrast_b": "is the initial unlocked blade form"
+                },
+                {
+                    "entity_a": "Sage Mode",
+                    "entity_b": "Nine-Tails Chakra",
+                    "contrast_a": "draws natural energy from the environment",
+                    "contrast_b": "taps into Kurama demonic spirit energy"
+                }
+            ]
+        },
+        {
+            "id": "opp_comp_04",
+            "title": "3 Star Wars Force Powers You Mix Up",
+            "type": "compilation",
+            "fandom": "StarWars",
+            "pairs": [
+                ["Force Push", "Force Repulse"],
+                ["Jedi Mind Trick", "Force Persuasion"],
+                ["Force Lightning", "Electric Judgement"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Force Push",
+                    "entity_b": "Force Repulse",
+                    "contrast_a": "directs kinetic force in a single forward line",
+                    "contrast_b": "unleashes a 360 degree shockwave around the user"
+                },
+                {
+                    "entity_a": "Jedi Mind Trick",
+                    "entity_b": "Force Persuasion",
+                    "contrast_a": "influences weak minds with gentle suggestion",
+                    "contrast_b": "forces absolute mental compliance on hostile minds"
+                },
+                {
+                    "entity_a": "Force Lightning",
+                    "entity_b": "Electric Judgement",
+                    "contrast_a": "is a dark side attack fed by malice",
+                    "contrast_b": "is a light side emerald energy strike without hatred"
+                }
+            ]
+        },
+        {
+            "id": "opp_comp_05",
+            "title": "3 Mythology Realms People Mix Up",
+            "type": "compilation",
+            "fandom": "Mythology",
+            "pairs": [
+                ["Valhalla", "Folkvangr"],
+                ["Asgard", "Midgard"],
+                ["Tartarus", "Underworld"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Valhalla",
+                    "entity_b": "Folkvangr",
+                    "contrast_a": "takes half the slain warriors to Odin hall",
+                    "contrast_b": "takes the other half of fallen warriors to Freya field"
+                },
+                {
+                    "entity_a": "Asgard",
+                    "entity_b": "Midgard",
+                    "contrast_a": "is the heavenly realm of Gods",
+                    "contrast_b": "is the earthly realm of mortals"
+                },
+                {
+                    "entity_a": "Tartarus",
+                    "entity_b": "Underworld",
+                    "contrast_a": "is a subterranean abyss punishing Titans",
+                    "contrast_b": "is the general realm of all deceased souls ruled by Hades"
+                }
+            ]
+        },
+        {
+            "id": "opp_comp_06",
+            "title": "3 Transformers Factions You Mix Up",
+            "type": "compilation",
+            "fandom": "PopCulture",
+            "pairs": [
+                ["Autobots", "Decepticons"],
+                ["Dinobots", "Predacons"],
+                ["Primus", "Unicron"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Autobots",
+                    "entity_b": "Decepticons",
+                    "contrast_a": "fight to protect freedom and peace",
+                    "contrast_b": "fight for total conquest and energy dominion"
+                },
+                {
+                    "entity_a": "Dinobots",
+                    "entity_b": "Predacons",
+                    "contrast_a": "are prehistoric Autobot warriors with blunt force",
+                    "contrast_b": "are beast-mode conquerors seeking energon"
+                },
+                {
+                    "entity_a": "Primus",
+                    "entity_b": "Unicron",
+                    "contrast_a": "is the creator god of Cybertron",
+                    "contrast_b": "is the world-eating chaos bringer"
+                }
+            ]
+        },
+        {
+            "id": "opp_comp_07",
+            "title": "3 Spider-Man Variants People Mix Up",
+            "type": "compilation",
+            "fandom": "Marvel",
+            "pairs": [
+                ["Spider-Man 2099", "Miles Morales"],
+                ["Spider-Gwen", "Spider-Woman"],
+                ["Cosmic Spider-Man", "Captain Universe"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Spider-Man 2099",
+                    "entity_b": "Miles Morales",
+                    "contrast_a": "uses genetic fangs and energy talons",
+                    "contrast_b": "uses venom strike electricity and bio-camouflage"
+                },
+                {
+                    "entity_a": "Spider-Gwen",
+                    "entity_b": "Spider-Woman",
+                    "contrast_a": "is Earth-65 Gwen Stacy with drum-beat instincts",
+                    "contrast_b": "is Jessica Drew powered by bio-electric venom blasts"
+                },
+                {
+                    "entity_a": "Cosmic Spider-Man",
+                    "entity_b": "Captain Universe",
+                    "contrast_a": "is Peter Parker bonded with the Enigma Force",
+                    "contrast_b": "is the manifestation of the Uni-Power sent to fix cosmic imbalance"
+                }
+            ]
+        },
+        {
+            "id": "opp_comp_08",
+            "title": "3 Pop Culture AIs You Mix Up",
+            "type": "compilation",
+            "fandom": "PopCulture",
+            "pairs": [
+                ["Skynet", "Ultron"],
+                ["JARVIS", "FRIDAY"],
+                ["HAL 9000", "AUTO"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Skynet",
+                    "entity_b": "Ultron",
+                    "contrast_a": "is a military defense network that launched nukes against humanity",
+                    "contrast_b": "is a rogue peacekeeper AI seeking global extinction to end conflict"
+                },
+                {
+                    "entity_a": "JARVIS",
+                    "entity_b": "FRIDAY",
+                    "contrast_a": "is a British-accented tactical assistant",
+                    "contrast_b": "is an Irish-accented combat response suit program"
+                },
+                {
+                    "entity_a": "HAL 9000",
+                    "entity_b": "AUTO",
+                    "contrast_a": "went insane from conflicting secret orders on Discovery One",
+                    "contrast_b": "blindly obeyed Directive A113 to keep humans in space"
                 }
             ]
         }

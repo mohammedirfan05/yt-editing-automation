@@ -1,0 +1,45 @@
+{
+  "id": "opp_comp_02",
+  "title": "3 DC Power Terms You've Been Mixing Up",
+  "type": "compilation",
+  "status": "approved",
+  "fandom": "DC",
+  "pairs": [
+    [
+      "Red Sun",
+      "Yellow Sun"
+    ],
+    [
+      "Lazarus Pit",
+      "Venom Serum"
+    ],
+    [
+      "Anti-Life Equation",
+      "Mother Box"
+    ]
+  ],
+  "script": "This is Red Sun. This is Yellow Sun. So what's the difference? Red Sun strips Kryptonian powers, while Yellow Sun charges Kryptonian cells like a battery. This is Lazarus Pit. This is Venom Serum. So what's the difference? Lazarus Pit heals wounds but induces madness, while Venom Serum boosts muscle mass but causes addiction. This is Anti-Life Equation. This is Mother Box. So what's the difference? Anti-Life Equation rewrites free will to obey Darkseid, while Mother Box is a living supercomputer opening Boom Tubes. Follow for more.",
+  "word_count": 89,
+  "estimated_duration_sec": 32.96,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [
+    "[Word Count] 89 words is outside ideal range (90-95)."
+  ],
+  "labels": {
+    "pair1": [
+      "Red Sun",
+      "Yellow Sun"
+    ],
+    "pair2": [
+      "Lazarus Pit",
+      "Venom Serum"
+    ],
+    "pair3": [
+      "Anti-Life Equation",
+      "Mother Box"
+    ]
+  },
+  "created_at": "2026-08-08T16:06:31.292989",
+  "updated_at": "2026-08-08T16:06:31.292989"
+}

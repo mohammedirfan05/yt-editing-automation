@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BatchIdeasConfig",
+  "type": "array",
+  "description": "Array of 20 video topics for overnight batch creation",
+  "items": {
+    "type": "object",
+    "required": ["id", "project_name", "type", "script"],
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Unique identifier for the topic (e.g. topic_01)"
+      },
+      "project_name": {
+        "type": "string",
+        "description": "CapCut Desktop draft project name"
+      },
+      "type": {
+        "type": "string",
+        "enum": ["deepdive", "compilation"],
+        "description": "Short type: 'deepdive' (1 pair, <=35s max) or 'compilation' (up to 3 pairs)"
+      },
+      "script": {
+        "type": "string",
+        "description": "Script text narration for Google Gemini TTS generation"
+      },
+      "labels": {
+        "type": ["object", "array"],
+        "description": "Title labels for left/right comparison topics"
+      },
+      "assets_dir": {
+        "type": "string",
+        "description": "Custom path to topic image assets (defaults to batch_input/{id}/)"
+      },
+      "audio_file": {
+        "type": "string",
+        "description": "Optional pre-recorded audio file path (skips TTS if specified)"
+      }
+    }
+  }
+}

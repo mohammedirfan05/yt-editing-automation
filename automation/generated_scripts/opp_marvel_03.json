@@ -1,0 +1,25 @@
+{
+  "id": "opp_marvel_03",
+  "title": "Infinity Stones vs Darkhold: Dark Magic",
+  "type": "deepdive",
+  "status": "approved",
+  "fandom": "Marvel",
+  "pairs": [
+    [
+      "Infinity Stones",
+      "Darkhold"
+    ]
+  ],
+  "script": "This is The Infinity Stones. This is The Darkhold. So what's the difference? Most fans think the Infinity Stones are the ultimate power in Marvel. That's wrong. The Infinity Stones control the fundamental forces of physical reality, space, time, and mind in a single universe. But The Darkhold is a corrupting book of dark magic that corrupts the user's soul and allows dreamwalking across the multiverse. The Infinity Stones rule physical reality, while the Darkhold corrupts the mind. Follow for more.",
+  "word_count": 81,
+  "estimated_duration_sec": 30.0,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "label1": "Infinity Stones",
+    "label2": "Darkhold"
+  },
+  "created_at": "2026-08-08T16:06:07.860312",
+  "updated_at": "2026-08-08T16:06:07.860312"
+}

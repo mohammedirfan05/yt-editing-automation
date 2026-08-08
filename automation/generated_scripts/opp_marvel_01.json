@@ -1,0 +1,25 @@
+{
+  "id": "opp_marvel_01",
+  "title": "Uru vs Vibranium: Which Metal Is Stronger?",
+  "type": "deepdive",
+  "status": "approved",
+  "fandom": "Marvel",
+  "pairs": [
+    [
+      "Uru",
+      "Vibranium"
+    ]
+  ],
+  "script": "This is Uru Metal. This is Vibranium. So what's the difference? Most people think Vibranium is Marvel's strongest metal. It's not. Uru Metal Uru is a mystical forged metal from Asgard that absorbs magic and spell enchantments, growing stronger the more energy is poured into it. But Vibranium is a rare cosmic metal that absorbs kinetic physical force and vibrations, converting impacts into stored kinetic energy. Vibranium stops physical attacks, while Uru absorbs mystical power. Follow for more.",
+  "word_count": 78,
+  "estimated_duration_sec": 28.89,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "label1": "Uru",
+    "label2": "Vibranium"
+  },
+  "created_at": "2026-08-08T16:06:07.850846",
+  "updated_at": "2026-08-08T16:06:07.850846"
+}

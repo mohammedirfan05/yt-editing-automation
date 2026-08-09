@@ -1,6 +1,6 @@
 # Audio to Tagged SRT Generator (Powered by Whisper & Gemini 3.6 Flash AI)
 
-An isolated tool that converts raw audio files (`.wav` / `.mp3`) into millisecond-accurate SRT subtitles and uses **Google Gemini 3.6 Flash AI** to automatically assign your 8 mascot overlay tags `[IMG:tag_code]`.
+An isolated tool that converts raw audio files (`.wav` / `.mp3`) into millisecond-accurate SRT subtitles and uses **Google Gemini 3.6 Flash AI** to automatically assign your 11 mascot overlay tags `[IMG:tag_code]`.
 
 ---
 

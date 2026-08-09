@@ -314,7 +314,11 @@ First, identify the two main competing entities being compared in the script:
 3. `[IMG:wtd]` -> Use when asking a comparison question or expressing curiosity (e.g., "So, what's the difference?", "Which one are you picking?", "?").
 4. `[IMG:disagree]` -> Use for negations, debunks, or head-shaking statements (e.g., "They're not", "Wrong", "Incorrect", "No").
 5. `[IMG:remember_this]` -> Use for key pro-tips, memory hooks, or core takeaways (e.g., "That's why magic is one of Superman's biggest weaknesses").
-6. `[IMG:final_end]` -> Use for outro, CTA, or subscribe prompts (e.g., "Comment below and subscribe for more").
+6. `[IMG:shocked]` -> Use for mind-blowing reveals, plot twists, jaw-dropping facts, or crazy stats (e.g., "He wiped out an entire galaxy", "Unbelievable", "Insane").
+7. `[IMG:thinking]` -> Use for deep questions, mystery moments, analysis, or pondering (e.g., "Have you ever wondered why...", "Let's analyze...", "Consider this").
+8. `[IMG:smug]` -> Use for flexes, undisputed wins, arrogant statements, or mic-drop moments (e.g., "It's not even close", "Hands down", "Flawless victory").
+9. `[IMG:victorious]` -> Use for celebration, ultimate winner declarations, epic achievements, or final triumphs (e.g., "And the winner is...", "Dominates completely!", "Takes the crown").
+10. `[IMG:final_end]` -> Use for outro, CTA, or subscribe prompts (e.g., "Comment below and subscribe for more").
 
 ### CRITICAL RULES:
 - Do NOT change any SRT index numbers or timestamps. Keep them EXACTLY identical.

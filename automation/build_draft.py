@@ -373,11 +373,98 @@ def resolve_capcut_font_info(font_name: str = "LuckiestGuy-Rg") -> Tuple[str, st
     return resource_id, font_path
 
 
-def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-Rg", label1_text: str = "", label2_text: str = "", all_labels: Optional[List[str]] = None) -> None:
+# Color palette for keyword highlighting in subtitles (RGB floats 0.0 - 1.0)
+HIGHLIGHT_COLOR_MAP = {
+    "orange": (1.0, 0.35, 0.0),      # Vivid Electric Sunset Orange #FF5500 (Default: Bold & High-Contrast on Light/White BG)
+    "yellow": (1.0, 0.35, 0.0),      # Mapped to Electric Sunset Orange #FF5500 (No Yellow)
+    "gold": (1.0, 0.35, 0.0),        # Mapped to Electric Sunset Orange #FF5500 (No Yellow)
+    "cyan": (0.0, 0.85, 1.0),        # Electric Cyan #00D9FF
+    "green": (0.0, 0.7, 0.25),       # Emerald Green #00B340
+    "purple": (0.55, 0.15, 0.9),     # Electric Purple #8C26E6
+    "pink": (0.9, 0.1, 0.55),        # Vivid Magenta Pink #E61A8C
+    "red": (1.0, 0.2, 0.2),          # Punchy Red #FF3333
+    "white": (1.0, 1.0, 1.0)
+}
+
+
+def find_keyword_range(text: str, title_labels: Optional[List[str]] = None) -> Optional[Tuple[int, int]]:
     """
-    Patches generated draft_content.json text materials to populate CapCut font fields
-    (font_resource_id, font_path, font_title, font_name, fonts array) so CapCut Desktop renders LuckiestGuy-Rg natively.
+    Finds character range (start, end) of single best keyword to highlight in subtitle text block.
+    Prioritizes entity/label names, key contrast/pivot terms, or longest substantive content word.
     """
+    if not text or not text.strip():
+        return None
+
+    # 1. Match entity / label terms first (highest priority)
+    if title_labels:
+        for lbl in title_labels:
+            if not lbl or len(lbl.strip()) < 2:
+                continue
+            lbl_clean = lbl.strip()
+            match = re.search(r'\b' + re.escape(lbl_clean) + r'\b', text, re.IGNORECASE)
+            if match:
+                return (match.start(), match.end())
+            idx = text.lower().find(lbl_clean.lower())
+            if idx != -1:
+                return (idx, idx + len(lbl_clean))
+
+    # 2. Priority key action / pivot / contrast words
+    priority_keywords = [
+        "difference", "versus", "vs", "wrong", "incorrect", "never", "impossible",
+        "secret", "shared", "original", "rebooted", "officially", "consistent",
+        "negative", "innate", "enclosed", "weakness", "magic", "power", "energy",
+        "universe", "film", "comics", "comic", "protect", "manipulate", "malevolent",
+        "spirit", "expansion", "technique", "canon", "continuity", "sorcerer",
+        "sorcerers", "curse", "curses", "jedi", "sith", "titan", "god", "dc", "mcu", "dcu"
+    ]
+    for kw in priority_keywords:
+        match = re.search(r'\b' + re.escape(kw) + r'\b', text, re.IGNORECASE)
+        if match:
+            return (match.start(), match.end())
+
+    # 3. Fallback: Find longest content word (excluding common stop words)
+    stop_words = {
+        "this", "that", "these", "those", "there", "their", "they", "them",
+        "is", "are", "was", "were", "be", "been", "being",
+        "the", "a", "an", "and", "or", "but", "if", "because", "as", "until", "while",
+        "of", "at", "by", "for", "with", "about", "against", "between", "into", "through",
+        "during", "before", "after", "above", "below", "to", "from", "up", "down", "in",
+        "out", "on", "off", "over", "under", "again", "further", "then", "once",
+        "here", "where", "when", "why", "how", "all", "any", "both", "each", "few",
+        "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own",
+        "same", "so", "than", "too", "very", "can", "will", "just", "dont", "should",
+        "now", "what", "whats", "who", "whom", "which"
+    }
+
+    words_with_spans = []
+    for match in re.finditer(r'\b[A-Za-z0-9\'-]+\b', text):
+        w = match.group(0)
+        clean_w = w.lower().strip("'-")
+        if clean_w not in stop_words and len(clean_w) >= 3:
+            words_with_spans.append((len(clean_w), match.start(), match.end()))
+
+    if words_with_spans:
+        words_with_spans.sort(key=lambda x: x[0], reverse=True)
+        _, start, end = words_with_spans[0]
+        return (start, end)
+
+    return None
+
+
+def fix_font_metadata_in_draft(
+    project_path: str,
+    font_name: str = "LuckiestGuy-Rg",
+    label1_text: str = "",
+    label2_text: str = "",
+    all_labels: Optional[List[str]] = None,
+    highlight_color: str = "orange"
+) -> None:
+    """
+    Patches generated draft_content.json text materials to:
+    1. Populate CapCut font fields (font_resource_id, font_path, font_title, font_name, fonts array) so CapCut Desktop renders LuckiestGuy-Rg natively.
+    2. Inject word-level keyword highlighting (vibrant color) on subtitle text lines to drive viewer retention.
+    """
+    import copy
     draft_json_path = os.path.join(project_path, "draft_content.json")
     if not os.path.isfile(draft_json_path):
         return
@@ -390,6 +477,9 @@ def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-
     if label2_text and label2_text.strip().upper() not in title_labels:
         title_labels.append(label2_text.strip().upper())
 
+    highlight_rgb = HIGHLIGHT_COLOR_MAP.get(highlight_color.lower(), (1.0, 0.9, 0.0))
+    apply_highlighting = (highlight_color.lower() != "none")
+
     try:
         with open(draft_json_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
@@ -398,7 +488,20 @@ def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-
         if not texts:
             return
 
+        # Identify subtitle material IDs from text_track
+        subtitle_material_ids = set()
+        for track in data.get('tracks', []):
+            if track.get('name') == 'text_track':
+                for seg in track.get('segments', []):
+                    if seg.get('material_id'):
+                        subtitle_material_ids.add(seg['material_id'])
+
+        highlighted_count = 0
+
         for text_item in texts:
+            text_item['use_effect_default_color'] = False
+            text_item['preset_id'] = ''
+            text_item['preset_name'] = ''
             text_item['font_resource_id'] = res_id
             text_item['font_id'] = res_id
             text_item['font_path'] = font_path
@@ -426,12 +529,56 @@ def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-
                 try:
                     content_obj = json.loads(text_item['content'])
                     text_str = content_obj.get('text', '')
-                    if 'styles' in content_obj:
-                        for s in content_obj['styles']:
-                            s['font'] = {'id': res_id, 'path': font_path}
-                            # Set font size 9.0 for Title X and Title Y labels across all pairs
-                            if any(lbl and lbl in text_str.upper() for lbl in title_labels):
+
+                    if 'styles' in content_obj and content_obj['styles']:
+                        is_subtitle = text_item.get('id') in subtitle_material_ids
+                        is_title_label = any(lbl and lbl in text_str.upper() for lbl in title_labels)
+
+                        # Set font size 9.0 for Title X and Title Y labels across all pairs
+                        if is_title_label:
+                            for s in content_obj['styles']:
+                                s['font'] = {'id': res_id, 'path': font_path}
                                 s['size'] = 9.0
+                        elif is_subtitle and apply_highlighting and text_str.strip():
+                            base_style = content_obj['styles'][0]
+                            base_style['font'] = {'id': res_id, 'path': font_path}
+                            text_len = len(text_str)
+
+                            kw_range = find_keyword_range(text_str, title_labels)
+                            if kw_range:
+                                kw_start, kw_end = kw_range
+                                new_styles = []
+
+                                # 1. Text before keyword
+                                if kw_start > 0:
+                                    s_before = copy.deepcopy(base_style)
+                                    s_before['range'] = [0, kw_start]
+                                    new_styles.append(s_before)
+
+                                # 2. Highlighted keyword
+                                s_kw = copy.deepcopy(base_style)
+                                s_kw['range'] = [kw_start, kw_end]
+                                if 'fill' in s_kw and 'content' in s_kw['fill'] and 'solid' in s_kw['fill']['content']:
+                                    s_kw['fill']['content']['solid']['color'] = list(highlight_rgb)
+                                    s_kw['fill']['content']['solid']['alpha'] = 1.0
+                                new_styles.append(s_kw)
+
+                                # 3. Text after keyword
+                                if kw_end < text_len:
+                                    s_after = copy.deepcopy(base_style)
+                                    s_after['range'] = [kw_end, text_len]
+                                    new_styles.append(s_after)
+
+                                content_obj['styles'] = new_styles
+                                text_item['is_rich_text'] = True
+                                highlighted_count += 1
+                            else:
+                                for s in content_obj['styles']:
+                                    s['font'] = {'id': res_id, 'path': font_path}
+                        else:
+                            for s in content_obj['styles']:
+                                s['font'] = {'id': res_id, 'path': font_path}
+
                     text_item['content'] = json.dumps(content_obj, ensure_ascii=False)
                 except Exception as e:
                     logger.warning(f"Could not update inline style JSON for text item: {e}")
@@ -439,9 +586,9 @@ def fix_font_metadata_in_draft(project_path: str, font_name: str = "LuckiestGuy-
         with open(draft_json_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
-        logger.info(f"Patched draft_content.json: Font set to '{font_name}' (resource_id={res_id}).")
+        logger.info(f"Patched draft_content.json: Font set to '{font_name}', injected word-level keyword highlights on {highlighted_count} subtitle block(s).")
     except Exception as e:
-        logger.warning(f"Failed to patch font metadata in draft_content.json: {e}")
+        logger.warning(f"Failed to patch font & keyword metadata in draft_content.json: {e}")
 
 
 def fix_effect_metadata_in_draft(project_path: str, effect_duration_us: int = 600_000, effect_name: str = "Jitter Beat") -> None:
@@ -911,7 +1058,8 @@ def generate_capcut_draft(
     label2_transform_y: float = 0.778646,
     allow_replace: bool = True,
     mode: str = "auto",
-    effect_duration_us: int = 600_000
+    effect_duration_us: int = 600_000,
+    highlight_color: str = "orange"
 ) -> Tuple[str, int]:
     """
     Creates CapCut draft project folder containing:
@@ -1179,7 +1327,15 @@ def generate_capcut_draft(
     project_path = os.path.join(drafts_dir, project_name)
 
     # Post-process draft_content.json to set exact CapCut font & clip-bound effect metadata fields
-    fix_font_metadata_in_draft(project_path, font_name=text_font_name, label1_text=label1_text, label2_text=label2_text)
+    all_label_strings = (labels_x or []) + (labels_y or [])
+    fix_font_metadata_in_draft(
+        project_path,
+        font_name=text_font_name,
+        label1_text=label1_text,
+        label2_text=label2_text,
+        all_labels=all_label_strings,
+        highlight_color=highlight_color
+    )
     if effect_duration_us > 0:
         fix_effect_metadata_in_draft(project_path, effect_duration_us=effect_duration_us, effect_name="Jitter Beat")
 
@@ -1333,6 +1489,7 @@ def main():
     parser.add_argument("--effect-duration-ms", type=int, default=600, help="Duration in ms for 'Jitter Beat' popup effect at image start (default: 600 = 0.6s)")
     parser.add_argument("--no-effect", action="store_true", help="Disable 'Jitter Beat' popup effect at image start")
     parser.add_argument("--max-gap-ms", type=int, default=100, help="Max gap in ms to bridge contiguous blocks with same tag (default: 100)")
+    parser.add_argument("--highlight-color", default="orange", help="Keyword highlight color for subtitles (e.g. orange, purple, emerald, pink, cyan, yellow, none; default: orange)")
     parser.add_argument("--debug-dir", help="Directory path to dump debug JSON files for inspection")
     parser.add_argument("--no-overwrite", action="store_true", help="Do not overwrite draft if project folder already exists")
 
@@ -1538,7 +1695,8 @@ def main():
             label2_transform_y=label2_transform_y,
             allow_replace=not args.no_overwrite,
             mode=args.mode,
-            effect_duration_us=0 if args.no_effect else (args.effect_duration_ms * 1000)
+            effect_duration_us=0 if args.no_effect else (args.effect_duration_ms * 1000),
+            highlight_color=args.highlight_color
         )
         logger.info(f"SUCCESS: CapCut draft created at: {project_path}")
     except Exception as e:

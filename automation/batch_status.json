@@ -1,95 +1,35 @@
 {
-  "start_time": "2026-08-08T23:27:49.885217",
+  "start_time": "2026-08-09T08:18:58.616738",
   "topics": {
-    "gemini_dd_01": {
-      "id": "gemini_dd_01",
-      "project_name": "Auto_Deepdive_Jedi_vs_Sith_The_Force_Divide",
+    "opp_marvel_01": {
+      "id": "opp_marvel_01",
+      "project_name": "Auto_Deepdive_Uru_vs_Vibranium_Which_Metal_Is_Str",
       "type": "deepdive",
       "status": "SUCCESS (DRY-RUN)",
       "duration_sec": 0.0,
       "draft_path": "",
       "error": null,
-      "timestamp": "2026-08-08T23:27:49.915206"
+      "timestamp": "2026-08-09T08:18:58.618920"
     },
-    "gemini_dd_02": {
-      "id": "gemini_dd_02",
-      "project_name": "Auto_Deepdive_Wizard_vs_Istari_Middleearths_",
+    "opp_marvel_02": {
+      "id": "opp_marvel_02",
+      "project_name": "Auto_Deepdive_Wolverine_vs_Deadpool_Healing_Facto",
       "type": "deepdive",
       "status": "SUCCESS (DRY-RUN)",
       "duration_sec": 0.0,
       "draft_path": "",
       "error": null,
-      "timestamp": "2026-08-08T23:27:49.923668"
+      "timestamp": "2026-08-09T08:18:58.621766"
     },
-    "gemini_dd_03": {
-      "id": "gemini_dd_03",
-      "project_name": "Auto_Deepdive_Genjutsu_vs_Ninjutsu_Narutos_J",
+    "opp_marvel_03": {
+      "id": "opp_marvel_03",
+      "project_name": "Auto_Deepdive_Infinity_Stones_vs_Darkhold_Dark_Ma",
       "type": "deepdive",
       "status": "SUCCESS (DRY-RUN)",
       "duration_sec": 0.0,
       "draft_path": "",
       "error": null,
-      "timestamp": "2026-08-08T23:27:49.926806"
-    },
-    "gemini_dd_04": {
-      "id": "gemini_dd_04",
-      "project_name": "Auto_Deepdive_Legendary_vs_Mythical_Pok\u00e9mon",
-      "type": "deepdive",
-      "status": "SUCCESS (DRY-RUN)",
-      "duration_sec": 0.0,
-      "draft_path": "",
-      "error": null,
-      "timestamp": "2026-08-08T23:27:49.929766"
-    },
-    "gemini_dd_05": {
-      "id": "gemini_dd_05",
-      "project_name": "Auto_Deepdive_Metahuman_vs_Mutant_DC_and_Mar",
-      "type": "deepdive",
-      "status": "SUCCESS (DRY-RUN)",
-      "duration_sec": 0.0,
-      "draft_path": "",
-      "error": null,
-      "timestamp": "2026-08-08T23:27:49.932715"
-    },
-    "gemini_comp_01": {
-      "id": "gemini_comp_01",
-      "project_name": "Auto_Compilation_Marvel_MixUp_Avengers_Inhumans",
-      "type": "compilation",
-      "status": "SUCCESS (DRY-RUN)",
-      "duration_sec": 0.0,
-      "draft_path": "",
-      "error": null,
-      "timestamp": "2026-08-08T23:27:49.999814"
-    },
-    "gemini_comp_02": {
-      "id": "gemini_comp_02",
-      "project_name": "Auto_Compilation_Star_Wars_Troopers_Sabers__Gov",
-      "type": "compilation",
-      "status": "SUCCESS (DRY-RUN)",
-      "duration_sec": 0.0,
-      "draft_path": "",
-      "error": null,
-      "timestamp": "2026-08-08T23:27:50.008802"
-    },
-    "gemini_comp_03": {
-      "id": "gemini_comp_03",
-      "project_name": "Auto_Compilation_Harry_Potter_Magic_Jobs__Trave",
-      "type": "compilation",
-      "status": "SUCCESS (DRY-RUN)",
-      "duration_sec": 0.0,
-      "draft_path": "",
-      "error": null,
-      "timestamp": "2026-08-08T23:27:50.021518"
-    },
-    "gemini_comp_04": {
-      "id": "gemini_comp_04",
-      "project_name": "Auto_Compilation_Jujutsu_Kaisen_Sorcerers_Curse",
-      "type": "compilation",
-      "status": "SUCCESS (DRY-RUN)",
-      "duration_sec": 0.0,
-      "draft_path": "",
-      "error": null,
-      "timestamp": "2026-08-08T23:27:50.032527"
+      "timestamp": "2026-08-09T08:18:58.625018"
     }
   }
 }

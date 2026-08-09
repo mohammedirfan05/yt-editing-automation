@@ -30,7 +30,8 @@ Features 3 distinct comparison pairs (`image1/image2`, `image3/image4`, `image5/
   python run.py compilationtest --mode compilation --labels "MCU,MARVEL COMICS;DCEU,DCU;CANON,CONTINUITY"
   ```
 
-#### 🎬 Timeline & Sound Effects (SFX) Features for Compilations
+#### 🎬 Timeline & Visual Features
+- ⚡ **Word-Level Subtitle Highlighting:** Automatically highlights the key concept/entity word in every subtitle block in high-contrast Electric Orange (`#FF5500`) for maximum legibility on light/white backgrounds.
 - 🖼️ **Dynamic Image Transitions:** `image1`/`image2` transition seamlessly into `image3`/`image4` and `image5`/`image6`!
 - 🏷️ **Dynamic Titles:** Red Title X & Blue Title Y switch automatically for each pair (`MCU` ➔ `DCEU` ➔ `CANON`).
 - 🎵 **Mouse Click SFX (6x):** Plays the exact millisecond each of the 6 images pops on screen!

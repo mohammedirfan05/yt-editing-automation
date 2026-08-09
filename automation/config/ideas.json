@@ -1,132 +1,32 @@
 [
   {
-    "id": "gemini_dd_01",
-    "project_name": "Auto_Deepdive_Jedi_vs_Sith_The_Force_Divide",
+    "id": "opp_marvel_01",
+    "project_name": "Auto_Deepdive_Uru_vs_Vibranium_Which_Metal_Is_Str",
     "type": "deepdive",
-    "script": "This is a Jedi. This is a Sith. So what's the difference? Most people think they're simply good versus evil. They're not. While both wield the Force, their philosophies diverge fundamentally. Jedi embrace the cosmic Force, seeking balance and selflessness through peace. Sith harness the living Force, driven by raw emotion, power, and personal gain. That's why a Jedi *defends the galaxy from tyranny*, while a Sith *seeks to rule it absolutely*. Follow for more.",
+    "script": "This is Uru Metal. This is Vibranium. So what's the difference? Most people think Vibranium is Marvel's strongest metal. It's not. Uru Metal Uru is a mystical forged metal from Asgard that absorbs magic and spell enchantments, growing stronger the more energy is poured into it. But Vibranium is a rare cosmic metal that absorbs kinetic physical force and vibrations, converting impacts into stored kinetic energy. Vibranium stops physical attacks, while Uru absorbs mystical power. Follow for more.",
     "labels": {
-      "label1": "Jedi",
-      "label2": "Sith"
+      "label1": "Uru",
+      "label2": "Vibranium"
     }
   },
   {
-    "id": "gemini_dd_02",
-    "project_name": "Auto_Deepdive_Wizard_vs_Istari_Middleearths_",
+    "id": "opp_marvel_02",
+    "project_name": "Auto_Deepdive_Wolverine_vs_Deadpool_Healing_Facto",
     "type": "deepdive",
-    "script": "This is a Wizard. This is an Istari. So what's the difference? Most people think they're interchangeable terms for magical beings. They're not. A 'Wizard' is a general term for magic-user in Middle-earth. An 'Istari' is a specific, powerful Maiar spirit sent by the Valar to aid mortals against Sauron, embodying a Wizard's form. That's why Gandalf *is an Istari*, while a random sorcerer *is just a wizard*. Follow for more.",
+    "script": "This is Wolverine. This is Deadpool. So what's the difference? Most people think Wolverine and Deadpool have the exact same healing factor. They don't. Wolverine's natural mutant healing factor constantly fights off his heavy Adamantium skeletal poisoning while repairing cellular damage. But Deadpool's artificial healing factor was cloned from Wolverine but mutated by his aggressive cancer, regenerating cells so fast his body constantly replaces itself. Wolverine heals to survive his own bones, while Deadpool heals to stay alive. Follow for more.",
     "labels": {
-      "label1": "Wizard",
-      "label2": "Istari"
+      "label1": "Wolverine",
+      "label2": "Deadpool"
     }
   },
   {
-    "id": "gemini_dd_03",
-    "project_name": "Auto_Deepdive_Genjutsu_vs_Ninjutsu_Narutos_J",
+    "id": "opp_marvel_03",
+    "project_name": "Auto_Deepdive_Infinity_Stones_vs_Darkhold_Dark_Ma",
     "type": "deepdive",
-    "script": "This is Genjutsu. This is Ninjutsu. So what's the difference? Most people think they're both just types of jutsu for fighting. They're not. Ninjutsu manipulates chakra to affect the physical world, like Rasengan or Chidori. Genjutsu, however, targets the opponent's senses and chakra flow to create illusions, affecting their mind. That's why Ninjutsu *can break bones*, while Genjutsu *can make you see things that aren't there*. Follow for more.",
+    "script": "This is The Infinity Stones. This is The Darkhold. So what's the difference? Most fans think the Infinity Stones are the ultimate power in Marvel. That's wrong. The Infinity Stones control the fundamental forces of physical reality, space, time, and mind in a single universe. But The Darkhold is a corrupting book of dark magic that corrupts the user's soul and allows dreamwalking across the multiverse. The Infinity Stones rule physical reality, while the Darkhold corrupts the mind. Follow for more.",
     "labels": {
-      "label1": "Genjutsu",
-      "label2": "Ninjutsu"
-    }
-  },
-  {
-    "id": "gemini_dd_04",
-    "project_name": "Auto_Deepdive_Legendary_vs_Mythical_Pokémon",
-    "type": "deepdive",
-    "script": "This is a Legendary Pokémon. This is a Mythical Pokémon. So what's the difference? Most people think they're the same rare, powerful Pokémon. They're not. Legendary Pokémon are typically caught in-game, often central to the main story. Mythical Pokémon are even rarer, usually distributed through real-world events or special promotions, often having unique lore. That's why you *can catch Rayquaza in Emerald*, while you *needed an event for Mew*. Follow for more.",
-    "labels": {
-      "label1": "Legendary Pokémon",
-      "label2": "Mythical Pokémon"
-    }
-  },
-  {
-    "id": "gemini_dd_05",
-    "project_name": "Auto_Deepdive_Metahuman_vs_Mutant_DC_and_Mar",
-    "type": "deepdive",
-    "script": "This is a Metahuman. This is a Mutant. So what's the difference? Most people think these terms describe the same type of superpowered individual. They're not. In DC, Metahumans gain powers through external factors like genetic anomalies, alien exposure, or scientific experimentation. In Marvel, Mutants are born with the X-gene, developing powers naturally at puberty. That's why Flash *became a Metahuman from the S.T.A.R. Labs explosion*, while Wolverine *was born a Mutant*. Follow for more.",
-    "labels": {
-      "label1": "Metahuman",
-      "label2": "Mutant"
-    }
-  },
-  {
-    "id": "gemini_comp_01",
-    "project_name": "Auto_Compilation_Marvel_MixUp_Avengers_Inhumans",
-    "type": "compilation",
-    "script": "This is an Avenger. This is a Defender. So what's the difference? Avengers are Earth's mightiest heroes, often government-backed, tackling global threats. Defenders are street-level heroes, dealing with local issues. This is an Inhuman. This is a Kree. So what's the difference? Inhumans are humans genetically altered by Kree experimentation. Kree are an alien race, often the manipulators. This is an Asgardian. This is a Jotun. So what's the difference? Asgardians are powerful beings from Asgard. Jotuns are Frost Giants, their ancient enemies. Follow for more.",
-    "labels": {
-      "pair1": [
-        "Avenger",
-        "Defender"
-      ],
-      "pair2": [
-        "Inhuman",
-        "Kree"
-      ],
-      "pair3": [
-        "Asgardian",
-        "Jotun"
-      ]
-    }
-  },
-  {
-    "id": "gemini_comp_02",
-    "project_name": "Auto_Compilation_Star_Wars_Troopers_Sabers__Gov",
-    "type": "compilation",
-    "script": "This is a Clone Trooper. This is a Stormtrooper. So what's the difference? Clone Troopers are genetically identical soldiers for the Republic. Stormtroopers are conscripted or recruited soldiers for the Empire. This is a Lightsaber. This is a Darksaber. So what's the difference? A Lightsaber is a plasma blade used by Force-sensitives. A Darksaber is a unique, black-bladed lightsaber, an ancient Mandalorian relic. This is the Republic. This is the Empire. So what's the difference? The Republic was a democratic government. The Empire was a tyrannical regime. Follow for more.",
-    "labels": {
-      "pair1": [
-        "Clone Trooper",
-        "Stormtrooper"
-      ],
-      "pair2": [
-        "Lightsaber",
-        "Darksaber"
-      ],
-      "pair3": [
-        "Republic",
-        "Empire"
-      ]
-    }
-  },
-  {
-    "id": "gemini_comp_03",
-    "project_name": "Auto_Compilation_Harry_Potter_Magic_Jobs__Trave",
-    "type": "compilation",
-    "script": "This is an Animagus. This is a Werewolf. So what's the difference? An Animagus is a wizard who can voluntarily transform into an animal. A Werewolf is a human cursed to involuntarily transform under the full moon. This is an Auror. This is a Hit-Wizard. So what's the difference? Aurors are dark wizard catchers for the Ministry. Hit-Wizards are international magical law enforcement. This is Apparition. This is a Portkey. So what's the difference? Apparition is instant self-teleportation. A Portkey is an enchanted object for group travel. Follow for more.",
-    "labels": {
-      "pair1": [
-        "Animagus",
-        "Werewolf"
-      ],
-      "pair2": [
-        "Auror",
-        "Hit-Wizard"
-      ],
-      "pair3": [
-        "Apparition",
-        "Portkey"
-      ]
-    }
-  },
-  {
-    "id": "gemini_comp_04",
-    "project_name": "Auto_Compilation_Jujutsu_Kaisen_Sorcerers_Curse",
-    "type": "compilation",
-    "script": "This is a Jujutsu Sorcerer. This is a Curse User. So what's the difference? Sorcerers use Cursed Energy to protect humanity from Curses. Curse Users manipulate Cursed Energy for selfish or malevolent purposes. This is a Cursed Spirit. This is a Curse. So what's the difference? A Cursed Spirit is a sentient being born from negative emotions. A Curse is the negative energy itself, the source. This is a Domain Expansion. This is a Barrier Technique. So what's the difference? Domain Expansion manifests an innate domain. Barrier Techniques create enclosed spaces. Follow for more.",
-    "labels": {
-      "pair1": [
-        "Jujutsu Sorcerer",
-        "Curse User"
-      ],
-      "pair2": [
-        "Cursed Spirit",
-        "Curse"
-      ],
-      "pair3": [
-        "Domain Expansion",
-        "Barrier Technique"
-      ]
+      "label1": "Infinity Stones",
+      "label2": "Darkhold"
     }
   }
 ]

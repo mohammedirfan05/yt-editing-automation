@@ -86,7 +86,7 @@ class ScriptGenerator:
                 "id": topic_id,
                 "title": title,
                 "type": opp_type,
-                "status": "approved",
+                "status": "idea",
                 "fandom": opp_fandom,
                 "pairs": pairs,
                 "script": script_text,
@@ -110,6 +110,7 @@ class ScriptGenerator:
                 json.dump(topic_entry, f, indent=2, ensure_ascii=False)
 
             topic_entry["artifact_path"] = artifact_path
+            self.tracker.add_topic(topic_entry)
             generated.append(topic_entry)
 
         # Fallback to ConceptCatalog if LLM yielded fewer scripts than count
@@ -161,7 +162,7 @@ class ScriptGenerator:
                     "id": topic_id,
                     "title": title,
                     "type": opp_type,
-                    "status": "approved",
+                    "status": "idea",
                     "fandom": opp_fandom,
                     "pairs": pairs,
                     "script": script_text,
@@ -185,6 +186,7 @@ class ScriptGenerator:
                     json.dump(topic_entry, f, indent=2, ensure_ascii=False)
 
                 topic_entry["artifact_path"] = artifact_path
+                self.tracker.add_topic(topic_entry)
                 generated.append(topic_entry)
 
         return generated

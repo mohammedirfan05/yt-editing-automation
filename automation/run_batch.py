@@ -156,7 +156,15 @@ def init_ideas_file(target_path: str = DEFAULT_IDEAS_FILE) -> None:
 
 
 def load_ideas(file_path: str) -> List[Dict[str, Any]]:
-    """Loads ideas JSON file."""
+    """Loads ideas JSON file, ensuring tracker sync is performed first."""
+    if file_path == DEFAULT_IDEAS_FILE:
+        try:
+            from src.script_gen.tracker import ContentTracker
+            tracker = ContentTracker()
+            tracker.sync_to_ideas_json()
+        except Exception:
+            pass
+
     if not os.path.exists(file_path):
         if file_path == DEFAULT_IDEAS_FILE and os.path.exists(SAMPLE_IDEAS_FILE):
             print(Fore.YELLOW + f"📌 '{DEFAULT_IDEAS_FILE}' not found. Falling back to '{SAMPLE_IDEAS_FILE}'." + Style.RESET_ALL)
@@ -365,18 +373,36 @@ def process_single_topic(topic: Dict[str, Any], dry_run: bool = False) -> Dict[s
         if os.path.isfile(sandbox_img):
             shutil.copy(sandbox_img, root_img)
 
-    shutil.copy(target_audio, os.path.join(DEFAULT_INPUT_DIR, "voiceover.wav"))
+    target_srt = os.path.join(sandbox_input, "voiceover.srt")
 
     # Step 2: Speech Timestamps & Gemini Mascot Tagging
     print(Fore.CYAN + f"\n[STAGE 2/3] Extracting Subtitles & Gemini 3.6 Mascot Tagging..." + Style.RESET_ALL)
-    ok2 = run_script_with_retries(SRT_SCRIPT, ["-i", target_audio])
+    ok2 = run_script_with_retries(SRT_SCRIPT, ["-i", target_audio, "-o", target_srt])
     if not ok2:
         result["error"] = "Stage 2 (SRT Tagging) failed after retries."
         return result
 
+    if not os.path.isfile(target_srt):
+        root_srt = os.path.join(DEFAULT_INPUT_DIR, "voiceover.srt")
+        if os.path.isfile(root_srt):
+            shutil.copy(root_srt, target_srt)
+
     # Step 3: CapCut Desktop 8-Track Draft Builder
     print(Fore.CYAN + f"\n[STAGE 3/3] Building CapCut Desktop Draft '{project_name}'..." + Style.RESET_ALL)
-    build_args = [project_name, "--mode", mode] + format_labels_arg(topic)
+    build_args = [
+        project_name,
+        "--mode", mode,
+        "--audio", os.path.abspath(target_audio),
+        "--srt", os.path.abspath(target_srt)
+    ] + format_labels_arg(topic)
+
+    img1 = os.path.join(sandbox_input, "image1.png")
+    img2 = os.path.join(sandbox_input, "image2.png")
+    if os.path.isfile(img1):
+        build_args.extend(["--image1", os.path.abspath(img1)])
+    if os.path.isfile(img2):
+        build_args.extend(["--image2", os.path.abspath(img2)])
+
     ok3 = run_script_with_retries(BUILD_SCRIPT, build_args)
     if not ok3:
         result["error"] = "Stage 3 (CapCut Draft Builder) failed."

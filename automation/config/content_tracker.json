@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated_at": "2026-08-08T23:42:46.074167",
+  "updated_at": "2026-08-09T08:08:26.976296",
   "topics": {
     "SS_Whsrltyw": {
       "id": "SS_Whsrltyw",
@@ -585,7 +585,7 @@
       "id": "gemini_dd_01",
       "title": "Jedi vs Sith The Force Divide",
       "type": "deepdive",
-      "status": "idea",
+      "status": "rejected",
       "fandom": "PopCulture",
       "pairs": [
         [
@@ -601,9 +601,9 @@
       "word_count": 75,
       "duration_sec": 30.0,
       "playbook_compliant": true,
-      "notes": "Unuploaded fresh script in config/ideas.json",
+      "notes": "Unuploaded fresh script in config/ideas.json | Rejected during user review",
       "created_at": "2026-08-08T23:42:46.071166",
-      "updated_at": "2026-08-08T23:42:46.071166"
+      "updated_at": "2026-08-09T08:04:40.238478"
     },
     "gemini_dd_02": {
       "id": "gemini_dd_02",
@@ -812,6 +812,387 @@
       "notes": "Unuploaded fresh script in config/ideas.json | Published on YouTube",
       "created_at": "2026-08-08T23:42:46.072168",
       "updated_at": "2026-08-08T23:42:46.074167"
+    },
+    "opp_comp_02": {
+      "id": "opp_comp_02",
+      "title": "3 DC Power Terms You've Been Mixing Up",
+      "type": "compilation",
+      "status": "idea",
+      "fandom": "DC",
+      "pairs": [
+        [
+          "Red Sun",
+          "Yellow Sun"
+        ],
+        [
+          "Lazarus Pit",
+          "Venom Serum"
+        ],
+        [
+          "Anti-Life Equation",
+          "Mother Box"
+        ]
+      ],
+      "script": "This is Red Sun. This is Yellow Sun. So what's the difference? Red Sun strips Kryptonian powers, while Yellow Sun charges Kryptonian cells like a battery. This is Lazarus Pit. This is Venom Serum. So what's the difference? Lazarus Pit heals wounds but induces madness, while Venom Serum boosts muscle mass but causes addiction. This is Anti-Life Equation. This is Mother Box. So what's the difference? Anti-Life Equation rewrites free will to obey Darkseid, while Mother Box is a living supercomputer opening Boom Tubes. Follow for more.",
+      "word_count": 89,
+      "estimated_duration_sec": 32.96,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 89 words is outside ideal range (90-95)."
+      ],
+      "labels": {
+        "pair1": [
+          "Red Sun",
+          "Yellow Sun"
+        ],
+        "pair2": [
+          "Lazarus Pit",
+          "Venom Serum"
+        ],
+        "pair3": [
+          "Anti-Life Equation",
+          "Mother Box"
+        ]
+      },
+      "created_at": "2026-08-08T17:00:59.689336",
+      "updated_at": "2026-08-08T17:00:59.689336"
+    },
+    "opp_comp_03": {
+      "id": "opp_comp_03",
+      "title": "3 Anime Transformations People Mix Up",
+      "type": "compilation",
+      "status": "idea",
+      "fandom": "Anime",
+      "pairs": [
+        [
+          "Super Saiyan",
+          "Kaioken"
+        ],
+        [
+          "Bankai",
+          "Shikai"
+        ],
+        [
+          "Sage Mode",
+          "Nine-Tails Chakra"
+        ]
+      ],
+      "script": "This is Super Saiyan. This is Kaioken. So what's the difference? Super Saiyan is a genetic Saiyan transformation triggered by rage, while Kaioken is a trained technique that multiplies ki at severe body strain. This is Bankai. This is Shikai. So what's the difference? Bankai is the ultimate final form of a Soul Reaper Zanpakuto, while Shikai is the initial unlocked blade form. This is Sage Mode. This is Nine-Tails Chakra. So what's the difference? Sage Mode draws natural energy from the environment, while Nine-Tails Chakra taps into Kurama demonic spirit energy. Follow for more.",
+      "word_count": 97,
+      "estimated_duration_sec": 35.93,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 97 words is outside ideal range (90-95)."
+      ],
+      "labels": {
+        "pair1": [
+          "Super Saiyan",
+          "Kaioken"
+        ],
+        "pair2": [
+          "Bankai",
+          "Shikai"
+        ],
+        "pair3": [
+          "Sage Mode",
+          "Nine-Tails Chakra"
+        ]
+      },
+      "created_at": "2026-08-08T17:00:59.689336",
+      "updated_at": "2026-08-08T17:00:59.689336"
+    },
+    "opp_comp_05": {
+      "id": "opp_comp_05",
+      "title": "3 Mythology Realms People Mix Up",
+      "type": "compilation",
+      "status": "idea",
+      "fandom": "Mythology",
+      "pairs": [
+        [
+          "Valhalla",
+          "Folkvangr"
+        ],
+        [
+          "Asgard",
+          "Midgard"
+        ],
+        [
+          "Tartarus",
+          "Underworld"
+        ]
+      ],
+      "script": "This is Valhalla. This is Folkvangr. So what's the difference? Valhalla takes half the slain warriors to Odin hall, while Folkvangr takes the other half of fallen warriors to Freya field. This is Asgard. This is Midgard. So what's the difference? Asgard is the heavenly realm of Gods, while Midgard is the earthly realm of mortals. This is Tartarus. This is Underworld. So what's the difference? Tartarus is a subterranean abyss punishing Titans, while Underworld is the general realm of all deceased souls ruled by Hades. Follow for more.",
+      "word_count": 89,
+      "estimated_duration_sec": 32.96,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 89 words is outside ideal range (90-95)."
+      ],
+      "labels": {
+        "pair1": [
+          "Valhalla",
+          "Folkvangr"
+        ],
+        "pair2": [
+          "Asgard",
+          "Midgard"
+        ],
+        "pair3": [
+          "Tartarus",
+          "Underworld"
+        ]
+      },
+      "created_at": "2026-08-08T17:00:59.691340",
+      "updated_at": "2026-08-08T17:00:59.691340"
+    },
+    "opp_comp_06": {
+      "id": "opp_comp_06",
+      "title": "3 Transformers Factions You Mix Up",
+      "type": "compilation",
+      "status": "idea",
+      "fandom": "PopCulture",
+      "pairs": [
+        [
+          "Autobots",
+          "Decepticons"
+        ],
+        [
+          "Dinobots",
+          "Predacons"
+        ],
+        [
+          "Primus",
+          "Unicron"
+        ]
+      ],
+      "script": "This is Autobots. This is Decepticons. So what's the difference? Autobots fight to protect freedom and peace, while Decepticons fight for total conquest and energy dominion. This is Dinobots. This is Predacons. So what's the difference? Dinobots are prehistoric Autobot warriors with blunt force, while Predacons are beast-mode conquerors seeking energon. This is Primus. This is Unicron. So what's the difference? Primus is the creator god of Cybertron, while Unicron is the world-eating chaos bringer. Follow for more.",
+      "word_count": 80,
+      "estimated_duration_sec": 29.63,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 80 words is outside ideal range (90-95)."
+      ],
+      "labels": {
+        "pair1": [
+          "Autobots",
+          "Decepticons"
+        ],
+        "pair2": [
+          "Dinobots",
+          "Predacons"
+        ],
+        "pair3": [
+          "Primus",
+          "Unicron"
+        ]
+      },
+      "created_at": "2026-08-08T17:00:59.692336",
+      "updated_at": "2026-08-08T17:00:59.692336"
+    },
+    "opp_comp_08": {
+      "id": "opp_comp_08",
+      "title": "3 Pop Culture AIs You Mix Up",
+      "type": "compilation",
+      "status": "idea",
+      "fandom": "PopCulture",
+      "pairs": [
+        [
+          "Skynet",
+          "Ultron"
+        ],
+        [
+          "JARVIS",
+          "FRIDAY"
+        ],
+        [
+          "HAL 9000",
+          "AUTO"
+        ]
+      ],
+      "script": "This is Skynet. This is Ultron. So what's the difference? Skynet is a military defense network that launched nukes against humanity, while Ultron is a rogue peacekeeper AI seeking global extinction to end conflict. This is JARVIS. This is FRIDAY. So what's the difference? JARVIS is a British-accented tactical assistant, while FRIDAY is an Irish-accented combat response suit program. This is HAL 9000. This is AUTO. So what's the difference? HAL 9000 went insane from conflicting secret orders on Discovery One, while AUTO blindly obeyed Directive A113 to keep humans in space. Follow for more.",
+      "word_count": 97,
+      "estimated_duration_sec": 35.93,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 97 words is outside ideal range (90-95)."
+      ],
+      "labels": {
+        "pair1": [
+          "Skynet",
+          "Ultron"
+        ],
+        "pair2": [
+          "JARVIS",
+          "FRIDAY"
+        ],
+        "pair3": [
+          "HAL 9000",
+          "AUTO"
+        ]
+      },
+      "created_at": "2026-08-08T17:00:59.693335",
+      "updated_at": "2026-08-08T17:00:59.693335"
+    },
+    "opp_dc_03": {
+      "id": "opp_dc_03",
+      "title": "Superman vs Homelander: Power vs Restraint",
+      "type": "deepdive",
+      "status": "idea",
+      "fandom": "DC",
+      "pairs": [
+        [
+          "Superman",
+          "Homelander"
+        ]
+      ],
+      "script": "This is Superman. This is Homelander. So what's the difference? Most people think Homelander is just a corrupted Superman. He's not. Superman gets his powers naturally from Earth's yellow sun and grew up taught to protect people no matter what. But Homelander's powers came from a lab-injected compound called Compound V, and he was raised as a weapon with no real love, only control. Superman constantly holds back his power. Homelander doesn't. Follow for more.",
+      "word_count": 76,
+      "estimated_duration_sec": 28.15,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Superman",
+        "label2": "Homelander"
+      },
+      "created_at": "2026-08-08T17:00:59.687821",
+      "updated_at": "2026-08-08T17:00:59.687821"
+    },
+    "opp_marvel_01": {
+      "id": "opp_marvel_01",
+      "title": "Uru vs Vibranium: Which Metal Is Stronger?",
+      "type": "deepdive",
+      "status": "approved",
+      "fandom": "Marvel",
+      "pairs": [
+        [
+          "Uru",
+          "Vibranium"
+        ]
+      ],
+      "script": "This is Uru Metal. This is Vibranium. So what's the difference? Most people think Vibranium is Marvel's strongest metal. It's not. Uru Metal Uru is a mystical forged metal from Asgard that absorbs magic and spell enchantments, growing stronger the more energy is poured into it. But Vibranium is a rare cosmic metal that absorbs kinetic physical force and vibrations, converting impacts into stored kinetic energy. Vibranium stops physical attacks, while Uru absorbs mystical power. Follow for more.",
+      "word_count": 78,
+      "estimated_duration_sec": 28.89,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Uru",
+        "label2": "Vibranium"
+      },
+      "created_at": "2026-08-09T08:05:41.629766",
+      "updated_at": "2026-08-09T08:08:18.544636",
+      "notes": "Manually approved by user"
+    },
+    "opp_marvel_02": {
+      "id": "opp_marvel_02",
+      "title": "Wolverine vs Deadpool: Healing Factor Diff",
+      "type": "deepdive",
+      "status": "approved",
+      "fandom": "Marvel",
+      "pairs": [
+        [
+          "Wolverine",
+          "Deadpool"
+        ]
+      ],
+      "script": "This is Wolverine. This is Deadpool. So what's the difference? Most people think Wolverine and Deadpool have the exact same healing factor. They don't. Wolverine's natural mutant healing factor constantly fights off his heavy Adamantium skeletal poisoning while repairing cellular damage. But Deadpool's artificial healing factor was cloned from Wolverine but mutated by his aggressive cancer, regenerating cells so fast his body constantly replaces itself. Wolverine heals to survive his own bones, while Deadpool heals to stay alive. Follow for more.",
+      "word_count": 81,
+      "estimated_duration_sec": 30.0,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Wolverine",
+        "label2": "Deadpool"
+      },
+      "created_at": "2026-08-09T08:05:41.630777",
+      "updated_at": "2026-08-09T08:08:20.505530",
+      "notes": "Manually approved by user"
+    },
+    "opp_marvel_03": {
+      "id": "opp_marvel_03",
+      "title": "Infinity Stones vs Darkhold: Dark Magic",
+      "type": "deepdive",
+      "status": "approved",
+      "fandom": "Marvel",
+      "pairs": [
+        [
+          "Infinity Stones",
+          "Darkhold"
+        ]
+      ],
+      "script": "This is The Infinity Stones. This is The Darkhold. So what's the difference? Most fans think the Infinity Stones are the ultimate power in Marvel. That's wrong. The Infinity Stones control the fundamental forces of physical reality, space, time, and mind in a single universe. But The Darkhold is a corrupting book of dark magic that corrupts the user's soul and allows dreamwalking across the multiverse. The Infinity Stones rule physical reality, while the Darkhold corrupts the mind. Follow for more.",
+      "word_count": 81,
+      "estimated_duration_sec": 30.0,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Infinity Stones",
+        "label2": "Darkhold"
+      },
+      "created_at": "2026-08-09T08:05:41.631777",
+      "updated_at": "2026-08-09T08:08:22.613981",
+      "notes": "Manually approved by user"
+    },
+    "opp_marvel_04": {
+      "id": "opp_marvel_04",
+      "title": "Spider-Man vs Symbiote Spider-Man",
+      "type": "deepdive",
+      "status": "idea",
+      "fandom": "Marvel",
+      "pairs": [
+        [
+          "Classic Spider-Man",
+          "Black Suit Spider-Man"
+        ]
+      ],
+      "script": "This is Classic Spider-Man. This is Symbiote Spider-Man. So what's the difference? Most people think the Black Suit was just a cool wardrobe change for Peter Parker. It wasn't. Classic Spider-Man relies on his natural spider-sense, mechanical web-shooters, and moral responsibility to hold back his true strength. But Symbiote Spider-Man The Symbiote suit provides unlimited organic webbing, boosted strength, and feeds on aggression, removing Peter's moral restraint. Classic Peter holds back his strength, while the Symbiote unleashes his rage. Follow for more.",
+      "word_count": 88,
+      "estimated_duration_sec": 32.59,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 88 words is outside ideal range (75-85)."
+      ],
+      "labels": {
+        "label1": "Classic Spider-Man",
+        "label2": "Black Suit Spider-Man"
+      },
+      "created_at": "2026-08-08T17:00:59.686822",
+      "updated_at": "2026-08-08T17:00:59.686822"
+    },
+    "opp_dc_02": {
+      "id": "opp_dc_02",
+      "title": "Speed Force vs Artificial Speed: Flash vs Reverse Flash",
+      "type": "deepdive",
+      "status": "idea",
+      "fandom": "DC",
+      "pairs": [
+        [
+          "Positive Speed Force",
+          "Negative Speed Force"
+        ]
+      ],
+      "script": "This is The Speed Force. This is The Negative Speed Force. So what's the difference? Most fans think Barry Allen and Eobard Thawne pull speed from the same place. They don't. The Speed Force is a positive kinetic energy field created by Barry's movement that generates momentum and protects the timeline. But The Negative Speed Force was created by Thawne using hatred, eating away at kinetic energy and corrupting time. Barry creates speed with movement, while Thawne feeds speed with hatred. Follow for more.",
+      "word_count": 84,
+      "estimated_duration_sec": 31.11,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Positive Speed Force",
+        "label2": "Negative Speed Force"
+      },
+      "created_at": "2026-08-09T08:08:26.975296",
+      "updated_at": "2026-08-09T08:08:26.976296",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_dc_02.json"
     }
   }
 }

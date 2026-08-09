@@ -38,6 +38,8 @@ class ContentTracker:
                     self.seed_from_historical()
                 else:
                     self.sync_ideas_file()
+                    self.sync_generated_scripts()
+                    self.sync_to_ideas_json()
                     self.export_csv()
                 return
             except Exception as e:
@@ -88,6 +90,66 @@ class ContentTracker:
             except Exception as e:
                 pass
 
+    def sync_generated_scripts(self) -> None:
+        """Syncs items from generated_scripts/ directory into tracker data."""
+        gen_dir = os.path.join(os.path.dirname(self.tracker_path), "..", "generated_scripts")
+        if os.path.exists(gen_dir):
+            try:
+                for fname in os.listdir(gen_dir):
+                    if fname.endswith(".json"):
+                        fpath = os.path.join(gen_dir, fname)
+                        with open(fpath, "r", encoding="utf-8") as f:
+                            item = json.load(f)
+                        script_id = item.get("id") or os.path.splitext(fname)[0]
+                        if script_id not in self.data.get("topics", {}):
+                            # Default status for generated script awaiting approval is idea
+                            status = item.get("status", "idea")
+                            if status == "approved" and "notes" not in item:
+                                status = "idea"
+                            item["status"] = status
+                            self.data.setdefault("topics", {})[script_id] = item
+            except Exception as e:
+                pass
+
+    def sync_to_ideas_json(self) -> None:
+        """Syncs approved topics (or candidate ideas if none approved) from tracker to config/ideas.json."""
+        topics = self.data.get("topics", {})
+        
+        # 1. Gather approved topics first
+        approved_topics = [t for t in topics.values() if t.get("status") == "approved"]
+        
+        # 2. If no topics are approved yet, fall back to active 'idea' topics
+        selected_topics = approved_topics if approved_topics else [
+            t for t in topics.values() if t.get("status") in ["idea", "candidate"]
+        ]
+        
+        formatted_ideas = []
+        for t in selected_topics:
+            topic_id = t.get("id")
+            title = t.get("title", topic_id)
+            ttype = t.get("type", "deepdive")
+            script = t.get("script", "")
+            labels = t.get("labels", {})
+
+            clean_title = re.sub(r"[^\w\s]", "", title).strip().replace(" ", "_")
+            proj_name = t.get("project_name") or f"Auto_{ttype.capitalize()}_{clean_title[:35]}"
+
+            formatted_ideas.append({
+                "id": topic_id,
+                "project_name": proj_name,
+                "type": ttype,
+                "script": script,
+                "labels": labels
+            })
+
+        if formatted_ideas:
+            try:
+                os.makedirs(os.path.dirname(self.ideas_path), exist_ok=True)
+                with open(self.ideas_path, "w", encoding="utf-8") as f:
+                    json.dump(formatted_ideas, f, indent=2, ensure_ascii=False)
+            except Exception as e:
+                pass
+
     def save(self) -> None:
         """Saves current tracker state to JSON and CSV formats."""
         os.makedirs(os.path.dirname(self.tracker_path), exist_ok=True)
@@ -100,6 +162,7 @@ class ContentTracker:
         """Exports tracker topics to human-readable CSV file for Excel / Sheets viewing."""
         import csv
         self.sync_ideas_file()
+        self.sync_generated_scripts()
         csv_path = os.path.join(os.path.dirname(self.tracker_path), "content_tracker.csv")
         try:
             with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
@@ -213,6 +276,7 @@ class ContentTracker:
             except Exception as e:
                 print(f"⚠️ Warning seeding from ideas.json: {e}")
 
+        self.sync_generated_scripts()
         self.save()
 
     def _extract_pairs_from_text(self, text: str) -> List[List[str]]:
@@ -306,6 +370,25 @@ class ContentTracker:
                 ex_notes = self.data["topics"][topic_id].get("notes", "")
                 self.data["topics"][topic_id]["notes"] = f"{ex_notes} | {notes}".strip(" |")
             self.save()
+
+            # Also sync generated_scripts JSON file if present
+            gen_dir = os.path.join(os.path.dirname(self.tracker_path), "..", "generated_scripts")
+            gen_file = os.path.join(gen_dir, f"{topic_id}.json")
+            if os.path.exists(gen_file):
+                try:
+                    with open(gen_file, "r", encoding="utf-8") as f:
+                        gf_data = json.load(f)
+                    gf_data["status"] = new_status
+                    gf_data["updated_at"] = datetime.now().isoformat()
+                    if notes:
+                        ex_n = gf_data.get("notes", "")
+                        gf_data["notes"] = f"{ex_n} | {notes}".strip(" |")
+                    with open(gen_file, "w", encoding="utf-8") as f:
+                        json.dump(gf_data, f, indent=2, ensure_ascii=False)
+                except Exception:
+                    pass
+
+            self.sync_to_ideas_json()
             return True
         return False
 

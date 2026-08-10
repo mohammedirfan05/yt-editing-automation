@@ -1,27 +1,26 @@
 {
   "id": "gemini_dd_02",
-  "title": "Wizard vs Istari: Middle-earth's Magic Users",
+  "title": "Orc vs Uruk-hai",
   "type": "deepdive",
-  "status": "approved",
+  "channel": "dontmixthis",
+  "status": "idea",
   "fandom": "Lord of the Rings",
   "pairs": [
     [
-      "Wizard",
-      "Istari"
+      "Orc",
+      "Uruk-hai"
     ]
   ],
-  "script": "This is a Wizard. This is an Istari. So what's the difference? Most people think they're interchangeable terms for magical beings. They're not. A 'Wizard' is a general term for magic-user in Middle-earth. An 'Istari' is a specific, powerful Maiar spirit sent by the Valar to aid mortals against Sauron, embodying a Wizard's form. That's why Gandalf *is an Istari*, while a random sorcerer *is just a wizard*. Follow for more.",
-  "word_count": 73,
-  "estimated_duration_sec": 27.04,
+  "script": "This is an Orc. This is an Uruk-hai. So what's the difference? Most people think they're just the same ugly monsters serving dark lords. They're not. Orcs are smaller, corrupted creatures who are severely weakened by daylight and lack discipline. Uruk-hai are Saruman's engineered super-hybrids built with human size, full sunlight immunity, and devastating physical power. That's why Orcs hide in dark caves, while Uruk-hai march directly into battle. Follow for more.",
+  "word_count": 76,
+  "estimated_duration_sec": 28.15,
   "speech_pacing_wps": 2.7,
   "playbook_compliant": true,
-  "validation_issues": [
-    "[Word Count] 73 words is outside ideal range (75-85)."
-  ],
+  "validation_issues": [],
   "labels": {
-    "label1": "Wizard",
-    "label2": "Istari"
+    "label1": "Orc",
+    "label2": "Uruk-hai"
   },
-  "created_at": "2026-08-08T17:07:46.174341",
-  "updated_at": "2026-08-08T17:07:46.174341"
+  "created_at": "2026-08-10T17:02:58.223146",
+  "updated_at": "2026-08-10T17:02:58.223146"
 }

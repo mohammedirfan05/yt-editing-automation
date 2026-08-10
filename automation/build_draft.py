@@ -92,6 +92,7 @@ class SubtitleBlock:
     clean_text: str
     tags: List[str] = field(default_factory=list)
     resolved_images: List[str] = field(default_factory=list)
+    is_emphasis: bool = False
 
 
 @dataclass
@@ -104,6 +105,57 @@ class ImageSegmentSpec:
     end_us: int
     duration_us: int
     source_blocks: List[int] = field(default_factory=list)
+    is_emphasis: bool = False
+
+
+def mark_emphasis_blocks(
+    blocks: List[SubtitleBlock],
+    emphasis_arg: str = "auto"
+) -> List[int]:
+    """
+    Marks suitable subtitle blocks as 'emphasis' (is_emphasis = True).
+    If emphasis_arg is comma-separated indices (e.g. '3,8,17'), marks those block indices.
+    If emphasis_arg is 'auto', automatically identifies key hook/pivot/takeaway blocks.
+    Returns list of marked block indices.
+    """
+    if not blocks:
+        return []
+
+    marked_indices = []
+
+    if emphasis_arg and emphasis_arg.lower() != "auto":
+        try:
+            target_indices = set(int(x.strip()) for x in emphasis_arg.split(",") if x.strip())
+            for b in blocks:
+                if b.index in target_indices:
+                    b.is_emphasis = True
+                    marked_indices.append(b.index)
+        except ValueError as e:
+            logger.warning(f"Invalid --emphasis-blocks format '{emphasis_arg}': {e}. Falling back to auto.")
+            emphasis_arg = "auto"
+
+    if emphasis_arg.lower() == "auto":
+        emphasis_tags = {"wtd", "remember_this", "disagree", "emphasis", "shocked", "mindblown"}
+        emphasis_keywords = ["farq kya", "difference", "versus", "vs"]
+
+        for b in blocks:
+            has_emp_tag = any(t in emphasis_tags for t in b.tags)
+            has_emp_kw = any(kw in b.clean_text.lower() for kw in emphasis_keywords)
+            if has_emp_tag or has_emp_kw:
+                b.is_emphasis = True
+                marked_indices.append(b.index)
+
+        if not marked_indices:
+            for b in blocks:
+                if "?" in b.clean_text or "!" in b.clean_text:
+                    b.is_emphasis = True
+                    marked_indices.append(b.index)
+                    break
+            if not marked_indices and len(blocks) >= 3:
+                blocks[2].is_emphasis = True
+                marked_indices.append(blocks[2].index)
+
+    return sorted(marked_indices)
 
 
 @dataclass
@@ -646,7 +698,7 @@ def fix_effect_metadata_in_draft(project_path: str, effect_duration_us: int = 60
             data = json.load(f)
 
         effects_list = data.get('materials', {}).get('video_effects', [])
-        image_tracks = {'img1_track', 'img2_track'}
+        image_tracks = {'img1_track', 'img2_track', 'img_bottom_track', 'img_top_track'}
         applied_count = 0
 
         for track in data.get('tracks', []):
@@ -1014,13 +1066,14 @@ def merge_contiguous_image_segments(
                 start_us=start_us,
                 end_us=end_us,
                 duration_us=end_us - start_us,
-                source_blocks=[block.index]
+                source_blocks=[block.index],
+                is_emphasis=block.is_emphasis
             )
         else:
             # Extend previous spec to start_us to bridge gaps between subtitle blocks
             current_spec.end_us = max(current_spec.end_us, start_us)
 
-            if current_spec.img_path == img_path:
+            if current_spec.img_path == img_path and current_spec.is_emphasis == block.is_emphasis:
                 current_spec.end_us = max(current_spec.end_us, end_us)
                 current_spec.end_tc = block.end_tc
                 current_spec.duration_us = current_spec.end_us - current_spec.start_us
@@ -1037,7 +1090,8 @@ def merge_contiguous_image_segments(
                     start_us=start_us,
                     end_us=end_us,
                     duration_us=end_us - start_us,
-                    source_blocks=[block.index]
+                    source_blocks=[block.index],
+                    is_emphasis=block.is_emphasis
                 )
 
     if current_spec:
@@ -1103,8 +1157,13 @@ def generate_capcut_draft(
     label2_transform_y: float = 0.778646,
     allow_replace: bool = True,
     mode: str = "auto",
-    effect_duration_us: int = 600_000,
-    highlight_color: str = "orange"
+    effect_duration_us: int = 0,
+    highlight_color: str = "orange",
+    emphasis_text_scale: float = 1.4,
+    emphasis_image_scale: float = 0.28,
+    focused_img_scale: float = 0.40,
+    unfocused_img_scale: float = 0.40,
+    img_anim_duration_us: int = 250_000
 ) -> Tuple[str, int]:
     """
     Creates CapCut draft project folder containing:
@@ -1201,49 +1260,109 @@ def generate_capcut_draft(
         script.add_segment(bg_seg, track_name="bg_track")
         logger.info(f"Added Background Track ({os.path.basename(bg_image_path)}), extended to: {total_project_duration_us / 1_000_000:.2f}s")
 
-    # 3. Image 1 Track (Top Left Comparison Images - 1:1 Auto Cropped, for each pair)
+    # 3 & 4. Dynamic Comparison Image Tracks (img_bottom_track & img_top_track with scale keyframes & layer emphasis)
     has_img1 = any(p.image1_path and os.path.isfile(p.image1_path) for p in pair_specs)
-    if has_img1:
-        script.add_track(pcc.TrackType.video, "img1_track")
-        img1_settings = pcc.ClipSettings(
+    has_img2 = any(p.image2_path and os.path.isfile(p.image2_path) for p in pair_specs)
+
+    if has_img1 or has_img2:
+        script.add_track(pcc.TrackType.video, "img_bottom_track")
+        script.add_track(pcc.TrackType.video, "img_top_track")
+
+        img1_base_settings = pcc.ClipSettings(
             scale_x=img1_scale,
             scale_y=img1_scale,
             alpha=1.0,
             transform_x=img1_transform_x,
             transform_y=img1_transform_y
         )
-        for p in pair_specs:
-            if p.image1_path and os.path.isfile(p.image1_path):
-                dur = max(0, p.end_us - p.start_us)
-                if dur > 0:
-                    cropped_img1 = ensure_1to1_crop(p.image1_path)
-                    mat = pcc.VideoMaterial(cropped_img1)
-                    timerange = pcc.Timerange(p.start_us, dur)
-                    seg = pcc.VideoSegment(mat, timerange, clip_settings=img1_settings)
-                    script.add_segment(seg, track_name="img1_track")
-                    logger.info(f"Added Image 1 (Pair {p.pair_index}: {os.path.basename(p.image1_path)}) starting at {p.start_us / 1_000_000:.2f}s (dur: {dur / 1_000_000:.2f}s)")
-
-    # 4. Image 2 Track (Top Right Comparison Images - 1:1 Auto Cropped, for each pair)
-    has_img2 = any(p.image2_path and os.path.isfile(p.image2_path) for p in pair_specs)
-    if has_img2:
-        script.add_track(pcc.TrackType.video, "img2_track")
-        img2_settings = pcc.ClipSettings(
+        img2_base_settings = pcc.ClipSettings(
             scale_x=img2_scale,
             scale_y=img2_scale,
             alpha=1.0,
             transform_x=img2_transform_x,
             transform_y=img2_transform_y
         )
+
+        prev_img1_scale = img1_scale
+        prev_img2_scale = img2_scale
+        tested_emphasis_count = 0
+
         for p in pair_specs:
-            if p.image2_path and os.path.isfile(p.image2_path):
-                dur = max(0, p.end_us - p.right_start_us)
-                if dur > 0:
-                    cropped_img2 = ensure_1to1_crop(p.image2_path)
-                    mat = pcc.VideoMaterial(cropped_img2)
-                    timerange = pcc.Timerange(p.right_start_us, dur)
-                    seg = pcc.VideoSegment(mat, timerange, clip_settings=img2_settings)
-                    script.add_segment(seg, track_name="img2_track")
-                    logger.info(f"Added Image 2 (Pair {p.pair_index}: {os.path.basename(p.image2_path)}) starting at {p.right_start_us / 1_000_000:.2f}s (dur: {dur / 1_000_000:.2f}s)")
+            if not p.image1_path and not p.image2_path:
+                continue
+
+            pair_blocks = [b for b in subtitle_blocks if b.start_us < p.end_us and b.end_us > p.start_us]
+            if not pair_blocks:
+                continue
+
+            cropped_img1 = ensure_1to1_crop(p.image1_path) if (p.image1_path and os.path.isfile(p.image1_path)) else None
+            cropped_img2 = ensure_1to1_crop(p.image2_path) if (p.image2_path and os.path.isfile(p.image2_path)) else None
+
+            for b in pair_blocks:
+                b_start_us = max(b.start_us, p.start_us)
+                b_end_us = min(b.end_us, p.end_us)
+                b_dur_us = b_end_us - b_start_us
+                if b_dur_us <= 0:
+                    continue
+
+                has_left_tag = "left" in b.tags
+                has_right_tag = "right" in b.tags
+
+                if has_left_tag:
+                    target_img1_scale = focused_img_scale
+                    target_img2_scale = unfocused_img_scale
+                    img1_layer = "top"
+                    img2_layer = "bottom"
+                    tested_emphasis_count += 1
+                elif has_right_tag:
+                    target_img1_scale = unfocused_img_scale
+                    target_img2_scale = focused_img_scale
+                    img1_layer = "bottom"
+                    img2_layer = "top"
+                    tested_emphasis_count += 1
+                else:
+                    target_img1_scale = img1_scale
+                    target_img2_scale = img2_scale
+                    img1_layer = "bottom"
+                    img2_layer = "top"
+
+                t_anim = min(img_anim_duration_us, b_dur_us)
+
+                # Image 1 Segment (Entity A)
+                if cropped_img1 and b_start_us >= p.start_us:
+                    mat1 = pcc.VideoMaterial(cropped_img1)
+                    tr1 = pcc.Timerange(b_start_us, b_dur_us)
+                    seg1 = pcc.VideoSegment(mat1, tr1, clip_settings=img1_base_settings)
+                    if prev_img1_scale != target_img1_scale:
+                        seg1.add_keyframe(pcc.KeyframeProperty.scale_x, 0, prev_img1_scale)
+                        seg1.add_keyframe(pcc.KeyframeProperty.scale_y, 0, prev_img1_scale)
+                        seg1.add_keyframe(pcc.KeyframeProperty.scale_x, t_anim, target_img1_scale)
+                        seg1.add_keyframe(pcc.KeyframeProperty.scale_y, t_anim, target_img1_scale)
+                        seg1.add_keyframe(pcc.KeyframeProperty.scale_x, b_dur_us, target_img1_scale)
+                        seg1.add_keyframe(pcc.KeyframeProperty.scale_y, b_dur_us, target_img1_scale)
+
+                    track1_name = "img_top_track" if img1_layer == "top" else "img_bottom_track"
+                    script.add_segment(seg1, track_name=track1_name)
+                    prev_img1_scale = target_img1_scale
+
+                # Image 2 Segment (Entity B) - starts at p.right_start_us
+                if cropped_img2 and b_start_us >= p.right_start_us:
+                    mat2 = pcc.VideoMaterial(cropped_img2)
+                    tr2 = pcc.Timerange(b_start_us, b_dur_us)
+                    seg2 = pcc.VideoSegment(mat2, tr2, clip_settings=img2_base_settings)
+                    if prev_img2_scale != target_img2_scale:
+                        seg2.add_keyframe(pcc.KeyframeProperty.scale_x, 0, prev_img2_scale)
+                        seg2.add_keyframe(pcc.KeyframeProperty.scale_y, 0, prev_img2_scale)
+                        seg2.add_keyframe(pcc.KeyframeProperty.scale_x, t_anim, target_img2_scale)
+                        seg2.add_keyframe(pcc.KeyframeProperty.scale_y, t_anim, target_img2_scale)
+                        seg2.add_keyframe(pcc.KeyframeProperty.scale_x, b_dur_us, target_img2_scale)
+                        seg2.add_keyframe(pcc.KeyframeProperty.scale_y, b_dur_us, target_img2_scale)
+
+                    track2_name = "img_top_track" if img2_layer == "top" else "img_bottom_track"
+                    script.add_segment(seg2, track_name=track2_name)
+                    prev_img2_scale = target_img2_scale
+
+        logger.info(f"Added Dynamic Comparison Image Tracks with 0.25s scale keyframe transitions & layer swapping on {tested_emphasis_count} block(s).")
 
     # 5. Merged Mascot Overlay Track (Middle Layer)
     script.add_track(pcc.TrackType.video, "mascot_track")
@@ -1260,6 +1379,18 @@ def generate_capcut_draft(
             cur_transform_x = round(-29.0 / width, 6)
             cur_transform_y = round(-890.0 / height, 6)
             logger.info(f"Applying mascot_urdu right.png override: pos_x=-29.0px, pos_y=-890.0px, scale=46.0% (transform_x={cur_transform_x}, transform_y={cur_transform_y})")
+        elif spec.is_emphasis:
+            cur_scale = emphasis_image_scale
+            if spec.tag_code == "right":
+                cur_pos_x = -380.0
+            elif spec.tag_code == "left":
+                cur_pos_x = 380.0
+            else:
+                cur_pos_x = 380.0
+            cur_pos_y = round(transform_y * height, 1)
+            cur_transform_x = round(cur_pos_x / width, 6)
+            cur_transform_y = round(cur_pos_y / height, 6)
+            logger.info(f"Applying Emphasis Block Mascot pose '{os.path.basename(spec.img_path)}' (blocks {spec.source_blocks}): scale={cur_scale*100:.1f}%, pos_x={cur_pos_x}px, pos_y={cur_pos_y}px (transform_x={cur_transform_x}, transform_y={cur_transform_y})")
         else:
             cur_scale = image_scale
             cur_transform_x = transform_x
@@ -1334,9 +1465,15 @@ def generate_capcut_draft(
     # 8. Subtitle Text Track (Top Layer)
     script.add_track(pcc.TrackType.text, "text_track")
     text_style = pcc.TextStyle(color=(0.0, 0.0, 0.0))  # Black color
-    text_clip_settings = pcc.ClipSettings(
+    normal_text_clip_settings = pcc.ClipSettings(
         scale_x=text_scale,
         scale_y=text_scale,
+        transform_x=text_transform_x,
+        transform_y=text_transform_y
+    )
+    emphasis_text_clip_settings = pcc.ClipSettings(
+        scale_x=text_scale * emphasis_text_scale,
+        scale_y=text_scale * emphasis_text_scale,
         transform_x=text_transform_x,
         transform_y=text_transform_y
     )
@@ -1344,12 +1481,15 @@ def generate_capcut_draft(
     for block in subtitle_blocks:
         if block.clean_text:
             timerange = pcc.Timerange(block.start_us, block.duration_us)
+            settings = emphasis_text_clip_settings if block.is_emphasis else normal_text_clip_settings
+            if block.is_emphasis:
+                logger.info(f"Emphasis Subtitle Block #{block.index}: text_scale={text_scale * emphasis_text_scale * 100:.0f}%, text='{block.clean_text}'")
             text_seg = pcc.TextSegment(
                 block.clean_text,
                 timerange,
                 font=custom_font,
                 style=text_style,
-                clip_settings=text_clip_settings
+                clip_settings=settings
             )
             script.add_segment(text_seg, track_name="text_track")
 
@@ -1541,14 +1681,24 @@ def main():
     parser.add_argument("--text-font", default="LuckiestGuy-Rg", help="Subtitle font family name (default: LuckiestGuy-Rg)")
     parser.add_argument("--text-scale", type=float, default=1.0, help="Subtitle scale factor (default: 1.0 = 100%%)")
 
+    # Emphasis Moment Effect Options
+    parser.add_argument("--emphasis-blocks", default="auto", help="Comma-separated subtitle block indices to mark as emphasis (e.g. '3,8,17') or 'auto'")
+    parser.add_argument("--emphasis-text-scale", type=float, default=1.4, help="Text scale multiplier for emphasis blocks (default: 1.4 = 140%%)")
+    parser.add_argument("--emphasis-image-scale", type=float, default=0.28, help="Mascot image scale factor for emphasis blocks (default: 0.28 = 28%%)")
+
+    # Dynamic Comparison Image Scaling & Layer Options
+    parser.add_argument("--focused-img-scale", type=float, default=0.40, help="Scale factor for focused comparison image (default: 0.40 = 40%%)")
+    parser.add_argument("--unfocused-img-scale", type=float, default=0.40, help="Scale factor for unfocused comparison image (default: 0.40 = 40%%)")
+    parser.add_argument("--img-anim-duration-ms", type=int, default=250, help="Duration in ms for comparison image scale transition (default: 250 = 0.25s)")
+
     # Sound Effects (SFX) Paths
     parser.add_argument("--click-sfx", default="assets/sound_effects/mouse_click.mp3", help="Path to mouse click sound effect (default: assets/sound_effects/mouse_click.mp3)")
     parser.add_argument("--pop-sfx", default="assets/sound_effects/pop.mp3", help="Path to pop sound effect (default: assets/sound_effects/pop.mp3)")
 
     # Options
     parser.add_argument("--mode", "-m", choices=["deepdive", "compilation", "auto"], default="auto", help="Video Short Mode: 'deepdive' (1 pair / 2 images), 'compilation' (3 pairs / 6 images), or 'auto'")
-    parser.add_argument("--effect-duration-ms", type=int, default=600, help="Duration in ms for 'Jitter Beat' popup effect at image start (default: 600 = 0.6s)")
-    parser.add_argument("--no-effect", action="store_true", help="Disable 'Jitter Beat' popup effect at image start")
+    parser.add_argument("--effect-duration-ms", type=int, default=0, help="Duration in ms for popup effect at image start (default: 0 = disabled)")
+    parser.add_argument("--no-effect", action="store_true", help="Disable popup effect at image start")
     parser.add_argument("--max-gap-ms", type=int, default=100, help="Max gap in ms to bridge contiguous blocks with same tag (default: 100)")
     parser.add_argument("--highlight-color", default="orange", help="Keyword highlight color for subtitles (e.g. orange, purple, emerald, pink, cyan, yellow, none; default: orange)")
     parser.add_argument("--debug-dir", help="Directory path to dump debug JSON files for inspection")
@@ -1654,6 +1804,11 @@ def main():
     except Exception as e:
         logger.error(f"SRT Parsing Error: {e}")
         sys.exit(1)
+
+    # 1b. Auto-mark Emphasis Subtitle Blocks
+    marked_emphasis_indices = mark_emphasis_blocks(blocks, emphasis_arg=args.emphasis_blocks)
+    if marked_emphasis_indices:
+        logger.info(f"Marked {len(marked_emphasis_indices)} subtitle block(s) as emphasis: indices {marked_emphasis_indices}")
 
     # 2. Validate Inputs & Up-front Asset Resolution
     mapping, validation_errors = validate_inputs(
@@ -1772,7 +1927,12 @@ def main():
             allow_replace=not args.no_overwrite,
             mode=args.mode,
             effect_duration_us=0 if args.no_effect else (args.effect_duration_ms * 1000),
-            highlight_color=args.highlight_color
+            highlight_color=args.highlight_color,
+            emphasis_text_scale=args.emphasis_text_scale,
+            emphasis_image_scale=args.emphasis_image_scale,
+            focused_img_scale=args.focused_img_scale,
+            unfocused_img_scale=args.unfocused_img_scale,
+            img_anim_duration_us=args.img_anim_duration_ms * 1000
         )
         logger.info(f"SUCCESS: CapCut draft created at: {project_path}")
     except Exception as e:
@@ -1812,6 +1972,8 @@ def main():
     logger.info(f" - Unique Mascot PNG Assets Used   : {len(pngs_used)} ({', '.join(sorted(pngs_used)) if pngs_used else 'None'})")
     logger.info(f" - Mascot Scale & Position         : scale={args.image_scale*100:.1f}%, pos_x={args.pos_x}px, pos_y={args.pos_y}px")
     logger.info(f" - Subtitle Font & Position        : font='{args.text_font}', color=Black, pos_x={args.text_pos_x}px, pos_y={args.text_pos_y}px")
+    logger.info(f" - Emphasis Subtitle Blocks        : {marked_emphasis_indices if marked_emphasis_indices else 'None'} (text_scale={args.emphasis_text_scale*100:.0f}%, mascot_scale={args.emphasis_image_scale*100:.0f}%, mascot_pos_x=+380px/-380px)")
+    logger.info(f" - Dynamic Image Scale & Layering  : focused_scale={args.focused_img_scale*100:.0f}%, unfocused_scale={args.unfocused_img_scale*100:.0f}%, anim_duration={args.img_anim_duration_ms}ms")
     logger.info(f" - Project Ready in CapCut         : {project_path}")
     logger.info("=" * 60)
 

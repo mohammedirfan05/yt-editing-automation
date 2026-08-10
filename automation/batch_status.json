@@ -1,15 +1,15 @@
 {
-  "start_time": "2026-08-10T10:10:30.327339",
+  "start_time": "2026-08-10T17:06:50.124900",
   "topics": {
-    "farq_islamic_04": {
-      "id": "farq_islamic_04",
-      "project_name": "Auto_Deepdive_Zakat_vs_Sadaqah_Farq_Kya_Hai",
+    "opp_dc_01": {
+      "id": "opp_dc_01",
+      "project_name": "Auto_Deepdive_Batmans_Hellbat_Suit_vs_Iron_Mans_H",
       "type": "deepdive",
-      "status": "FAILED",
-      "duration_sec": 24.96,
-      "draft_path": "",
-      "error": "Stage 3 (CapCut Draft Builder) failed.",
-      "timestamp": "2026-08-10T10:10:30.335392"
+      "status": "SUCCESS",
+      "duration_sec": 33.92,
+      "draft_path": "C:\\Users\\moham\\AppData\\Local\\CapCut\\User Data\\Projects\\com.lveditor.draft\\Auto_Deepdive_Batmans_Hellbat_Suit_vs_Iron_Mans_H",
+      "error": null,
+      "timestamp": "2026-08-10T17:06:50.129420"
     }
   }
 }

@@ -5,7 +5,7 @@
     "mascot_dir": "assets/mascot",
     "draft_prefix": "dontmixthis",
     "tts": {
-      "voice": "Puck",
+      "voice": "Charon",
       "scene": "A fast-paced educational explainer breaking down story terminology, direct-to-camera style",
       "context": "Energetic YouTube Shorts narration, quick pacing, conversational but confident tone"
     }

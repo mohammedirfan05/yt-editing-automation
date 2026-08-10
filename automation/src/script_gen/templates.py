@@ -29,18 +29,21 @@ class ScriptTemplates:
         misconception_line = concept_hook
 
         # Mechanism contrast - ensure clean phrasing without duplicating entity names
-        mech_a_str = mechanism_a.strip()
-        mech_b_str = mechanism_b.strip()
+        import re
 
-        if mech_a_str.lower().startswith(entity_a.lower()):
-            part_a = mech_a_str
-        else:
-            part_a = f"{entity_a} {mech_a_str}"
+        def _clean_mechanism(entity: str, mech: str) -> str:
+            mech = mech.strip()
+            clean_ent = re.sub(r"^the\s+", "", entity, flags=re.IGNORECASE).strip()
+            clean_mech = re.sub(r"^the\s+", "", mech, flags=re.IGNORECASE).strip()
+            word_ent = clean_ent.split()[0] if clean_ent else ""
+            word_mech = clean_mech.split()[0] if clean_mech else ""
 
-        if mech_b_str.lower().startswith(entity_b.lower()):
-            part_b = mech_b_str
-        else:
-            part_b = f"{entity_b} {mech_b_str}"
+            if word_ent and word_mech and word_ent.lower() == word_mech.lower():
+                return mech
+            return f"{entity} {mech}"
+
+        part_a = _clean_mechanism(entity_a, mechanism_a)
+        part_b = _clean_mechanism(entity_b, mechanism_b)
 
         contrast_line = f"{part_a}. But {part_b}."
 

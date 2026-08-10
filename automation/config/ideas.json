@@ -64,5 +64,16 @@
       "label1": "Shirk",
       "label2": "Bidah"
     }
+  },
+  {
+    "id": "opp_dc_01",
+    "project_name": "Auto_Deepdive_Batmans_Hellbat_Suit_vs_Iron_Mans_H",
+    "type": "deepdive",
+    "channel": "dontmixthis",
+    "script": "This is The Hellbat Armor. This is The Hulkbuster Armor. So what's the difference? Most fans think the Hulkbuster is the ultimate anti-god suit. It's not. The Hellbat suit was forged by the Justice League in the sun to fight Gods, but drains Batman's life force. But The Hulkbuster uses heavy hydraulic armor plates and satellite parts to withstand brute physical force. The Hulkbuster fights physical monsters, while the Hellbat drains life to kill Gods. Follow for more.",
+    "labels": {
+      "label1": "Hellbat Armor",
+      "label2": "Hulkbuster Armor"
+    }
   }
 ]

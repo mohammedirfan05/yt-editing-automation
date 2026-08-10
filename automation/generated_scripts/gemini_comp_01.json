@@ -1,45 +1,44 @@
 {
   "id": "gemini_comp_01",
-  "title": "Marvel Mix-Up: Avengers, Inhumans & Asgardians",
+  "title": "Harry Potter Wizarding Differences",
   "type": "compilation",
-  "status": "approved",
-  "fandom": "Marvel",
+  "channel": "dontmixthis",
+  "status": "idea",
+  "fandom": "Harry Potter",
   "pairs": [
     [
-      "Avenger",
-      "Defender"
+      "Animagus",
+      "Metamorphmagus"
     ],
     [
-      "Inhuman",
-      "Kree"
+      "Auror",
+      "Unspeakable"
     ],
     [
-      "Asgardian",
-      "Jotun"
+      "Squib",
+      "Muggle"
     ]
   ],
-  "script": "This is an Avenger. This is a Defender. So what's the difference? Avengers are Earth's mightiest heroes, often government-backed, tackling global threats. Defenders are street-level heroes, dealing with local issues. This is an Inhuman. This is a Kree. So what's the difference? Inhumans are humans genetically altered by Kree experimentation. Kree are an alien race, often the manipulators. This is an Asgardian. This is a Jotun. So what's the difference? Asgardians are powerful beings from Asgard. Jotuns are Frost Giants, their ancient enemies. Follow for more.",
-  "word_count": 88,
-  "estimated_duration_sec": 32.59,
+  "script": "This is an Animagus. This is a Metamorphmagus. So what's the difference? An Animagus learns to transform into one animal. A Metamorphmagus is born with the power to shape-shift at will. This is an Auror. This is an Unspeakable. So what's the difference? An Auror hunts dark wizards in the field. An Unspeakable researches top-secret magic inside the Department of Mysteries. This is a Squib. This is a Muggle. So what's the difference? A Squib is non-magical with wizard parents. A Muggle is non-magical with non-magical parents. Follow for more.",
+  "word_count": 95,
+  "estimated_duration_sec": 35.19,
   "speech_pacing_wps": 2.7,
   "playbook_compliant": true,
-  "validation_issues": [
-    "[Word Count] 88 words is outside ideal range (90-95)."
-  ],
+  "validation_issues": [],
   "labels": {
     "pair1": [
-      "Avenger",
-      "Defender"
+      "Animagus",
+      "Metamorphmagus"
     ],
     "pair2": [
-      "Inhuman",
-      "Kree"
+      "Auror",
+      "Unspeakable"
     ],
     "pair3": [
-      "Asgardian",
-      "Jotun"
+      "Squib",
+      "Muggle"
     ]
   },
-  "created_at": "2026-08-08T17:07:46.187412",
-  "updated_at": "2026-08-08T17:07:46.187412"
+  "created_at": "2026-08-10T17:02:08.611060",
+  "updated_at": "2026-08-10T17:02:08.611060"
 }

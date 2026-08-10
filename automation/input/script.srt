@@ -1,87 +1,63 @@
 1
-00:00:00,000 --> 00:00:01,700
-Ye hai Zakat aur [IMG:left]
+00:00:00,000 --> 00:00:01,340
+HARAM aur MAKRUH mein [IMG:normal]
 
 2
-00:00:01,700 --> 00:00:03,240
-ye hai Sadaqah, aakhir [IMG:right]
+00:00:01,340 --> 00:00:02,348
+sabse bada farq [IMG:wtd]
 
 3
-00:00:03,240 --> 00:00:04,280
-isme farq kya hai? [IMG:wtd]
+00:00:02,348 --> 00:00:03,020
+kya hai? [IMG:wtd]
 
 4
-00:00:04,280 --> 00:00:05,760
-Aksar log Zakat aur [IMG:left]
+00:00:03,020 --> 00:00:04,720
+HARAM shari'at ka qati [IMG:normal]
 
 5
-00:00:05,760 --> 00:00:06,940
-Sadaqah ko ek hi [IMG:right]
+00:00:04,720 --> 00:00:06,150
+aur lazmi mana karda [IMG:normal]
 
 6
-00:00:06,940 --> 00:00:08,080
-tarah ka khairat samajhte [IMG:right]
+00:00:06,200 --> 00:00:07,120
+amal hai jise karne [IMG:normal]
 
 7
-00:00:08,080 --> 00:00:08,480
-hain, [IMG:disagree]
+00:00:07,120 --> 00:00:08,032
+par gunah aur [IMG:right]
 
 8
-00:00:08,480 --> 00:00:10,080
-lekin aisa nahi hai. [IMG:disagree]
+00:00:08,032 --> 00:00:08,640
+azab hai. [IMG:right]
 
 9
-00:00:10,080 --> 00:00:11,660
-Zakat Maaldar Musalman par [IMG:left]
+00:00:08,640 --> 00:00:10,210
+Jabke MAKRUH napasandida [IMG:right]
 
 10
-00:00:11,660 --> 00:00:13,110
-saal mein ek baar [IMG:left]
+00:00:10,260 --> 00:00:11,380
+amal hai jise chhorne [IMG:right]
 
 11
-00:00:13,160 --> 00:00:14,132
-nisab par 2.5% [IMG:left]
+00:00:11,380 --> 00:00:12,340
+par sawab hai lekin [IMG:right]
 
 12
-00:00:14,132 --> 00:00:14,780
-farz hai. [IMG:left]
+00:00:12,340 --> 00:00:14,180
+karne par azab nahi. [IMG:disagree]
 
 13
-00:00:14,780 --> 00:00:16,260
-Lekin Sadaqah Kkisi bhi [IMG:right]
+00:00:14,180 --> 00:00:15,420
+HARAM qati gunah hai, [IMG:disagree]
 
 14
-00:00:16,260 --> 00:00:17,400
-waqt apni marzi se [IMG:right]
+00:00:15,420 --> 00:00:16,920
+jabke MAKRUH napasandida amal. [IMG:right]
 
 15
-00:00:17,400 --> 00:00:18,440
-di jaane wali nafli [IMG:right]
+00:00:16,920 --> 00:00:18,760
+Aise hi Islamic comparisons [IMG:right]
 
 16
-00:00:18,440 --> 00:00:18,880
-khairat hai. [IMG:right]
-
-17
-00:00:18,880 --> 00:00:20,880
-Zakat farz haq hai, [IMG:remember_this]
-
-18
-00:00:20,880 --> 00:00:21,840
-jabke Sadaqah dil ki [IMG:right]
-
-19
-00:00:21,840 --> 00:00:22,476
-khushi se diya [IMG:right]
-
-20
-00:00:22,476 --> 00:00:22,900
-jata hai. [IMG:right]
-
-21
-00:00:22,900 --> 00:00:24,100
-Mazeed videos ke liye [IMG:right]
-
-22
-00:00:24,100 --> 00:00:24,540
-follow karein. [IMG:final_end]
+00:00:18,760 --> 00:00:19,540
+ke liye follow karein. [IMG:final_end]

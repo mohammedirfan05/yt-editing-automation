@@ -31,6 +31,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 from colorama import Fore, Style, init
 
+from src.script_gen.farqkya_generator import FarqKyaScriptGenerator
 from src.script_gen.generator import ScriptGenerator
 from src.script_gen.tracker import ContentTracker
 
@@ -110,11 +111,15 @@ def main():
 
     # Main Script Generation
     print(Fore.MAGENTA + "=" * 70 + Style.RESET_ALL)
-    print(Fore.CYAN + Style.BRIGHT + "⚡ YOUTUBE SHORTS SCRIPT GENERATOR PIPELINE" + Style.RESET_ALL)
+    print(Fore.CYAN + Style.BRIGHT + f"⚡ YOUTUBE SHORTS SCRIPT GENERATOR PIPELINE ({args.channel.upper()})" + Style.RESET_ALL)
     print(Fore.MAGENTA + "=" * 70 + Style.RESET_ALL)
 
-    generator = ScriptGenerator(tracker=tracker)
-    results = generator.generate_scripts(count=args.count, mode=args.mode, fandom=args.fandom, channel=args.channel)
+    if args.channel == "farqkya":
+        generator = FarqKyaScriptGenerator(tracker=tracker)
+        results = generator.generate_scripts(count=args.count, mode=args.mode, fandom=args.fandom)
+    else:
+        generator = ScriptGenerator(tracker=tracker)
+        results = generator.generate_scripts(count=args.count, mode=args.mode, fandom=args.fandom, channel=args.channel)
 
     if not results:
         print(Fore.YELLOW + "⚠️ No new non-duplicate scripts could be generated matching criteria." + Style.RESET_ALL)
@@ -129,6 +134,13 @@ def main():
         print(f"  • Word Count: {item['word_count']} words | Duration: ~{item['estimated_duration_sec']}s (Pacing: {item['speech_pacing_wps']} W/s)")
         print(f"  • Playbook Compliant: {Fore.GREEN if item['playbook_compliant'] else Fore.RED}{item['playbook_compliant']}{Style.RESET_ALL}")
         print(f"  • Saved File: {item['artifact_path']}")
+        
+        hooks = item.get("hook_variants", [])
+        if hooks:
+            print(Fore.BLUE + "  • A/B Hook Variants:" + Style.RESET_ALL)
+            for h_idx, h in enumerate(hooks, 1):
+                print(Fore.BLUE + f"    {h_idx}. \"{h}\"" + Style.RESET_ALL)
+
         print(Fore.YELLOW + "\n--- SCRIPT TEXT ---" + Style.RESET_ALL)
         print(item["script"])
         print(Fore.YELLOW + "-------------------\n" + Style.RESET_ALL)

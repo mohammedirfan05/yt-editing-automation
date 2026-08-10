@@ -1,0 +1,31 @@
+{
+  "id": "farq_fk_opt_19",
+  "title": "Tawakkul vs Sabr: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Tawakkul",
+      "Sabr"
+    ]
+  ],
+  "script": "Mushkil waqt mein momin ke do sabse bare hathyar konsay hain? Tawakkul asbaab ikhtiyar karke natija Allah par chhod dene ka yaqeen hai. Jabke Sabr aazmaish par dil ko qaaboo mein rakhna aur aah-o-pukaar na karna hai. Tawakkul Allah par bharosa hai, jabke Sabr aazmaish par saabat-qadmi. Aise hi Islamic comparisons ke liye follow karein.",
+  "hook_variants": [
+    "Mushkil waqt mein momin ke do sabse bare hathyar konsay hain?",
+    "Kya aapko Tawakkul aur Sabr mein farq pata hai?",
+    "Tawakkul aur Sabr ko ek samajhne ki ghalti mat karein!"
+  ],
+  "word_count": 58,
+  "estimated_duration_sec": 21.48,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "label1": "Tawakkul",
+    "label2": "Sabr"
+  },
+  "created_at": "2026-08-10T23:01:25.591514",
+  "updated_at": "2026-08-10T23:01:25.591514"
+}

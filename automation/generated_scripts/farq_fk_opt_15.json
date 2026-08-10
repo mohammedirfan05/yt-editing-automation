@@ -1,0 +1,31 @@
+{
+  "id": "farq_fk_opt_15",
+  "title": "Suhoor vs Iftar: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Suhoor",
+      "Iftar"
+    ]
+  ],
+  "script": "Roze ke dono siraay kitne mubaarak hain... lekin kis mein barkat zyada hai? Suhoor subah saadiq se pehle roza shuru karne ka barkat wala khana hai. Jabke Iftar guroob-e-aftab ke waqt roza kholne ka khushgawar lamha hai. Suhoor roze ki barkat aur tayyari hai, jabke Iftar ibadat ka in'aam. Aise hi Islamic comparisons ke liye follow karein.",
+  "hook_variants": [
+    "Roze ke dono siraay kitne mubaarak hain... lekin kis mein barkat zyada hai?",
+    "Kya aapko Suhoor aur Iftar mein farq pata hai?",
+    "Suhoor aur Iftar ko ek samajhne ki ghalti mat karein!"
+  ],
+  "word_count": 59,
+  "estimated_duration_sec": 21.85,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "label1": "Suhoor",
+    "label2": "Iftar"
+  },
+  "created_at": "2026-08-10T23:01:11.300538",
+  "updated_at": "2026-08-10T23:01:11.300538"
+}

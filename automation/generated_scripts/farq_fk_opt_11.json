@@ -1,0 +1,31 @@
+{
+  "id": "farq_fk_opt_11",
+  "title": "Haram vs Makruh: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Haram",
+      "Makruh"
+    ]
+  ],
+  "script": "Ek ko karne par gunah aur azab hai... lekin doosre ko karne par kya hoga? Haram shari'at ka qati aur lazmi mana karda amal hai jise karne par gunah hai. Jabke Makruh napasandida amal hai jise chhorne par sawab hai lekin karne par azab nahi. Haram qati gunah hai, jabke Makruh napasandida amal. Aise hi Islamic comparisons ke liye follow karein.",
+  "hook_variants": [
+    "Ek ko karne par gunah aur azab hai... lekin doosre ko karne par kya hoga?",
+    "Kya aapko Haram aur Makruh mein farq pata hai?",
+    "Haram aur Makruh ko ek samajhne ki ghalti mat karein!"
+  ],
+  "word_count": 61,
+  "estimated_duration_sec": 22.59,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "label1": "Haram",
+    "label2": "Makruh"
+  },
+  "created_at": "2026-08-10T23:01:11.193824",
+  "updated_at": "2026-08-10T23:01:11.193824"
+}

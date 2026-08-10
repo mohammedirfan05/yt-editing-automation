@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated_at": "2026-08-10T10:10:10.746109",
+  "updated_at": "2026-08-10T23:01:29.209271",
   "topics": {
     "SS_Whsrltyw": {
       "id": "SS_Whsrltyw",
@@ -1478,6 +1478,294 @@
       "created_at": "2026-08-10T09:25:10.982708",
       "updated_at": "2026-08-10T09:25:10.983706",
       "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_comp_04.json"
+    },
+    "farq_fk_opt_10": {
+      "id": "farq_fk_opt_10",
+      "title": "Masjid vs Masjid al-Haram: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Masjid",
+          "Masjid al-Haram"
+        ]
+      ],
+      "script": "Ek namaz ka sawab ek lakh namazon ke barabar kahan milta hai? Aam Masjid aam ibadat gah hai jahan jamaat ka aada sawab milta hai. Jabke Masjid al-Haram Makkah ki muqaddas masjid hai jahan ek namaz 1 lakh namaz ke barabar hai. Aam Masjid mein 27 guna sawab hai, jabke Masjid al-Haram mein 1 lakh guna. Aise hi Islamic comparisons ke liye follow karein.",
+      "hook_variants": [
+        "Ek namaz ka sawab ek lakh namazon ke barabar kahan milta hai?",
+        "Kya aapko Masjid aur Masjid al-Haram mein farq pata hai?",
+        "Masjid aur Masjid al-Haram ko ek samajhne ki ghalti mat karein!"
+      ],
+      "word_count": 66,
+      "estimated_duration_sec": 24.44,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Masjid",
+        "label2": "Masjid al-Haram"
+      },
+      "created_at": "2026-08-10T21:40:26.645773",
+      "updated_at": "2026-08-10T21:40:26.646826",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_10.json"
+    },
+    "farq_fk_opt_11": {
+      "id": "farq_fk_opt_11",
+      "title": "Haram vs Makruh: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Haram",
+          "Makruh"
+        ]
+      ],
+      "script": "Ek ko karne par gunah aur azab hai... lekin doosre ko karne par kya hoga? Haram shari'at ka qati aur lazmi mana karda amal hai jise karne par gunah hai. Jabke Makruh napasandida amal hai jise chhorne par sawab hai lekin karne par azab nahi. Haram qati gunah hai, jabke Makruh napasandida amal. Aise hi Islamic comparisons ke liye follow karein.",
+      "hook_variants": [
+        "Ek ko karne par gunah aur azab hai... lekin doosre ko karne par kya hoga?",
+        "Kya aapko Haram aur Makruh mein farq pata hai?",
+        "Haram aur Makruh ko ek samajhne ki ghalti mat karein!"
+      ],
+      "word_count": 61,
+      "estimated_duration_sec": 22.59,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Haram",
+        "label2": "Makruh"
+      },
+      "created_at": "2026-08-10T23:01:11.193824",
+      "updated_at": "2026-08-10T23:01:11.195840",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_11.json"
+    },
+    "farq_fk_opt_12": {
+      "id": "farq_fk_opt_12",
+      "title": "Halal vs Tayyib: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Halal",
+          "Tayyib"
+        ]
+      ],
+      "script": "Kya aapko pata hai konsi khuraak jaiz hone ke saath paak aur faide-mand hoti hai? Halal shari'at ke mutabiq jaiz aur khorak ki ijazat rakhta hai. Jabke Tayyib paak, saaf, aur jism ke liye mufeed aur aala meyaar ka hota hai. Halal qanooni ijazat hai, jabke Tayyib uski paakizgi aur meyaar. Aise hi Islamic comparisons ke liye follow karein.",
+      "hook_variants": [
+        "Kya aapko pata hai konsi khuraak jaiz hone ke saath paak aur faide-mand hoti hai?",
+        "Kya aapko Halal aur Tayyib mein farq pata hai?",
+        "Halal aur Tayyib ko ek samajhne ki ghalti mat karein!"
+      ],
+      "word_count": 60,
+      "estimated_duration_sec": 22.22,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Halal",
+        "label2": "Tayyib"
+      },
+      "created_at": "2026-08-10T23:01:11.235845",
+      "updated_at": "2026-08-10T23:01:11.236843",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_12.json"
+    },
+    "farq_fk_opt_13": {
+      "id": "farq_fk_opt_13",
+      "title": "Iman vs Ihsan: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Iman",
+          "Ihsan"
+        ]
+      ],
+      "script": "Deen ka sabse aala maqam konsa hai... jab aap Allah ko dekh rahe ho? Iman dil se yaqeen aur ghaib par tasdeeq ka naam hai. Jabke Ihsan ibadat ka wo aala meyaar hai jaise aap Allah ko dekh rahe ho. Iman yaqeen ki bunyad hai, jabke Ihsan ibadat ka husn aur kamal. Aise hi Islamic comparisons ke liye follow karein.",
+      "hook_variants": [
+        "Deen ka sabse aala maqam konsa hai... jab aap Allah ko dekh rahe ho?",
+        "Kya aapko Iman aur Ihsan mein farq pata hai?",
+        "Iman aur Ihsan ko ek samajhne ki ghalti mat karein!"
+      ],
+      "word_count": 60,
+      "estimated_duration_sec": 22.22,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Iman",
+        "label2": "Ihsan"
+      },
+      "created_at": "2026-08-10T23:01:11.268438",
+      "updated_at": "2026-08-10T23:01:11.269438",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_13.json"
+    },
+    "farq_fk_opt_15": {
+      "id": "farq_fk_opt_15",
+      "title": "Suhoor vs Iftar: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Suhoor",
+          "Iftar"
+        ]
+      ],
+      "script": "Roze ke dono siraay kitne mubaarak hain... lekin kis mein barkat zyada hai? Suhoor subah saadiq se pehle roza shuru karne ka barkat wala khana hai. Jabke Iftar guroob-e-aftab ke waqt roza kholne ka khushgawar lamha hai. Suhoor roze ki barkat aur tayyari hai, jabke Iftar ibadat ka in'aam. Aise hi Islamic comparisons ke liye follow karein.",
+      "hook_variants": [
+        "Roze ke dono siraay kitne mubaarak hain... lekin kis mein barkat zyada hai?",
+        "Kya aapko Suhoor aur Iftar mein farq pata hai?",
+        "Suhoor aur Iftar ko ek samajhne ki ghalti mat karein!"
+      ],
+      "word_count": 59,
+      "estimated_duration_sec": 21.85,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Suhoor",
+        "label2": "Iftar"
+      },
+      "created_at": "2026-08-10T23:01:11.300538",
+      "updated_at": "2026-08-10T23:01:11.302076",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_15.json"
+    },
+    "farq_fk_opt_17": {
+      "id": "farq_fk_opt_17",
+      "title": "Muhajir vs Ansar: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Muhajir",
+          "Ansar"
+        ]
+      ],
+      "script": "Ek ne Makkah se sab kuch chhod kar hijrat ki... lekin doosre ne kya diya? Muhajir Makkah se Madina Hijrat karne wale Sahaba hain jinhone apna ghar bar qurban kiya. Jabke Ansar Madina ke muqami Sahaba hain jinhone hijrat karne walon ko apna adha maal diya. Muhajir qurbani dene wale hain, jabke Ansar madad karne wale. Aise hi Islamic comparisons ke liye follow karein.",
+      "hook_variants": [
+        "Ek ne Makkah se sab kuch chhod kar hijrat ki... lekin doosre ne kya diya?",
+        "Kya aapko Muhajir aur Ansar mein farq pata hai?",
+        "Muhajir aur Ansar ko ek samajhne ki ghalti mat karein!"
+      ],
+      "word_count": 64,
+      "estimated_duration_sec": 23.7,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Muhajir",
+        "label2": "Ansar"
+      },
+      "created_at": "2026-08-10T23:01:25.534984",
+      "updated_at": "2026-08-10T23:01:25.535981",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_17.json"
+    },
+    "farq_fk_opt_18": {
+      "id": "farq_fk_opt_18",
+      "title": "Riya vs Ikhlas: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Riya",
+          "Ikhlas"
+        ]
+      ],
+      "script": "Ek ibadat ko zaya kar deta hai... jabke doosra azeem sawab lata hai! Riya dikhaway ke liye ibadat karna hai jo aamaal ko zaya kar deta hai. Jabke Ikhlas sirf Allah ki raza ke liye amal karna hai jo ibadat ki rooh hai. Riya dikhaway ki deemak hai, jabke Ikhlas ibadat ki rooh. Aise hi Islamic comparisons ke liye follow karein.",
+      "hook_variants": [
+        "Ek ibadat ko zaya kar deta hai... jabke doosra azeem sawab lata hai!",
+        "Kya aapko Riya aur Ikhlas mein farq pata hai?",
+        "Riya aur Ikhlas ko ek samajhne ki ghalti mat karein!"
+      ],
+      "word_count": 61,
+      "estimated_duration_sec": 22.59,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Riya",
+        "label2": "Ikhlas"
+      },
+      "created_at": "2026-08-10T23:01:25.566038",
+      "updated_at": "2026-08-10T23:01:25.567037",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_18.json"
+    },
+    "farq_fk_opt_19": {
+      "id": "farq_fk_opt_19",
+      "title": "Tawakkul vs Sabr: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Tawakkul",
+          "Sabr"
+        ]
+      ],
+      "script": "Mushkil waqt mein momin ke do sabse bare hathyar konsay hain? Tawakkul asbaab ikhtiyar karke natija Allah par chhod dene ka yaqeen hai. Jabke Sabr aazmaish par dil ko qaaboo mein rakhna aur aah-o-pukaar na karna hai. Tawakkul Allah par bharosa hai, jabke Sabr aazmaish par saabat-qadmi. Aise hi Islamic comparisons ke liye follow karein.",
+      "hook_variants": [
+        "Mushkil waqt mein momin ke do sabse bare hathyar konsay hain?",
+        "Kya aapko Tawakkul aur Sabr mein farq pata hai?",
+        "Tawakkul aur Sabr ko ek samajhne ki ghalti mat karein!"
+      ],
+      "word_count": 58,
+      "estimated_duration_sec": 21.48,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Tawakkul",
+        "label2": "Sabr"
+      },
+      "created_at": "2026-08-10T23:01:25.591514",
+      "updated_at": "2026-08-10T23:01:25.593517",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_19.json"
+    },
+    "farq_fk_opt_20": {
+      "id": "farq_fk_opt_20",
+      "title": "Surah vs Ayat: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Surah",
+          "Ayat"
+        ]
+      ],
+      "script": "Quran Majeed ki bunyadi tarseem aur hifazat ka farq kya hai? Surah Quran Majeed ka ek pura baab ya chapter hai jise bismillah se shuru kiya jata hai. Jabke Ayat Quran Majeed ke baab ke andar ki ek nishani ya single sentence hai. Surah Quran ka pura chapter hai, jabke Ayat uski ek nishani. Aise hi Islamic comparisons ke liye follow karein.",
+      "hook_variants": [
+        "Quran Majeed ki bunyadi tarseem aur hifazat ka farq kya hai?",
+        "Kya aapko Surah aur Ayat mein farq pata hai?",
+        "Surah aur Ayat ko ek samajhne ki ghalti mat karein!"
+      ],
+      "word_count": 62,
+      "estimated_duration_sec": 22.96,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Surah",
+        "label2": "Ayat"
+      },
+      "created_at": "2026-08-10T23:01:29.206747",
+      "updated_at": "2026-08-10T23:01:29.208270",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_20.json"
     }
   }
 }

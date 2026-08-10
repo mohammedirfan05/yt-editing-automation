@@ -12,6 +12,7 @@ Usage:
 
 import argparse
 import os
+import re
 import sys
 from typing import Optional
 
@@ -90,6 +91,170 @@ def run_python_script(script_path: str, args: list) -> int:
     return res.returncode
 
 
+def generate_auto_script_text(channel: str, mode: str, label1: str = "", label2: str = "", labels_str: str = "", project_name: str = "", build_args: list = None) -> str:
+    """Generates a Playbook-compliant script text automatically using Gemini AI LLM or template fallback."""
+    from src.env_utils import get_gemini_api_key
+    from src.script_gen.templates import ScriptTemplates
+    from src.script_gen.farqkya_templates import FarqKyaScriptTemplates
+    import requests
+
+    api_key = get_gemini_api_key()
+
+    if mode == "compilation":
+        pairs = []
+        if labels_str:
+            parts = [x.strip() for x in labels_str.replace(";", ",").split(",") if x.strip()]
+            for idx in range(0, len(parts), 2):
+                if idx + 1 < len(parts):
+                    pairs.append((parts[idx], parts[idx+1]))
+        if not pairs and build_args:
+            lx_map = {}
+            ly_map = {}
+            for i in range(len(build_args) - 1):
+                flag = build_args[i]
+                val = build_args[i+1]
+                if flag.startswith("--label") and flag[7:].isdigit():
+                    idx = int(flag[7:])
+                    if idx % 2 == 1:
+                        lx_map[(idx + 1) // 2] = val
+                    else:
+                        ly_map[idx // 2] = val
+            for k in range(1, 4):
+                if k in lx_map or k in ly_map:
+                    pairs.append((lx_map.get(k, f"Pair {k} X"), ly_map.get(k, f"Pair {k} Y")))
+        if not pairs:
+            pairs = [("Entity 1A", "Entity 1B"), ("Entity 2A", "Entity 2B"), ("Entity 3A", "Entity 3B")]
+
+        pairs_summary = ", ".join([f"Pair {i+1}: {p[0]} vs {p[1]}" for i, p in enumerate(pairs)])
+        print(Fore.CYAN + f"\n🤖 Auto-Generating Compilation Script via Gemini AI for [{pairs_summary}]..." + Style.RESET_ALL)
+
+        if api_key:
+            try:
+                if channel == "farqkya":
+                    prompt = f"""You are the world-class YouTube Shorts retention engineer and scriptwriter for Islamic comparison channel "Farq Kya" (@farqkya).
+Write a viral, high-retention COMPILATION YouTube Shorts script (~70-95 words total) in clear, natural Roman Urdu comparing 3 pairs:
+{pairs_summary}
+
+STRICT UNSLOP RULES:
+- NEVER start with "Ye hai X aur ye hai Y, aakhir isme farq kya hai?" or "Aksar log samajhte hain ke..."
+- Hook line 1 MUST create an immediate curiosity gap or question.
+- Outro MUST be: "Aise hi Islamic comparisons ke liye follow karein."
+
+Return ONLY the raw final script text without markdown formatting or code blocks."""
+                else:
+                    prompt = f"""You are the expert YouTube Shorts scriptwriter for channel "Dont Mix This".
+Write a viral, Playbook-compliant COMPILATION YouTube Shorts script (~90-95 words total) comparing 3 pairs:
+{pairs_summary}
+
+Strict Structural Rules:
+- For each of the 3 pairs, write: "This is [A]. This is [B]. So what's the difference? [A] is [contrast A], while [B] is [contrast B]."
+- Outro MUST be: "Follow for more."
+
+Return ONLY the raw final script text without markdown formatting or code blocks."""
+
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
+                payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"temperature": 0.7}}
+                r = requests.post(url, json=payload, timeout=20)
+                if r.status_code == 200:
+                    res_data = r.json()
+                    generated_text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                    generated_text = re.sub(r'^```[\w]*\n?', '', generated_text)
+                    generated_text = re.sub(r'\n?```$', '', generated_text).strip()
+                    if generated_text:
+                        print(Fore.GREEN + f"✓ AI Compilation Script Generated Successfully ({len(generated_text.split())} words):\n" + Style.RESET_ALL)
+                        print(Fore.YELLOW + generated_text + Style.RESET_ALL + "\n")
+                        return generated_text
+            except Exception as e:
+                print(Fore.YELLOW + f"⚠️ Gemini API call failed ({e}). Falling back to template." + Style.RESET_ALL)
+
+        pairs_data = [{"entity_a": p[0], "entity_b": p[1], "contrast_a": "operates with distinct power", "contrast_b": "operates with contrasting style"} for p in pairs]
+        if channel == "farqkya":
+            script_text = FarqKyaScriptTemplates.render_compilation(pairs_data)
+        else:
+            script_text = ScriptTemplates.render_compilation(pairs_data)
+        print(Fore.GREEN + f"✓ Script Rendered via Template ({len(script_text.split())} words):\n" + Style.RESET_ALL)
+        print(Fore.YELLOW + script_text + Style.RESET_ALL + "\n")
+        return script_text
+
+    # Deepdive Mode
+    entity_a = label1.strip() if label1 else "Topic A"
+    entity_b = label2.strip() if label2 else "Topic B"
+    if (not label1 or not label2) and project_name:
+        m = re.split(r'[-_vsVS]+', project_name)
+        if len(m) >= 2:
+            if not label1: entity_a = m[0].strip()
+            if not label2: entity_b = m[1].strip()
+
+    print(Fore.CYAN + f"\n🤖 Auto-Generating Playbook Script via Gemini AI for '{entity_a}' vs '{entity_b}'..." + Style.RESET_ALL)
+
+    if api_key:
+        try:
+            if channel == "farqkya":
+                prompt = f"""You are the expert YouTube Shorts scriptwriter for channel "Farq Kya" (@farqkya).
+Write a viral, Playbook-compliant DEEPDIVE YouTube Shorts script (60-85 words total) in Roman Urdu comparing "{entity_a}" vs "{entity_b}".
+
+Strict Structural Rules:
+- Line 1 MUST be: "Ye hai {entity_a} aur ye hai {entity_b}, aakhir isme farq kya hai?"
+- Line 2 shatters a common misconception ("Aksar log samajhte hain ke... Lekin aisa nahi hai.").
+- Explain the key contrast mechanism between {entity_a} and {entity_b}.
+- End with a strong punchline.
+- Outro MUST be: "Mazeed videos ke liye follow karein."
+
+Return ONLY the raw final script text without markdown formatting or code blocks."""
+            else:
+                prompt = f"""You are the expert YouTube Shorts scriptwriter for channel "Dont Mix This".
+Write a viral, Playbook-compliant DEEPDIVE YouTube Shorts script (75-85 words total) comparing "{entity_a}" vs "{entity_b}".
+
+Strict Structural Rules:
+- Line 1 MUST be: "This is {entity_a}. This is {entity_b}. So what's the difference?"
+- Line 2 shatters a common misconception ("Most people think... They're not.").
+- Explain the key contrast mechanism between {entity_a} and {entity_b} ("That's why {entity_a}..., while {entity_b}...").
+- End with a strong punchline.
+- Outro MUST be: "Follow for more."
+
+Return ONLY the raw final script text without markdown formatting or code blocks."""
+
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
+            payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"temperature": 0.7}}
+            r = requests.post(url, json=payload, timeout=20)
+            if r.status_code == 200:
+                res_data = r.json()
+                generated_text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                generated_text = re.sub(r'^```[\w]*\n?', '', generated_text)
+                generated_text = re.sub(r'\n?```$', '', generated_text).strip()
+                if generated_text:
+                    print(Fore.GREEN + f"✓ AI Script Generated Successfully ({len(generated_text.split())} words):\n" + Style.RESET_ALL)
+                    print(Fore.YELLOW + generated_text + Style.RESET_ALL + "\n")
+                    return generated_text
+        except Exception as e:
+            print(Fore.YELLOW + f"⚠️ Gemini API call failed ({e}). Falling back to template." + Style.RESET_ALL)
+
+    if channel == "farqkya":
+        script_text = FarqKyaScriptTemplates.render_deepdive(
+            entity_a=entity_a,
+            entity_b=entity_b,
+            template_id=1,
+            concept_hook=f"Aksar log samajhte hain ke {entity_a} aur {entity_b} ek hi hain, lekin aisa nahi hai.",
+            mechanism_a="pehli shariat ko aage badhate hain",
+            mechanism_b="nayi kitab aur shariat ke saath aate hain",
+            punchline=f"Aakhir mein {entity_a} aur {entity_b} mein yahi bunyadi farq hai."
+        )
+    else:
+        script_text = ScriptTemplates.render_deepdive(
+            entity_a=entity_a,
+            entity_b=entity_b,
+            template_id=1,
+            concept_hook=f"Most people think {entity_a} and {entity_b} are identical in power. They're not.",
+            mechanism_a="was forged for extreme combat",
+            mechanism_b="was built specifically as a tactical defense",
+            punchline=f"{entity_a} relies on divine alloy, while {entity_b} relies on Stark engineering."
+        )
+
+    print(Fore.GREEN + f"✓ Script Rendered via Template ({len(script_text.split())} words):\n" + Style.RESET_ALL)
+    print(Fore.YELLOW + script_text + Style.RESET_ALL + "\n")
+    return script_text
+
+
 def main():
     print(Fore.MAGENTA + "=" * 65 + Style.RESET_ALL)
     print(Fore.CYAN + Style.BRIGHT + "   🎬 YOUTUBE SHORTS EDITING AUTOMATION ENGINE   " + Style.RESET_ALL)
@@ -98,6 +263,7 @@ def main():
     parser.add_argument("--batch", "-b", action="store_true", help="Run full batch video generation pipeline")
     parser.add_argument("--mode", "-m", choices=["deepdive", "compilation"], help="Select Video Short Mode: 'deepdive' (1 pair / 2 images) or 'compilation' (3 pairs / 6 images)")
     parser.add_argument("--text", "-t", type=str, help="Script text string to generate voiceover for")
+    parser.add_argument("--auto-script", "--autoscript", action="store_true", help="Auto-generate script text using Gemini AI based on topic/labels")
     parser.add_argument("--label1", "--label-x", "-x", type=str, help="Label text for Image 1 / Topic X (Left / Red, e.g. MCU)")
     parser.add_argument("--label2", "--label-y", "-y", type=str, help="Label text for Image 2 / Topic Y (Right / Blue, e.g. MARVEL COMICS)")
     for idx in range(3, 13):
@@ -106,8 +272,12 @@ def main():
     parser.add_argument("--channel", "-c", choices=["dontmixthis", "farqkya"], help="Select YouTube channel ('dontmixthis' or 'farqkya')")
     parser.add_argument("--skip-tts", "--no-tts", action="store_true", help="Skip Google TTS generation and use pre-recorded audio in input/ folder")
     parser.add_argument("--audio", "-a", type=str, help="Path to pre-recorded audio file to use instead of generating TTS")
+    parser.add_argument("--proceed", "-p", action="store_true", help="Auto-proceed non-interactively with script generation, TTS, SRT, and CapCut draft building")
 
     args, remaining = parser.parse_known_args()
+
+    if args.proceed or (args.project_name and (args.label1 or args.label2 or args.labels) and not args.text and not args.audio and not args.skip_tts):
+        args.auto_script = True
 
     if args.batch:
         import run_batch
@@ -220,11 +390,11 @@ def main():
         if label2:
             build_args.extend(["--label2", label2])
 
-    # 4. Resolve Pre-recorded Audio vs. Google TTS
+    # 4. Resolve Pre-recorded Audio vs. Google TTS & Script Text
     existing_audio = args.audio or find_existing_input_audio()
     skip_tts = args.skip_tts
 
-    if existing_audio and not skip_tts and not args.text:
+    if existing_audio and not skip_tts and not args.text and not args.auto_script:
         rel_audio_path = os.path.relpath(existing_audio, SCRIPT_DIR)
         print(Fore.GREEN + f"\n🎙️  Detected existing audio in 'input/': '{rel_audio_path}'" + Style.RESET_ALL)
         try:
@@ -236,9 +406,22 @@ def main():
 
     script_text = ""
     if not skip_tts:
-        script_text = args.text
-        if not script_text:
-            script_text = get_multiline_input("\n✍️ Enter / Paste your Video Script Text:")
+        if args.auto_script:
+            label1_val = getattr(args, "label1", "") or ""
+            label2_val = getattr(args, "label2", "") or ""
+            script_text = generate_auto_script_text(
+                channel=channel,
+                mode=mode,
+                label1=label1_val,
+                label2=label2_val,
+                labels_str=args.labels,
+                project_name=project_name,
+                build_args=build_args
+            )
+        else:
+            script_text = args.text
+            if not script_text:
+                script_text = get_multiline_input("\n✍️ Enter / Paste your Video Script Text:")
 
         if not script_text or not script_text.strip():
             print(Fore.RED + "\nError: Script text cannot be empty! Exiting." + Style.RESET_ALL)

@@ -103,6 +103,7 @@ def main():
     for idx in range(3, 13):
         parser.add_argument(f"--label{idx}", type=str, default="", help=f"Label text for Image {idx}")
     parser.add_argument("--labels", type=str, default="", help="Comma/Semicolon separated list of labels for all comparison pairs")
+    parser.add_argument("--channel", "-c", choices=["dontmixthis", "farqkya"], help="Select YouTube channel ('dontmixthis' or 'farqkya')")
     parser.add_argument("--skip-tts", "--no-tts", action="store_true", help="Skip Google TTS generation and use pre-recorded audio in input/ folder")
     parser.add_argument("--audio", "-a", type=str, help="Path to pre-recorded audio file to use instead of generating TTS")
 
@@ -114,7 +115,24 @@ def main():
         run_batch.main()
         return
 
-    # 0. Select Video Mode (Deepdive vs Compilation)
+    # 0a. Select Target YouTube Channel
+    channel = args.channel
+    if not channel:
+        print(Fore.CYAN + "\n📺 Select YouTube Channel:" + Style.RESET_ALL)
+        print(Fore.WHITE + "  1. Dont Mix This (@dontmixthis - English)")
+        print(Fore.WHITE + "  2. Farq Kya (@farqkya - Roman Urdu)")
+        try:
+            ch_choice = input(Fore.YELLOW + "👉 Enter choice (1 or 2, default: 1): " + Style.RESET_ALL).strip()
+            if ch_choice == "2":
+                channel = "farqkya"
+            else:
+                channel = "dontmixthis"
+        except (KeyboardInterrupt, EOFError):
+            channel = "dontmixthis"
+
+    print(Fore.GREEN + f"✓ Selected Channel: {channel.upper()}" + Style.RESET_ALL)
+
+    # 0b. Select Video Mode (Deepdive vs Compilation)
     mode = args.mode
     if not mode:
         print(Fore.CYAN + "\n🎬 Select Video Short Option:" + Style.RESET_ALL)
@@ -129,7 +147,7 @@ def main():
         except (KeyboardInterrupt, EOFError):
             mode = "compilation"
 
-    print(Fore.GREEN + f"\n✓ Selected Mode: {mode.upper()}" + Style.RESET_ALL)
+    print(Fore.GREEN + f"✓ Selected Mode: {mode.upper()}" + Style.RESET_ALL)
 
     # 1. Verify input images
     check_input_images()
@@ -158,7 +176,7 @@ def main():
     else:
         num_pairs = 3
 
-    build_args = [project_name, "--mode", mode]
+    build_args = [project_name, "--mode", mode, "--channel", channel]
 
     if args.labels:
         build_args.extend(["--labels", args.labels])
@@ -249,7 +267,7 @@ def main():
         with open(temp_txt_path, "w", encoding="utf-8") as f:
             f.write(script_text)
 
-        code1 = run_python_script(TTS_SCRIPT, ["-i", temp_txt_path])
+        code1 = run_python_script(TTS_SCRIPT, ["-i", temp_txt_path, "--channel", channel])
         if code1 != 0:
             print(Fore.RED + "\n❌ Stage 1 (TTS Generation) failed! Exiting." + Style.RESET_ALL)
             sys.exit(1)
@@ -260,7 +278,8 @@ def main():
 
     # --- STAGE 2: Whisper STT & Gemini 3.6 Flash Mascot Tagging ---
     print(Fore.CYAN + "\n[STAGE 2/3] Extracting Speech Timestamps & Applying Gemini 3.6 Flash Mascot Tags..." + Style.RESET_ALL)
-    code2 = run_python_script(SRT_SCRIPT, ["-i", target_audio])
+    code2 = run_python_script(SRT_SCRIPT, ["-i", target_audio, "--channel", channel])
+
     if code2 != 0:
         print(Fore.RED + "\n❌ Stage 2 (Tagged SRT Generation) failed! Exiting." + Style.RESET_ALL)
         sys.exit(1)

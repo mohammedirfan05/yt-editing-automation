@@ -46,6 +46,40 @@ KNOWN_CAPCUT_FONTS = {
 }
 
 
+# Supported YouTube Channel Configurations (Built-in Fallback)
+BUILTIN_CHANNEL_CONFIGS = {
+    "dontmixthis": {
+        "display_name": "Dont Mix This",
+        "handle": "@dontmixthis",
+        "mascot_dir": "assets/mascot",
+        "draft_prefix": "dontmixthis"
+    },
+    "farqkya": {
+        "display_name": "Farq Kya",
+        "handle": "@farqkya",
+        "mascot_dir": "assets/mascot_urdu",
+        "draft_prefix": "farqkya"
+    }
+}
+
+
+def load_channel_configs() -> dict:
+    """Loads channel configs from config/channel_defaults.json if available."""
+    config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config", "channel_defaults.json")
+    if os.path.isfile(config_path):
+        try:
+            with open(config_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, dict) and data:
+                    return data
+        except Exception:
+            pass
+    return BUILTIN_CHANNEL_CONFIGS
+
+
+CHANNEL_CONFIGS = load_channel_configs()
+
+
 @dataclass
 class SubtitleBlock:
     index: int
@@ -889,8 +923,15 @@ def validate_inputs(
         else:
             img_name = mapping[tag]
             img_path = os.path.join(assets_dir, img_name)
+            fallback_path = os.path.join("assets/mascot", img_name)
             if not os.path.isfile(img_path):
-                missing_asset_files.append((tag, img_name, img_path))
+                if os.path.isfile(fallback_path):
+                    logger.warning(
+                        f"Mascot asset '{img_name}' for tag '{tag}' not found in '{assets_dir}', "
+                        f"falling back to '{fallback_path}'."
+                    )
+                else:
+                    missing_asset_files.append((tag, img_name, img_path))
 
     if missing_mappings:
         errors.append(
@@ -956,6 +997,10 @@ def merge_contiguous_image_segments(
 
         img_filename = mapping.get(tag_code, mapping.get("left", "left.png"))
         img_path = os.path.abspath(os.path.join(assets_dir, img_filename))
+        if not os.path.isfile(img_path):
+            fallback = os.path.abspath(os.path.join("assets/mascot", img_filename))
+            if os.path.isfile(fallback):
+                img_path = fallback
 
         start_us = block.start_us
         end_us = block.end_us
@@ -1205,12 +1250,27 @@ def generate_capcut_draft(
     for spec in image_segments:
         timerange = pcc.Timerange(spec.start_us, spec.duration_us)
         material = pcc.VideoMaterial(spec.img_path)
+
+        # Custom override: ONLY for mascot_urdu AND ONLY for right.png
+        is_urdu_dir = "mascot_urdu" in spec.img_path.replace("\\", "/").lower()
+        is_right_asset = spec.tag_code == "right" or os.path.basename(spec.img_path).lower() == "right.png"
+
+        if is_urdu_dir and is_right_asset:
+            cur_scale = 0.46
+            cur_transform_x = round(-29.0 / width, 6)
+            cur_transform_y = round(-890.0 / height, 6)
+            logger.info(f"Applying mascot_urdu right.png override: pos_x=-29.0px, pos_y=-890.0px, scale=46.0% (transform_x={cur_transform_x}, transform_y={cur_transform_y})")
+        else:
+            cur_scale = image_scale
+            cur_transform_x = transform_x
+            cur_transform_y = transform_y
+
         clip_settings = pcc.ClipSettings(
-            scale_x=image_scale,
-            scale_y=image_scale,
+            scale_x=cur_scale,
+            scale_y=cur_scale,
             alpha=image_alpha,
-            transform_x=transform_x,
-            transform_y=transform_y
+            transform_x=cur_transform_x,
+            transform_y=cur_transform_y
         )
         img_seg = pcc.VideoSegment(material, timerange, clip_settings=clip_settings)
         script.add_segment(img_seg, track_name="mascot_track")
@@ -1432,12 +1492,13 @@ def main():
     # Core Paths & Project Name with Smart Defaults
     parser.add_argument("name", nargs="?", help="Optional project name (e.g. 'capvsironman')")
     parser.add_argument("--name", "--project-name", dest="project_name_flag", help="Name for the output CapCut draft project")
+    parser.add_argument("--channel", "-c", choices=list(CHANNEL_CONFIGS.keys()), default="dontmixthis", help="Target YouTube channel ('dontmixthis' or 'farqkya'; default: 'dontmixthis')")
     parser.add_argument("--srt", help="Path to tagged SRT subtitle file (default: auto-detected from input/ folder)")
     parser.add_argument("--audio", help="Path to voiceover audio file WAV/MP3 (default: auto-detected from input/ folder)")
     parser.add_argument("--image1", help="Path to Image 1 comparison file (default: auto-detected from input/ folder)")
     parser.add_argument("--image2", help="Path to Image 2 comparison file (default: auto-detected from input/ folder)")
     parser.add_argument("--mapping", default="config/mapping.json", help="Path to tag-to-image mapping JSON (default: config/mapping.json)")
-    parser.add_argument("--assets", default="assets/mascot", help="Directory containing PNG image assets (default: assets/mascot)")
+    parser.add_argument("--assets", default=None, help="Directory containing PNG image assets (default: auto-selected based on --channel)")
     parser.add_argument("--bg-image", default="assets/background/dotgrid.png", help="Path to primary background image (default: assets/background/dotgrid.png)")
     parser.add_argument("--drafts-dir", default=default_drafts_dir, help="Path to CapCut local drafts directory (auto-detected by default)")
 
@@ -1519,10 +1580,21 @@ def main():
     if not image2_path:
         image2_path = find_input_image_by_prefix(["image2", "img2", "right_image", "2"], "input")
 
-    # Infer project name from flag, positional argument, or SRT filename
-    project_name = (args.project_name_flag or args.name or Path(srt_path).stem).strip('\\/ ')
+    # Resolve channel and mascot asset directory
+    channel = args.channel.lower()
+    channel_cfg = CHANNEL_CONFIGS.get(channel, CHANNEL_CONFIGS["dontmixthis"])
+    assets_dir = args.assets if args.assets else channel_cfg["mascot_dir"]
+
+    # Infer and format project name to be channel-aware (e.g. farqkya_ZakatVsSadaqah or dontmixthis_CapVsIronman)
+    raw_proj_name = (args.project_name_flag or args.name or Path(srt_path).stem).strip('\\/ ')
+    prefix = channel_cfg["draft_prefix"]
+    if raw_proj_name.lower().startswith(f"{prefix}_") or raw_proj_name.lower().startswith(f"{prefix}-"):
+        project_name = raw_proj_name
+    else:
+        project_name = f"{prefix}_{raw_proj_name}"
 
     logger.info("Starting CapCut Draft Builder pipeline...")
+    logger.info(f"Target Channel: {channel_cfg['display_name']} ({channel_cfg['handle']})")
     logger.info(f"Input SRT: {srt_path}")
     logger.info(f"Input Audio: {audio_path if audio_path else 'None (subtitles only)'}")
     logger.info(f"Image 1: {image1_path if image1_path else 'None'}")
@@ -1530,7 +1602,7 @@ def main():
     logger.info(f"Click SFX: {args.click_sfx if os.path.isfile(args.click_sfx) else 'None'}")
     logger.info(f"Pop SFX: {args.pop_sfx if os.path.isfile(args.pop_sfx) else 'None'}")
     logger.info(f"Input Mapping: {args.mapping}")
-    logger.info(f"Assets Directory: {args.assets}")
+    logger.info(f"Assets Directory: {assets_dir}")
     logger.info(f"Background Image: {args.bg_image}")
     logger.info(f"CapCut Drafts Dir: {args.drafts_dir}")
     logger.info(f"Project Name: {project_name}")
@@ -1587,7 +1659,7 @@ def main():
     mapping, validation_errors = validate_inputs(
         srt_path=srt_path,
         mapping_path=args.mapping,
-        assets_dir=args.assets,
+        assets_dir=assets_dir,
         bg_image_path=args.bg_image,
         audio_path=audio_path,
         image1_path=image1_path,
@@ -1610,7 +1682,11 @@ def main():
     for b in blocks:
         for tag in b.tags:
             img_name = mapping[tag]
-            img_path = os.path.abspath(os.path.join(args.assets, img_name))
+            img_path = os.path.abspath(os.path.join(assets_dir, img_name))
+            if not os.path.isfile(img_path):
+                fallback = os.path.abspath(os.path.join("assets/mascot", img_name))
+                if os.path.isfile(fallback):
+                    img_path = fallback
             b.resolved_images.append(img_path)
 
     # 3. Merge contiguous blocks with the same tag into seamless image segments
@@ -1618,7 +1694,7 @@ def main():
     image_segments = merge_contiguous_image_segments(
         blocks=blocks,
         mapping=mapping,
-        assets_dir=args.assets,
+        assets_dir=assets_dir,
         max_gap_us=max_gap_us
     )
 
@@ -1722,6 +1798,7 @@ def main():
     # 6. Final Summary Report
     logger.info("=" * 60)
     logger.info("EXECUTION SUMMARY:")
+    logger.info(f" - Target YouTube Channel       : {channel_cfg['display_name']} ({channel_cfg['handle']})")
     logger.info(f" - Total Subtitle Blocks Processed : {len(blocks)}")
     logger.info(f" - Subtitle Blocks with Tags       : {len(blocks) - untagged_block_count}")
     logger.info(f" - Subtitle Blocks without Tags    : {untagged_block_count} (normal text-only blocks)")
@@ -1731,6 +1808,7 @@ def main():
     logger.info(f" - Total Timeline Duration         : {total_duration_us / 1_000_000:.2f}s")
     logger.info(f" - Primary Background Image        : {args.bg_image} (extended to {total_duration_us / 1_000_000:.2f}s)")
     logger.info(f" - Merged Mascot Overlay Segments  : {len(image_segments)}")
+    logger.info(f" - Mascot PNG Assets Directory     : {assets_dir}")
     logger.info(f" - Unique Mascot PNG Assets Used   : {len(pngs_used)} ({', '.join(sorted(pngs_used)) if pngs_used else 'None'})")
     logger.info(f" - Mascot Scale & Position         : scale={args.image_scale*100:.1f}%, pos_x={args.pos_x}px, pos_y={args.pos_y}px")
     logger.info(f" - Subtitle Font & Position        : font='{args.text_font}', color=Black, pos_x={args.text_pos_x}px, pos_y={args.text_pos_y}px")

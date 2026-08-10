@@ -1,0 +1,29 @@
+{
+  "id": "farq_islamic_02",
+  "title": "Hajj vs Umrah: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "approved",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Hajj",
+      "Umrah"
+    ]
+  ],
+  "script": "Ye hai Hajj aur ye hai Umrah, aakhir isme farq kya hai? Aksar log Hajj aur Umrah ko ek jaisa ziarat samajhte hain, lekin inme bada farq hai. Hajj Islam ka farz rukn hai jo saal mein sirf Zil-Hajj ke khass dino mein ada kiya jata hai. Lekin Umrah Nafli ibadat hai jise saal mein kisi bhi waqt ada kiya ja sakta hai. Hajj mahsoos dino ka farz ibadat hai, jabke Umrah saal bhar mein kabhi bhi kiya jata hai. Mazeed videos ke liye follow karein.",
+  "word_count": 87,
+  "estimated_duration_sec": 32.22,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [
+    "[Word Count] 87 words is outside ideal range (60-85)."
+  ],
+  "labels": {
+    "label1": "Hajj",
+    "label2": "Umrah"
+  },
+  "created_at": "2026-08-09T16:02:13.512481",
+  "updated_at": "2026-08-09T16:03:16.726839",
+  "notes": "Manually approved by user"
+}

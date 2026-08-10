@@ -10,9 +10,9 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 
 from .analyzer import ConceptCatalog
-from .templates import ScriptTemplates
+from .templates import ScriptTemplates, ScriptTemplatesUrdu
 from .tracker import ContentTracker
-from .validator import PlaybookValidator
+from .validator import PlaybookValidator, PlaybookValidatorUrdu
 
 
 class ScriptGenerator:
@@ -31,14 +31,15 @@ class ScriptGenerator:
         self,
         count: int = 2,
         mode: str = "auto",
-        fandom: Optional[str] = None
+        fandom: Optional[str] = None,
+        channel: str = "dontmixthis"
     ) -> List[Dict[str, Any]]:
         """
         Generates N high-potential, non-duplicate, Playbook-compliant scripts.
-        When mode='auto', balances 50% Deep Dives and 50% Compilations (e.g. N=2 -> 1 DD + 1 Comp; N=10 -> 5 DD + 5 Comp).
+        When mode='auto', balances 50% Deep Dives and 50% Compilations.
         """
         generated = []
-        opportunities = ConceptCatalog.get_all_opportunities()
+        opportunities = ConceptCatalog.get_all_opportunities(channel=channel)
 
         if mode == "auto":
             target_deepdives = (count + 1) // 2
@@ -54,19 +55,27 @@ class ScriptGenerator:
         count_compilations = 0
 
         # Try Gemini Flash LLM Script Generation first
-        llm_scripts = self._generate_via_gemini_llm(
-            count=count,
-            target_deepdives=target_deepdives,
-            target_compilations=target_compilations,
-            fandom=fandom
-        )
+        if channel == "farqkya":
+            llm_scripts = self._generate_via_gemini_llm_farqkya(
+                count=count,
+                target_deepdives=target_deepdives,
+                target_compilations=target_compilations,
+                fandom=fandom
+            )
+        else:
+            llm_scripts = self._generate_via_gemini_llm(
+                count=count,
+                target_deepdives=target_deepdives,
+                target_compilations=target_compilations,
+                fandom=fandom
+            )
 
         for opp in llm_scripts:
             if len(generated) >= count:
                 break
 
             opp_type = opp.get("type", "deepdive")
-            opp_fandom = opp.get("fandom", "Marvel")
+            opp_fandom = opp.get("fandom", "Islamic" if channel == "farqkya" else "Marvel")
             pairs = opp.get("pairs", [])
             title = opp.get("title", "")
             script_text = opp.get("script", "")
@@ -77,7 +86,7 @@ class ScriptGenerator:
                 continue
 
             # 2. Playbook Validation
-            is_compliant, issues, metrics = PlaybookValidator.validate_script(script_text, mode=opp_type)
+            is_compliant, issues, metrics = PlaybookValidator.validate_script(script_text, mode=opp_type, channel=channel)
             if not is_compliant:
                 continue
 
@@ -86,6 +95,7 @@ class ScriptGenerator:
                 "id": topic_id,
                 "title": title,
                 "type": opp_type,
+                "channel": channel,
                 "status": "idea",
                 "fandom": opp_fandom,
                 "pairs": pairs,
@@ -115,13 +125,13 @@ class ScriptGenerator:
 
         # Fallback to ConceptCatalog if LLM yielded fewer scripts than count
         if len(generated) < count:
-            opportunities = ConceptCatalog.get_all_opportunities()
+            opportunities = ConceptCatalog.get_all_opportunities(channel=channel)
             for opp in opportunities:
                 if len(generated) >= count:
                     break
 
                 opp_type = opp.get("type", "deepdive")
-                opp_fandom = opp.get("fandom", "Marvel")
+                opp_fandom = opp.get("fandom", "Islamic" if channel == "farqkya" else "Marvel")
 
                 if opp_type == "deepdive" and count_deepdives >= target_deepdives:
                     continue
@@ -138,22 +148,38 @@ class ScriptGenerator:
                 if is_dup:
                     continue
 
-                if opp_type == "deepdive":
-                    script_text = ScriptTemplates.render_deepdive(
-                        entity_a=opp.get("entity_a", pairs[0][0] if pairs else "Entity A"),
-                        entity_b=opp.get("entity_b", pairs[0][1] if pairs and len(pairs[0]) > 1 else "Entity B"),
-                        template_id=opp.get("template_id", 1),
-                        concept_hook=opp.get("concept_hook", "Most people think they are the same. They're not."),
-                        mechanism_a=opp.get("mechanism_a", "operates with unique energy"),
-                        mechanism_b=opp.get("mechanism_b", "operates with contrasting power"),
-                        punchline=opp.get("punchline", "Entity A uses force, while Entity B uses power.")
-                    )
+                if channel == "farqkya":
+                    if opp_type == "deepdive":
+                        script_text = ScriptTemplatesUrdu.render_deepdive(
+                            entity_a=opp.get("entity_a", pairs[0][0] if pairs else "Entity A"),
+                            entity_b=opp.get("entity_b", pairs[0][1] if pairs and len(pairs[0]) > 1 else "Entity B"),
+                            template_id=opp.get("template_id", 1),
+                            concept_hook=opp.get("concept_hook", "Aksar log samajhte hain ke ye dono ek hi hain, lekin aisa nahi hai."),
+                            mechanism_a=opp.get("mechanism_a", "pehli shariat ko aage badhate hain"),
+                            mechanism_b=opp.get("mechanism_b", "nayi kitab aur shariat ke saath aate hain"),
+                            punchline=opp.get("punchline", "Aakhir mein inme yahi bunyadi farq hai.")
+                        )
+                    else:
+                        script_text = ScriptTemplatesUrdu.render_compilation(
+                            pairs_data=opp.get("pairs_data", [])
+                        )
                 else:
-                    script_text = ScriptTemplates.render_compilation(
-                        pairs_data=opp.get("pairs_data", [])
-                    )
+                    if opp_type == "deepdive":
+                        script_text = ScriptTemplates.render_deepdive(
+                            entity_a=opp.get("entity_a", pairs[0][0] if pairs else "Entity A"),
+                            entity_b=opp.get("entity_b", pairs[0][1] if pairs and len(pairs[0]) > 1 else "Entity B"),
+                            template_id=opp.get("template_id", 1),
+                            concept_hook=opp.get("concept_hook", "Most people think they are the same. They're not."),
+                            mechanism_a=opp.get("mechanism_a", "operates with unique energy"),
+                            mechanism_b=opp.get("mechanism_b", "operates with contrasting power"),
+                            punchline=opp.get("punchline", "Entity A uses force, while Entity B uses power.")
+                        )
+                    else:
+                        script_text = ScriptTemplates.render_compilation(
+                            pairs_data=opp.get("pairs_data", [])
+                        )
 
-                is_compliant, issues, metrics = PlaybookValidator.validate_script(script_text, mode=opp_type)
+                is_compliant, issues, metrics = PlaybookValidator.validate_script(script_text, mode=opp_type, channel=channel)
                 if not is_compliant:
                     continue
 
@@ -162,6 +188,7 @@ class ScriptGenerator:
                     "id": topic_id,
                     "title": title,
                     "type": opp_type,
+                    "channel": channel,
                     "status": "idea",
                     "fandom": opp_fandom,
                     "pairs": pairs,
@@ -190,6 +217,85 @@ class ScriptGenerator:
                 generated.append(topic_entry)
 
         return generated
+
+    def _generate_via_gemini_llm_farqkya(
+        self,
+        count: int,
+        target_deepdives: int,
+        target_compilations: int,
+        fandom: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        """Calls Gemini Flash LLM to generate fresh Roman Urdu scripts for Farq Kya channel."""
+        import requests
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if not api_key:
+            return []
+
+        published_pairs = []
+        for t in self.tracker.data.get("topics", {}).values():
+            if t.get("status") in ["published", "posted"]:
+                for p in t.get("pairs", []):
+                    if len(p) >= 2:
+                        published_pairs.append(f"{p[0]} vs {p[1]}")
+
+        excluded_str = ", ".join(published_pairs) if published_pairs else "None"
+
+        prompt = f"""You are the expert YouTube Shorts scriptwriter for Urdu/Hindi Islamic channel "Farq Kya" (@farqkya).
+Your job is to generate {count} fresh, high-potential Islamic X vs Y Shorts scripts written in clear, natural Roman Urdu (Urdu written in Latin/English script).
+Target distribution: {target_deepdives} DEEPDIVE scripts and {target_compilations} COMPILATION scripts.
+
+CRITICAL DUPLICATE RULE:
+Do NOT generate any of the following already published concepts:
+{excluded_str}
+
+Playbook Instructions for Farq Kya (Roman Urdu):
+1. DEEPDIVE Mode (60-85 words total in Roman Urdu):
+   - Mandatory Hook (Line 1): "Ye hai [X] aur ye hai [Y], aakhir isme farq kya hai?"
+   - Misconception shatter: "Aksar log samajhte hain ke... Lekin aisa nahi hai."
+   - Contrast mechanism, end with punchline rule: "Isliye [X] [action], jabke [Y] [result]."
+   - Outro: "Mazeed videos ke liye follow karein."
+
+2. COMPILATION Mode (75-95 words total, 3 pairs):
+   - 3 pairs, repeating hook: "Ye hai [A] aur ye hai [B], aakhir isme farq kya hai? [A] [contrast A], jabke [B] [contrast B]."
+   - Outro: "Mazeed videos ke liye follow karein."
+
+OUTPUT FORMAT:
+Return ONLY a valid JSON object matching this schema:
+{{
+  "topics": [
+    {{
+      "id": "farq_dd_01",
+      "title": "Nabi vs Rasool: Farq Kya Hai?",
+      "type": "deepdive",
+      "fandom": "Islamic",
+      "pairs": [["Nabi", "Rasool"]],
+      "script": "Ye hai Nabi aur ye hai Rasool, aakhir isme farq kya hai? Aksar log samajhte hain ke dono ek hi hain, lekin aisa nahi hai. Nabi Allah ki taraf se wahi haasil karte hain, jabke Rasool nayi shariat aur kitab ke saath bheje jaate hain. Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota. Mazeed videos ke liye follow karein."
+    }}
+  ]
+}}"""
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
+        headers = {"Content-Type": "application/json"}
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": 0.7,
+                "responseMimeType": "application/json"
+            }
+        }
+
+        try:
+            r = requests.post(url, headers=headers, json=payload, timeout=25)
+            if r.status_code == 200:
+                res_data = r.json()
+                content_text = res_data["candidates"][0]["content"]["parts"][0]["text"]
+                parsed = json.loads(content_text)
+                return parsed.get("topics", [])
+        except Exception:
+            pass
+
+        return []
+
 
     def _generate_via_gemini_llm(
         self,
@@ -273,10 +379,12 @@ Return ONLY a valid JSON object matching this schema:
                 content_text = res_data["candidates"][0]["content"]["parts"][0]["text"]
                 parsed = json.loads(content_text)
                 return parsed.get("topics", [])
-        except Exception as e:
+        except Exception:
             pass
 
         return []
+
+
 
     def _build_labels(self, pairs: List[List[str]], mode: str) -> Dict[str, Any]:
         """Formats labels structure required by CapCut builder if exported to batch."""

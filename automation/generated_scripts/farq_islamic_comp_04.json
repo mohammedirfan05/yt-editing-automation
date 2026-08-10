@@ -1,0 +1,44 @@
+{
+  "id": "farq_islamic_comp_04",
+  "title": "Roza Kaffarah aur Jannah: Farq Kya Hai",
+  "type": "compilation",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Roza",
+      "Qaza Roza"
+    ],
+    [
+      "Kaffarah",
+      "Fidyah"
+    ],
+    [
+      "Jannah",
+      "Firdaus"
+    ]
+  ],
+  "script": "Ye hai Roza aur ye hai Qaza Roza, aakhir isme farq kya hai? Roza Ramadan mein ibadat ka sawab hai, jabke Qaza Roza choote hue roze ki baad mein zimmedari hai. Ye hai Kaffarah aur ye hai Fidyah, aakhir isme farq kya hai? Kaffarah kasdi ghalti ki saza hai, jabke Fidyah majburi mein ibadat na kar sakne ka muawwaza hai. Ye hai Jannah aur ye hai Firdaus, aakhir isme farq kya hai? Jannah jannat ka aam naam hai, jabke Firdaus jannat ka sabse aala darjah hai. Mazeed videos ke liye follow karein.",
+  "word_count": 92,
+  "estimated_duration_sec": 34.07,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "pair1": [
+      "Roza",
+      "Qaza Roza"
+    ],
+    "pair2": [
+      "Kaffarah",
+      "Fidyah"
+    ],
+    "pair3": [
+      "Jannah",
+      "Firdaus"
+    ]
+  },
+  "created_at": "2026-08-10T09:25:10.982708",
+  "updated_at": "2026-08-10T09:25:10.982708"
+}

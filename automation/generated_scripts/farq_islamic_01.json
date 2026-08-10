@@ -1,0 +1,26 @@
+{
+  "id": "farq_islamic_01",
+  "title": "Nabi vs Rasool: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Nabi",
+      "Rasool"
+    ]
+  ],
+  "script": "Ye hai Nabi aur ye hai Rasool, aakhir isme farq kya hai? Aksar log samajhte hain ke Nabi aur Rasool ek hi hain, lekin aisa nahi hai. Nabi Allah Ta'ala ki taraf se wahi aur hidayat haasik karte hain pehli shariat ko aage badhane ke liye. Lekin Rasool Naye Aasmani Kitab aur naye shariat ke saath nayi ummat ki taraf bheje jaate hain. Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota. Mazeed videos ke liye follow karein.",
+  "word_count": 80,
+  "estimated_duration_sec": 29.63,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "label1": "Nabi",
+    "label2": "Rasool"
+  },
+  "created_at": "2026-08-09T15:57:34.183243",
+  "updated_at": "2026-08-09T15:57:34.183243"
+}

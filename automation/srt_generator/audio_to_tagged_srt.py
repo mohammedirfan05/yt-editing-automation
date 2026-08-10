@@ -15,6 +15,7 @@ import os
 import re
 import shutil
 import sys
+import time
 from typing import Dict, List, Optional, Tuple
 
 import requests
@@ -53,7 +54,7 @@ def load_env_file() -> None:
                             v = v.strip().strip('"').strip("'")
                             if k and v and k not in os.environ:
                                 os.environ[k] = v
-            except Exception as e:
+            except Exception:
                 pass
 
 
@@ -284,14 +285,118 @@ def merge_gemini_tags_into_raw_srt(raw_srt_content: str, gemini_tagged_text: str
     return '\n\n'.join(merged_blocks) + '\n'
 
 
+def romanize_srt_to_roman_urdu(
+    srt_content: str,
+    api_key: Optional[str] = None,
+    model_name: str = DEFAULT_GEMINI_MODEL
+) -> str:
+    """
+    Uses Gemini AI to convert an SRT file's subtitle text into Roman-Urdu
+    (Urdu spoken language written in the Latin/English alphabet), as actually
+    spoken in the voiceover. English proper nouns and technical/key terms
+    (the actual entities being compared, e.g. iPhone, Jibril, Fiqh) are
+    kept in their original English spelling.
+
+    This corrects Whisper's output when it either:
+      - Transcribes Urdu speech as Arabic-script Urdu, or
+      - Mistakenly translates Urdu speech into English phrasing.
+    """
+    if not api_key:
+        print(Fore.YELLOW + "[Roman-Urdu] No Gemini API key — skipping Roman-Urdu conversion." + Style.RESET_ALL)
+        return srt_content
+
+    if not srt_content or not srt_content.strip():
+        return srt_content
+
+    print(Fore.CYAN + f"[Roman-Urdu] Converting SRT captions to Roman-Urdu (model={model_name})..." + Style.RESET_ALL)
+
+    prompt = f"""You are an expert Roman-Urdu transliterator for a Pakistani YouTube Shorts channel called 'Farq Kya'.
+
+Your task is to rewrite the subtitle text in an SRT file into Roman-Urdu — that is, Urdu as it is actually spoken,
+written out using the Latin (English) alphabet. This is NOT translation; it is transliteration of spoken Urdu.
+
+### Rules:
+1. Write the text exactly as the speaker would say it in Urdu, using Roman (Latin) script.
+   - Example: Instead of "This is Angel Jibril" → write "Ye hai Jibril (AS)"
+   - Example: Instead of "What is the difference?" → write "Toh inme farq kya hai?"
+   - Example: Instead of "So this is X and this is Y" → write "Toh ye hai X aur ye hai Y"
+2. Keep proper nouns (names of Islamic figures, people, places) in their original English spelling.
+3. Keep the technical/key comparison terms (the actual entities being compared, e.g. "iPhone", "Fiqh", "Sunnah") in their original English spelling.
+4. Do NOT translate meaning into English phrasing. The output must sound like natural spoken Urdu.
+5. Do NOT change any SRT index numbers or timestamps — keep them EXACTLY identical.
+6. Only rewrite the text lines. Leave index numbers and timestamp lines untouched.
+7. Return ONLY the final complete SRT content. No markdown, no backticks, no extra explanation.
+
+--- INPUT SRT ---
+{srt_content}
+"""
+
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0.2, "maxOutputTokens": 4096}
+    }
+    headers = {"Content-Type": "application/json"}
+
+    models_to_try = [model_name, "gemini-2.0-flash", "gemini-1.5-flash"]
+    seen_models = []
+    for m in models_to_try:
+        if m not in seen_models:
+            seen_models.append(m)
+
+    for m_name in seen_models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={api_key}"
+        for attempt in range(1, 4):
+            try:
+                r = requests.post(url, headers=headers, json=payload, timeout=60)
+                if r.status_code == 200:
+                    res_data = r.json()
+                    candidates = res_data.get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        if parts:
+                            output_text = parts[0].get("text", "").strip()
+                            output_text = re.sub(r'^```\w*\n', '', output_text)
+                            output_text = re.sub(r'\n```$', '', output_text).strip()
+                            if output_text:
+                                print(Fore.GREEN + f"[Roman-Urdu] Conversion successful with '{m_name}'!" + Style.RESET_ALL)
+                                return output_text + "\n"
+                elif r.status_code == 429:
+                    print(Fore.YELLOW + f"[Roman-Urdu Warning] API HTTP 429 Rate Limit (attempt {attempt}/3). Retrying in 5s..." + Style.RESET_ALL)
+                    time.sleep(5.0)
+                    continue
+                else:
+                    print(Fore.YELLOW + f"[Roman-Urdu Warning] API HTTP {r.status_code} for '{m_name}': {r.text[:200]}" + Style.RESET_ALL)
+                    break
+            except Exception as e:
+                print(Fore.YELLOW + f"[Roman-Urdu Warning] Request failed for '{m_name}': {e}" + Style.RESET_ALL)
+                break
+
+    return srt_content
+
+
 def tag_srt_with_gemini_ai(
     raw_srt_content: str,
-    api_key: str,
+    api_key: Optional[str] = None,
     model_name: str = DEFAULT_GEMINI_MODEL
 ) -> str:
     """
     Uses Google Gemini 3.6 Flash API to analyze subtitle script context and insert mascot image tags [IMG:tag_code].
     """
+    if not api_key:
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if not api_key:
+            root_env = os.path.join(PROJECT_ROOT, ".env")
+            if os.path.isfile(root_env):
+                try:
+                    with open(root_env, "r", encoding="utf-8") as f:
+                        for line in f:
+                            line = line.strip()
+                            if line.startswith("GEMINI_API_KEY="):
+                                api_key = line.split("=", 1)[1].strip().strip('"').strip("'")
+                                break
+                except Exception:
+                    pass
+
     if not api_key:
         print(Fore.YELLOW + "[Gemini AI] No API key found. Returning clean untagged SRT." + Style.RESET_ALL)
         return raw_srt_content
@@ -299,38 +404,40 @@ def tag_srt_with_gemini_ai(
     print(Fore.CYAN + f"[Gemini AI] Analyzing script context and tagging mascot overlays (model={model_name})..." + Style.RESET_ALL)
 
     prompt = f"""You are an expert AI Short-Form Video Director & Mascot Tagging Engine.
-Your job is to analyze an untagged SRT subtitle file for a comparison/versus video and insert mascot tags `[IMG:tag_code]` at the end of text lines.
+Your job is to analyze an untagged SRT subtitle file for a comparison/versus video and insert ONE mascot tag `[IMG:tag_code]` at the end of relevant text lines.
 
-### STEP 1: ENTITY MAPPING IN THE SCRIPT
-First, identify the two main competing entities being compared in the script:
-- ENTITY A (Topic 1 / Left Entity): e.g. Superman, Sharingan, iPhone, Naruto, first item mentioned.
-- ENTITY B (Topic 2 / Right Entity): e.g. Shazam, Rinnegan, Samsung, Sasuke, second item mentioned.
+### STEP 1: ENTITY MAPPING
+First identify the two entities being compared:
+- ENTITY A (Left Entity): the first item introduced (e.g. Wolverine, Superman, iPhone)
+- ENTITY B (Right Entity): the second item introduced (e.g. Deadpool, Shazam, Samsung)
 
-### STEP 2: MASCOT TAGGING RULES
+### STEP 2: AVAILABLE MASCOT TAGS
 
-1. `[IMG:left]` -> Use when introducing, showing, or explaining ENTITY A (Topic 1).
-2. `[IMG:right]` -> Use when introducing, showing, or explaining ENTITY B (Topic 2).
-   CRITICAL: Whenever the text discusses ENTITY B (e.g. Shazam, Rinnegan, Samsung, Sasuke), you MUST tag `[IMG:right]`. NEVER use `[IMG:left]` for ENTITY B!
-3. `[IMG:wtd]` -> Use when asking a comparison question or expressing curiosity (e.g., "So, what's the difference?", "Which one are you picking?", "?").
-4. `[IMG:disagree]` -> Use for negations, debunks, or head-shaking statements (e.g., "They're not", "Wrong", "Incorrect", "No").
-5. `[IMG:remember_this]` -> Use for key pro-tips, memory hooks, or core takeaways (e.g., "That's why magic is one of Superman's biggest weaknesses").
-6. `[IMG:shocked]` -> Use for mind-blowing reveals, plot twists, jaw-dropping facts, or crazy stats (e.g., "He wiped out an entire galaxy", "Unbelievable", "Insane").
-7. `[IMG:thinking]` -> Use for deep questions, mystery moments, analysis, or pondering (e.g., "Have you ever wondered why...", "Let's analyze...", "Consider this").
-8. `[IMG:smug]` -> Use for flexes, undisputed wins, arrogant statements, or mic-drop moments (e.g., "It's not even close", "Hands down", "Flawless victory").
-9. `[IMG:victorious]` -> Use for celebration, ultimate winner declarations, epic achievements, or final triumphs (e.g., "And the winner is...", "Dominates completely!", "Takes the crown").
-10. `[IMG:final_end]` -> Use for outro, CTA, or subscribe prompts (e.g., "Comment below and subscribe for more").
+1. `[IMG:left]`         — ENTITY A is being introduced or explained.
+2. `[IMG:right]`        — ENTITY B is being introduced or explained. NEVER use left for Entity B.
+3. `[IMG:wtd]`          — Comparison question or curiosity (lines containing "?", "what's the difference", "which one", etc.).
+4. `[IMG:disagree]`     — Negation, debunk, or contrast statement ("They don't.", "Wrong.", "Actually...", "No.").
+5. `[IMG:remember_this]`— Core takeaway, key rule, or memory hook (final insight before the outro).
+6. `[IMG:shocked]`      — Surprising or jaw-dropping fact ("insane", "wild", "wait—").
+7. `[IMG:twohandsopen]` — Line discusses BOTH entities equally.
+8. `[IMG:normal]`       — Neutral filler or transitional line with no entity signal.
+9. `[IMG:final_end]`    — Outro, CTA, or subscribe prompt. Use ONLY on the very last line.
 
-### CRITICAL RULES:
+### STEP 3: TAGGING RULES
+
+- **Match pose to meaning, not position.** A pose must reflect what the line SAYS, not where it appears.
+- **Hold poses across beats.** A pose should cover 2–4 consecutive lines (a coherent thought/beat) before switching. Do NOT flicker between poses on every single line.
+- **Avoid awkward jumps.** Do not switch from `disagree` directly to `left` or `right`. Do not switch from `wtd` directly to `disagree`. Bridge with a neutral pose if needed.
+- **`remember_this` is late-script only.** Do not use it before ~75% through the script. Reserve it for the closing insight.
+- **`final_end` on the very last line only.**
 - Do NOT change any SRT index numbers or timestamps. Keep them EXACTLY identical.
-- Append `[IMG:tag_code]` to the end of the text line for blocks that trigger mascot visual overlays.
-- Ensure strict switching between ENTITY A (`[IMG:left]`) and ENTITY B (`[IMG:right]`).
-- Return ONLY the final complete tagged SRT content without any markdown formatting, backticks, or extra explanation text.
+- Append `[IMG:tag_code]` to the end of the text line. Every line should have exactly one tag.
+- Return ONLY the final complete tagged SRT content. No markdown, no backticks, no extra explanation.
 
 --- INPUT SRT ---
 {raw_srt_content}
 """
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
     payload = {
         "contents": [
             {
@@ -347,28 +454,66 @@ First, identify the two main competing entities being compared in the script:
 
     headers = {"Content-Type": "application/json"}
 
-    try:
-        r = requests.post(url, headers=headers, json=payload, timeout=60)
-        if r.status_code == 200:
-            res_data = r.json()
-            candidates = res_data.get("candidates", [])
-            if candidates:
-                parts = candidates[0].get("content", {}).get("parts", [])
-                if parts:
-                    output_text = parts[0].get("text", "").strip()
-                    output_text = re.sub(r'^```\w*\n', '', output_text)
-                    output_text = re.sub(r'\n```$', '', output_text).strip()
-                    print(Fore.GREEN + f"[Gemini AI] Mascot tagging successfully completed with '{model_name}'!" + Style.RESET_ALL)
-                    return merge_gemini_tags_into_raw_srt(raw_srt_content, output_text)
-        else:
-            print(Fore.YELLOW + f"[Gemini AI Warning] API HTTP {r.status_code}: {r.text[:200]}" + Style.RESET_ALL)
-            fallback_model = "gemini-2.5-flash" if model_name != "gemini-2.5-flash" else "gemini-1.5-flash"
-            print(Fore.CYAN + f"[Gemini AI] Trying fallback model '{fallback_model}'..." + Style.RESET_ALL)
-            return tag_srt_with_gemini_ai(raw_srt_content, api_key, model_name=fallback_model)
-    except Exception as e:
-        print(Fore.YELLOW + f"[Gemini AI Warning] Request failed: {e}" + Style.RESET_ALL)
+    models_to_try = [model_name, "gemini-2.0-flash", "gemini-1.5-flash"]
+    seen_models = []
+    for m in models_to_try:
+        if m not in seen_models:
+            seen_models.append(m)
+
+    for m_name in seen_models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={api_key}"
+        for attempt in range(1, 4):
+            try:
+                r = requests.post(url, headers=headers, json=payload, timeout=60)
+                if r.status_code == 200:
+                    res_data = r.json()
+                    candidates = res_data.get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        if parts:
+                            output_text = parts[0].get("text", "").strip()
+                            output_text = re.sub(r'^```\w*\n', '', output_text)
+                            output_text = re.sub(r'\n```$', '', output_text).strip()
+                            print(Fore.GREEN + f"[Gemini AI] Mascot tagging successfully completed with '{m_name}'!" + Style.RESET_ALL)
+                            return merge_gemini_tags_into_raw_srt(raw_srt_content, output_text)
+                elif r.status_code == 429:
+                    print(Fore.YELLOW + f"[Gemini AI Warning] API HTTP 429 Rate Limit (attempt {attempt}/3). Retrying in 5s..." + Style.RESET_ALL)
+                    time.sleep(5.0)
+                    continue
+                else:
+                    print(Fore.YELLOW + f"[Gemini AI Warning] API HTTP {r.status_code} for '{m_name}': {r.text[:200]}" + Style.RESET_ALL)
+                    break
+            except Exception as e:
+                print(Fore.YELLOW + f"[Gemini AI Warning] Request failed for '{m_name}': {e}" + Style.RESET_ALL)
+                break
 
     return raw_srt_content
+
+
+def align_script_text_with_timestamps(ref_text: str, whisper_words: List[Dict]) -> List[Dict]:
+    """
+    Replaces raw Whisper transcribed words (which may be in Arabic-script Urdu or poorly transcribed)
+    with the exact words from the reference script_text, keeping Whisper's millisecond audio timestamps.
+    """
+    ref_words = [w.strip() for w in ref_text.strip().split() if w.strip()]
+    if not ref_words or not whisper_words:
+        return whisper_words
+
+    total_whisper = len(whisper_words)
+    total_ref = len(ref_words)
+
+    aligned_words = []
+    for i, w in enumerate(ref_words):
+        w_idx = int(round(i * (total_whisper - 1) / max(1, total_ref - 1)))
+        w_idx = max(0, min(total_whisper - 1, w_idx))
+
+        aligned_words.append({
+            "word": w,
+            "start": whisper_words[w_idx]["start"],
+            "end": whisper_words[w_idx]["end"]
+        })
+
+    return aligned_words
 
 
 def convert_audio_to_tagged_srt(
@@ -377,12 +522,14 @@ def convert_audio_to_tagged_srt(
     gemini_key: Optional[str] = None,
     gemini_model: str = DEFAULT_GEMINI_MODEL,
     model_size: str = "base",
-    max_words_per_line: int = 5,
+    max_words_per_line: int = 4,  # hard cap: retag_and_split.py enforces <=4 words
     gap_buffer: float = 0.05,
-    copy_to_project_input: bool = True
+    copy_to_project_input: bool = True,
+    channel: str = "dontmixthis",
+    script_text: Optional[str] = None
 ) -> Optional[str]:
     """
-    Main conversion pipeline: Audio -> Whisper STT Timestamps -> Gap Closing -> Gemini AI Mascot Tagging -> Saved SRT.
+    Main conversion pipeline: Audio -> Whisper STT Timestamps -> Script Alignment -> Gemini AI Mascot Tagging -> Saved SRT.
     """
     audio_path = os.path.abspath(audio_path)
     if not os.path.exists(audio_path):
@@ -402,20 +549,55 @@ def convert_audio_to_tagged_srt(
     os.makedirs(os.path.dirname(output_srt_path), exist_ok=True)
 
     print(Fore.MAGENTA + f"\n============================================================" + Style.RESET_ALL)
-    print(Fore.MAGENTA + f"Processing Audio File: {filename}" + Style.RESET_ALL)
+    print(Fore.MAGENTA + f"Processing Audio File: {filename} (Channel: {channel.upper()})" + Style.RESET_ALL)
     print(Fore.MAGENTA + f"============================================================" + Style.RESET_ALL)
 
     # 1. Extract word timestamps using Whisper
-    words = extract_word_timestamps_from_audio(audio_path, model_size=model_size)
+    lang_arg = None
+    words = extract_word_timestamps_from_audio(audio_path, model_size=model_size, language=lang_arg)
     if not words:
         print(Fore.RED + "Failed to extract speech timestamps from audio." + Style.RESET_ALL)
         return None
+
+    # 1b. Align reference script text (English / Latin characters) with speech timestamps
+    if not script_text:
+        audio_dir = os.path.dirname(audio_path)
+        candidate_txts = [
+            os.path.join(audio_dir, "script.txt"),
+            os.path.join(PROJECT_ROOT_INPUT, "script.txt"),
+            os.path.join(PROJECT_ROOT, "tts_generator", "input_text", "script.txt")
+        ]
+        for c_txt in candidate_txts:
+            if os.path.isfile(c_txt):
+                try:
+                    with open(c_txt, "r", encoding="utf-8") as _sf:
+                        content = _sf.read().strip()
+                        if content:
+                            script_text = content
+                            print(Fore.CYAN + f"[Reference Script] Auto-loaded reference script from: {c_txt}" + Style.RESET_ALL)
+                            break
+                except Exception:
+                    pass
+
+    if script_text and words:
+        words = align_script_text_with_timestamps(script_text, words)
+        print(Fore.GREEN + f"[Reference Script Alignment] Aligned captions with {len(words)} English script words." + Style.RESET_ALL)
 
     # 2. Chunk words into short subtitle blocks
     raw_srt = chunk_words_to_srt(words, max_words_per_line=max_words_per_line)
 
     # 3. Close small gaps between subtitles
     clean_srt = close_srt_gaps(raw_srt, gap_buffer=gap_buffer)
+
+    # 3b. For farqkya channel: convert Whisper output to Roman-Urdu via Gemini ONLY if no reference script was available
+    if channel == "farqkya" and not script_text:
+        roman_key = gemini_key or os.environ.get("GEMINI_API_KEY")
+        if not roman_key:
+            key_file = os.path.join(SCRIPT_DIR, "gemini_key.txt")
+            if os.path.isfile(key_file):
+                with open(key_file, 'r', encoding='utf-8') as _kf:
+                    roman_key = _kf.read().strip()
+        clean_srt = romanize_srt_to_roman_urdu(clean_srt, api_key=roman_key, model_name=gemini_model)
 
     # 4. Resolve Gemini API Key (from arg, env, or saved key file)
     key = gemini_key or os.environ.get("GEMINI_API_KEY")
@@ -430,6 +612,22 @@ def convert_audio_to_tagged_srt(
 
     # 5. Apply Gemini AI Mascot Tagging
     tagged_srt = tag_srt_with_gemini_ai(clean_srt, api_key=key, model_name=gemini_model)
+
+    # 5b. Smart Mascot Tagging & Subtitle Splitter Post-Processing
+    try:
+        try:
+            from srt_generator.retag_and_split import parse_srt, build_tagged_entries, render_srt
+        except ImportError:
+            from retag_and_split import parse_srt, build_tagged_entries, render_srt
+        parsed_entries = parse_srt(tagged_srt)
+        if parsed_entries:
+            tagged_entries = build_tagged_entries(parsed_entries, min_hold=2, max_words=max_words_per_line)
+            tagged_srt = render_srt(tagged_entries)
+            print(Fore.GREEN + f"[Post-Processor] Applied smart 11-pose tagging & beat-holding (<={max_words_per_line} words)." + Style.RESET_ALL)
+    except Exception as e:
+        print(Fore.YELLOW + f"[Post-Processor Warning] Retag post-processing skipped: {e}" + Style.RESET_ALL)
+
+
 
     # 6. Save final tagged SRT file (purging old SRT files in output_srt to prevent mixups)
     if os.path.isdir(DEFAULT_OUTPUT_DIR):
@@ -483,7 +681,9 @@ def main():
     parser.add_argument("--gemini-key", "-k", help="Google Gemini API key for mascot AI tagging")
     parser.add_argument("--gemini-model", default=DEFAULT_GEMINI_MODEL, help=f"Gemini model name (default: {DEFAULT_GEMINI_MODEL})")
     parser.add_argument("--whisper-model", "-m", default="base", help="Whisper model size (tiny, base, small, medium, large)")
-    parser.add_argument("--max-words", "-w", type=int, default=5, help="Max words per subtitle line (default: 5)")
+    parser.add_argument("--max-words", "-w", type=int, default=4, help="Max words per subtitle line (default: 4). Hard-enforced by retag_and_split.py post-processing.")
+    parser.add_argument("--channel", "-c", choices=["dontmixthis", "farqkya"], default="dontmixthis", help="Target YouTube channel ('dontmixthis' or 'farqkya')")
+    parser.add_argument("--script-text", help="Optional reference script text")
     parser.add_argument("--no-sync", action="store_true", help="Do not auto-copy generated files to main project input/ folder")
 
     args = parser.parse_args()
@@ -513,7 +713,9 @@ def main():
                 gemini_model=args.gemini_model,
                 model_size=args.whisper_model,
                 max_words_per_line=args.max_words,
-                copy_to_project_input=not args.no_sync
+                copy_to_project_input=not args.no_sync,
+                channel=args.channel,
+                script_text=args.script_text
             )
     else:
         convert_audio_to_tagged_srt(
@@ -523,7 +725,9 @@ def main():
             gemini_model=args.gemini_model,
             model_size=args.whisper_model,
             max_words_per_line=args.max_words,
-            copy_to_project_input=not args.no_sync
+            copy_to_project_input=not args.no_sync,
+            channel=args.channel,
+            script_text=args.script_text
         )
 
 

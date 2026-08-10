@@ -135,6 +135,10 @@ def validate_ideas_data(ideas: List[Dict[str, Any]]) -> Tuple[bool, List[str]]:
         if mode not in ["deepdive", "compilation"]:
             errors.append(f"Topic '{topic_id or topic_ref}' has invalid type '{mode}'. Must be 'deepdive' or 'compilation'.")
 
+        channel = item.get("channel")
+        if channel and channel not in ["dontmixthis", "farqkya"]:
+            errors.append(f"Topic '{topic_id or topic_ref}' has invalid channel '{channel}'. Must be 'dontmixthis' or 'farqkya'.")
+
         script = item.get("script")
         if not script or not script.strip():
             errors.append(f"Topic '{topic_id or topic_ref}' script cannot be empty.")
@@ -308,15 +312,16 @@ def format_labels_arg(topic: Dict[str, Any]) -> List[str]:
     return []
 
 
-def process_single_topic(topic: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
+def process_single_topic(topic: Dict[str, Any], dry_run: bool = False, batch_channel: Optional[str] = None) -> Dict[str, Any]:
     """Processes a single topic video draft generation."""
     topic_id = topic["id"]
     project_name = topic["project_name"]
     mode = topic["type"]
     script_text = topic["script"]
+    channel = topic.get("channel") or batch_channel or "dontmixthis"
 
     print(Fore.MAGENTA + "\n" + "=" * 70 + Style.RESET_ALL)
-    print(Fore.CYAN + Style.BRIGHT + f"🎬 BATCH PROCESSING [{topic_id}] '{project_name}' (Mode: {mode.upper()})" + Style.RESET_ALL)
+    print(Fore.CYAN + Style.BRIGHT + f"🎬 BATCH PROCESSING [{topic_id}] '{project_name}' (Channel: {channel.upper()}, Mode: {mode.upper()})" + Style.RESET_ALL)
     print(Fore.MAGENTA + "=" * 70 + Style.RESET_ALL)
 
     sandbox_dir = prepare_topic_sandbox(topic)
@@ -338,17 +343,19 @@ def process_single_topic(topic: Dict[str, Any], dry_run: bool = False) -> Dict[s
         result["status"] = "SUCCESS (DRY-RUN)"
         return result
 
-    # Save script text for TTS engine
+    # Save script text for TTS engine & SRT reference alignment
     temp_txt_path = os.path.join(SCRIPT_DIR, "tts_generator", "input_text", "script.txt")
     os.makedirs(os.path.dirname(temp_txt_path), exist_ok=True)
     with open(temp_txt_path, "w", encoding="utf-8") as f:
+        f.write(script_text)
+    with open(os.path.join(sandbox_input, "script.txt"), "w", encoding="utf-8") as f:
         f.write(script_text)
 
     # Step 1: TTS Audio Generation (or use pre-recorded audio)
     has_custom_audio = topic.get("audio_file") and os.path.isfile(topic["audio_file"])
     if not has_custom_audio:
-        print(Fore.CYAN + f"\n[STAGE 1/3] Generating TTS Voiceover for '{project_name}'..." + Style.RESET_ALL)
-        ok1 = run_script_with_retries(TTS_SCRIPT, ["-i", temp_txt_path])
+        print(Fore.CYAN + f"\n[STAGE 1/3] Generating TTS Voiceover for '{project_name}' (Channel: {channel.upper()})..." + Style.RESET_ALL)
+        ok1 = run_script_with_retries(TTS_SCRIPT, ["-i", temp_txt_path, "--channel", channel])
         if not ok1:
             result["error"] = "Stage 1 (TTS Generation) failed after retries."
             return result
@@ -377,7 +384,8 @@ def process_single_topic(topic: Dict[str, Any], dry_run: bool = False) -> Dict[s
 
     # Step 2: Speech Timestamps & Gemini Mascot Tagging
     print(Fore.CYAN + f"\n[STAGE 2/3] Extracting Subtitles & Gemini 3.6 Mascot Tagging..." + Style.RESET_ALL)
-    ok2 = run_script_with_retries(SRT_SCRIPT, ["-i", target_audio, "-o", target_srt])
+    ok2 = run_script_with_retries(SRT_SCRIPT, ["-i", target_audio, "-o", target_srt, "--channel", channel])
+
     if not ok2:
         result["error"] = "Stage 2 (SRT Tagging) failed after retries."
         return result
@@ -388,10 +396,11 @@ def process_single_topic(topic: Dict[str, Any], dry_run: bool = False) -> Dict[s
             shutil.copy(root_srt, target_srt)
 
     # Step 3: CapCut Desktop 8-Track Draft Builder
-    print(Fore.CYAN + f"\n[STAGE 3/3] Building CapCut Desktop Draft '{project_name}'..." + Style.RESET_ALL)
+    print(Fore.CYAN + f"\n[STAGE 3/3] Building CapCut Desktop Draft '{project_name}' for channel '{channel}'..." + Style.RESET_ALL)
     build_args = [
         project_name,
         "--mode", mode,
+        "--channel", channel,
         "--audio", os.path.abspath(target_audio),
         "--srt", os.path.abspath(target_srt)
     ] + format_labels_arg(topic)
@@ -419,23 +428,55 @@ def process_single_topic(topic: Dict[str, Any], dry_run: bool = False) -> Dict[s
     return result
 
 
-def generate_and_save_ideas(count: int = 5, target_file: str = DEFAULT_IDEAS_FILE) -> List[Dict[str, Any]]:
+def filter_ideas_by_channel(ideas: List[Dict[str, Any]], channel: Optional[str]) -> List[Dict[str, Any]]:
+    """
+    Filters batch ideas so that only topics belonging to the requested channel are shown.
+    For --channel farqkya: returns only Farq Kya / Roman Urdu Islamic topics.
+    For --channel dontmixthis: returns only DontMixThis / English pop culture topics.
+    """
+    if not channel:
+        return ideas
+
+    filtered = []
+    ch_lower = channel.lower()
+
+    for item in ideas:
+        item_ch = item.get("channel")
+        item_id = item.get("id", "")
+        script = item.get("script", "").strip().lower()
+
+        if item_ch:
+            if item_ch.lower() == ch_lower:
+                filtered.append(item)
+            continue
+
+        if ch_lower == "farqkya":
+            if item_id.startswith("farq") or script.startswith("ye hai") or "farq kya" in script:
+                filtered.append(item)
+        elif ch_lower == "dontmixthis":
+            if not item_id.startswith("farq") and not script.startswith("ye hai") and "farq kya" not in script:
+                filtered.append(item)
+
+    return filtered if filtered else ideas
+
+
+def generate_and_save_ideas(count: int = 5, target_file: str = DEFAULT_IDEAS_FILE, channel: str = "dontmixthis") -> List[Dict[str, Any]]:
     """Generates fresh Playbook-compliant scripts using ScriptGenerator and updates ideas.json."""
     from src.script_gen.generator import ScriptGenerator
-    print(Fore.CYAN + f"⚡ Generating {count} fresh Playbook-compliant scripts..." + Style.RESET_ALL)
+    print(Fore.CYAN + f"⚡ Generating {count} fresh Playbook-compliant scripts for channel '{channel}'..." + Style.RESET_ALL)
 
     generator = ScriptGenerator()
-    new_topics = generator.generate_scripts(count=count, mode="auto")
+    new_topics = generator.generate_scripts(count=count, mode="auto", channel=channel)
 
     formatted_ideas = []
     for t in new_topics:
-        # Sanitize project name
         clean_name = re.sub(r"[^\w\s]", "", t["title"]).strip().replace(" ", "_")
         proj_name = f"Auto_{t['type'].capitalize()}_{clean_name[:30]}"
         formatted_ideas.append({
             "id": t["id"],
             "project_name": proj_name,
             "type": t["type"],
+            "channel": t.get("channel", channel),
             "script": t["script"],
             "labels": t.get("labels", {})
         })
@@ -446,6 +487,7 @@ def generate_and_save_ideas(count: int = 5, target_file: str = DEFAULT_IDEAS_FIL
 
     print(Fore.GREEN + f"✨ Generated {len(formatted_ideas)} fresh Playbook-compliant script topics into '{target_file}'." + Style.RESET_ALL)
     return formatted_ideas
+
 
 
 def interactive_batch_review(ideas: List[Dict[str, Any]], target_file: str) -> List[Dict[str, Any]]:
@@ -548,6 +590,7 @@ def interactive_batch_review(ideas: List[Dict[str, Any]], target_file: str) -> L
 def main():
     parser = argparse.ArgumentParser(description="Batch Video Generator (Overnight Automation Engine)")
     parser.add_argument("--ideas", "-i", type=str, default=DEFAULT_IDEAS_FILE, help="Path to ideas.json file")
+    parser.add_argument("--channel", "-c", choices=["dontmixthis", "farqkya"], help="Channel override for batch generation ('dontmixthis' or 'farqkya')")
     parser.add_argument("--generate", "-g", type=int, default=0, help="Generate N fresh Playbook-compliant scripts before batch run")
     parser.add_argument("--init", action="store_true", help="Initialize a sample ideas.json file")
     parser.add_argument("--resume", "-r", action="store_true", help="Resume batch run from batch_status.json")
@@ -564,23 +607,26 @@ def main():
     print(Fore.CYAN + Style.BRIGHT + "   ⚡ BATCH VIDEO GENERATOR — OVERNIGHT AUTOMATION ENGINE   " + Style.RESET_ALL)
     print(Fore.MAGENTA + "=" * 70 + Style.RESET_ALL)
 
-    # Automatically generate fresh 50/50 scripts if requested or if ideas file is empty/missing
+    target_channel = args.channel or "dontmixthis"
     if args.generate > 0:
-        ideas = generate_and_save_ideas(count=args.generate, target_file=args.ideas)
+        ideas = generate_and_save_ideas(count=args.generate, target_file=args.ideas, channel=target_channel)
     elif not os.path.exists(args.ideas) or os.path.getsize(args.ideas) <= 5:
         print(Fore.CYAN + f"📌 Ideas file '{args.ideas}' is empty. Generating 10 fresh Playbook scripts (5 Deepdives + 5 Compilations)..." + Style.RESET_ALL)
-        ideas = generate_and_save_ideas(count=10, target_file=args.ideas)
+        ideas = generate_and_save_ideas(count=10, target_file=args.ideas, channel=target_channel)
     else:
         try:
             ideas = load_ideas(args.ideas)
             if not ideas:
                 print(Fore.CYAN + f"📌 No ideas found in '{args.ideas}'. Generating 10 fresh Playbook scripts (5 Deepdives + 5 Compilations)..." + Style.RESET_ALL)
-                ideas = generate_and_save_ideas(count=10, target_file=args.ideas)
+                ideas = generate_and_save_ideas(count=10, target_file=args.ideas, channel=target_channel)
         except Exception as e:
             print(Fore.RED + f"❌ Configuration Error loading '{args.ideas}': {e}. Regenerating fresh scripts..." + Style.RESET_ALL)
-            ideas = generate_and_save_ideas(count=10, target_file=args.ideas)
+            ideas = generate_and_save_ideas(count=10, target_file=args.ideas, channel=target_channel)
+
+    ideas = filter_ideas_by_channel(ideas, target_channel)
 
     if args.validate:
+
         print(Fore.GREEN + f"✓ Pre-flight validation passed for '{args.ideas}'. Found {len(ideas)} valid topics." + Style.RESET_ALL)
         sys.exit(0)
 
@@ -605,7 +651,7 @@ def main():
             report_topics.append(status_data["topics"][topic_id])
             continue
 
-        res = process_single_topic(topic, dry_run=args.dry_run)
+        res = process_single_topic(topic, dry_run=args.dry_run, batch_channel=args.channel)
         status_data["topics"][topic_id] = res
         save_status(status_data)
         report_topics.append(res)

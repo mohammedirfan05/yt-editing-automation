@@ -1,0 +1,28 @@
+{
+  "id": "farq_islamic_05",
+  "title": "Quran vs Hadith: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Quran",
+      "Hadith"
+    ]
+  ],
+  "script": "Ye hai Quran aur ye hai Hadith, aakhir isme farq kya hai? Aksar log Quran aur Hadith dono ko ek jaisi wahy samajhte hain, lekin inme bunyadi farq hai. Quran seedha Allah ka kalam hai jo Jibreel AS ke zariye Nabi SAW par nazil hua aur lafz-ba-lafz mahfooz hai. Lekin Hadith Nabi SAW ke aqwaal, afaal aur tagreeraat hain jo sahaabah ne yaad rakhe aur baad mein sanad ke saath likhe gaye. Quran Allah ka seedha kalam hai, jabke Hadith Nabi SAW ki zindagi ki tafseer hai. Mazeed videos ke liye follow karein.",
+  "word_count": 95,
+  "estimated_duration_sec": 35.19,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [
+    "[Word Count] 95 words is outside ideal range (60-85)."
+  ],
+  "labels": {
+    "label1": "Quran",
+    "label2": "Hadith"
+  },
+  "created_at": "2026-08-09T22:46:46.892484",
+  "updated_at": "2026-08-09T22:46:46.894140"
+}

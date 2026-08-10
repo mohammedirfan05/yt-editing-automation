@@ -41,8 +41,10 @@ def main():
     parser = argparse.ArgumentParser(description="Script Generator Pipeline for YouTube Shorts")
     parser.add_argument("--count", "-n", type=int, default=3, help="Number of scripts to generate")
     parser.add_argument("--mode", "-m", type=str, default="auto", choices=["auto", "deepdive", "compilation"], help="Script mode")
-    parser.add_argument("--fandom", "-f", type=str, default=None, help="Filter by fandom (Marvel, DC, Anime, Mythology)")
+    parser.add_argument("--fandom", "-f", type=str, default=None, help="Filter by fandom (Marvel, DC, Anime, Mythology, Islamic)")
+    parser.add_argument("--channel", "-c", type=str, default="dontmixthis", choices=["dontmixthis", "farqkya"], help="Select YouTube channel ('dontmixthis' or 'farqkya')")
     parser.add_argument("--seed-tracker", action="store_true", help="Initialize/re-seed content tracker from historical transcripts")
+
     parser.add_argument("--list-tracker", action="store_true", help="Display content tracker status breakdown")
     parser.add_argument("--approve", type=str, help="Mark topic ID as approved in tracker")
     parser.add_argument("--reject", type=str, help="Mark topic ID as rejected in tracker")
@@ -112,7 +114,7 @@ def main():
     print(Fore.MAGENTA + "=" * 70 + Style.RESET_ALL)
 
     generator = ScriptGenerator(tracker=tracker)
-    results = generator.generate_scripts(count=args.count, mode=args.mode, fandom=args.fandom)
+    results = generator.generate_scripts(count=args.count, mode=args.mode, fandom=args.fandom, channel=args.channel)
 
     if not results:
         print(Fore.YELLOW + "⚠️ No new non-duplicate scripts could be generated matching criteria." + Style.RESET_ALL)

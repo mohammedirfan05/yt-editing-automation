@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated_at": "2026-08-09T08:08:26.976296",
+  "updated_at": "2026-08-10T10:10:10.746109",
   "topics": {
     "SS_Whsrltyw": {
       "id": "SS_Whsrltyw",
@@ -1193,6 +1193,291 @@
       "created_at": "2026-08-09T08:08:26.975296",
       "updated_at": "2026-08-09T08:08:26.976296",
       "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_dc_02.json"
+    },
+    "opp_anime_01": {
+      "id": "opp_anime_01",
+      "title": "Super Saiyan vs Super Saiyan God: Transformation Clash",
+      "type": "deepdive",
+      "channel": "dontmixthis",
+      "status": "idea",
+      "fandom": "Anime",
+      "pairs": [
+        [
+          "Super Saiyan",
+          "Super Saiyan God"
+        ]
+      ],
+      "script": "This is Super Saiyan. This is Super Saiyan God. So what's the difference? Most fans think Super Saiyan God is just Super Saiyan 4. It's not. Super Saiyan multiplies mortal ki through intense emotional rage and physical stamina strain. But Super Saiyan God absorbs divine god ki through a ritual of pure-hearted Saiyans, granting godlike speed and self-healing. Super Saiyan burns mortal rage, while Super Saiyan God channel divine peace. Follow for more.",
+      "word_count": 75,
+      "estimated_duration_sec": 27.78,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Super Saiyan",
+        "label2": "Super Saiyan God"
+      },
+      "created_at": "2026-08-09T15:57:31.490874",
+      "updated_at": "2026-08-09T15:57:31.491875",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_anime_01.json"
+    },
+    "farq_islamic_01": {
+      "id": "farq_islamic_01",
+      "title": "Nabi vs Rasool: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Nabi",
+          "Rasool"
+        ]
+      ],
+      "script": "Ye hai Nabi aur ye hai Rasool, aakhir isme farq kya hai? Aksar log samajhte hain ke Nabi aur Rasool ek hi hain, lekin aisa nahi hai. Nabi Allah Ta'ala ki taraf se wahi aur hidayat haasik karte hain pehli shariat ko aage badhane ke liye. Lekin Rasool Naye Aasmani Kitab aur naye shariat ke saath nayi ummat ki taraf bheje jaate hain. Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota. Mazeed videos ke liye follow karein.",
+      "word_count": 80,
+      "estimated_duration_sec": 29.63,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Nabi",
+        "label2": "Rasool"
+      },
+      "created_at": "2026-08-09T15:57:34.183243",
+      "updated_at": "2026-08-09T15:57:34.184205",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_01.json"
+    },
+    "farq_islamic_02": {
+      "id": "farq_islamic_02",
+      "title": "Hajj vs Umrah: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "approved",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Hajj",
+          "Umrah"
+        ]
+      ],
+      "script": "Ye hai Hajj aur ye hai Umrah, aakhir isme farq kya hai? Aksar log Hajj aur Umrah ko ek jaisa ziarat samajhte hain, lekin inme bada farq hai. Hajj Islam ka farz rukn hai jo saal mein sirf Zil-Hajj ke khass dino mein ada kiya jata hai. Lekin Umrah Nafli ibadat hai jise saal mein kisi bhi waqt ada kiya ja sakta hai. Hajj mahsoos dino ka farz ibadat hai, jabke Umrah saal bhar mein kabhi bhi kiya jata hai. Mazeed videos ke liye follow karein.",
+      "word_count": 87,
+      "estimated_duration_sec": 32.22,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 87 words is outside ideal range (60-85)."
+      ],
+      "labels": {
+        "label1": "Hajj",
+        "label2": "Umrah"
+      },
+      "created_at": "2026-08-09T16:02:13.512481",
+      "updated_at": "2026-08-09T16:03:16.716238",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_02.json",
+      "notes": "Manually approved by user"
+    },
+    "farq_islamic_03": {
+      "id": "farq_islamic_03",
+      "title": "Fard vs Sunnah: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Fard",
+          "Sunnah"
+        ]
+      ],
+      "script": "Ye hai Fard aur ye hai Sunnah, aakhir isme farq kya hai? Aksar log Fard aur Sunnah mein farq nahi samajhte, lekin inke ahkaam alag hain. Fard Allah ki taraf se lazmi hukum hai jise chorna gunah hai. Lekin Sunnah Nabi Kareem Sallallahu Alaihi Wasallam ki tareeqa hai jise karne par sawab aur na karne par mahrumi hai. Fard chhorne par gunah aur azab hai, jabke Sunnah Nabi ki mohobbat aur tareeqa hai. Mazeed videos ke liye follow karein.",
+      "word_count": 79,
+      "estimated_duration_sec": 29.26,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Fard",
+        "label2": "Sunnah"
+      },
+      "created_at": "2026-08-09T16:02:13.530093",
+      "updated_at": "2026-08-09T16:02:13.531106",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_03.json"
+    },
+    "farq_islamic_04": {
+      "id": "farq_islamic_04",
+      "title": "Zakat vs Sadaqah: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "approved",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Zakat",
+          "Sadaqah"
+        ]
+      ],
+      "script": "Ye hai Zakat aur ye hai Sadaqah, aakhir isme farq kya hai? Aksar log Zakat aur Sadaqah ko ek hi tarah ka khairat samajhte hain, lekin aisa nahi hai. Zakat Maaldar Musalman par saal mein ek baar nisab par 2.5% farz hai. Lekin Sadaqah Kkisi bhi waqt apni marzi se di jaane wali nafli khairat hai. Zakat farz haq hai, jabke Sadaqah dil ki khushi se diya jata hai. Mazeed videos ke liye follow karein.",
+      "word_count": 76,
+      "estimated_duration_sec": 28.15,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Zakat",
+        "label2": "Sadaqah"
+      },
+      "created_at": "2026-08-09T21:40:05.834394",
+      "updated_at": "2026-08-10T10:10:10.745088",
+      "notes": "Manually approved by user"
+    },
+    "farq_islamic_05": {
+      "id": "farq_islamic_05",
+      "title": "Quran vs Hadith: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Quran",
+          "Hadith"
+        ]
+      ],
+      "script": "Ye hai Quran aur ye hai Hadith, aakhir isme farq kya hai? Aksar log Quran aur Hadith dono ko ek jaisi wahy samajhte hain, lekin inme bunyadi farq hai. Quran seedha Allah ka kalam hai jo Jibreel AS ke zariye Nabi SAW par nazil hua aur lafz-ba-lafz mahfooz hai. Lekin Hadith Nabi SAW ke aqwaal, afaal aur tagreeraat hain jo sahaabah ne yaad rakhe aur baad mein sanad ke saath likhe gaye. Quran Allah ka seedha kalam hai, jabke Hadith Nabi SAW ki zindagi ki tafseer hai. Mazeed videos ke liye follow karein.",
+      "word_count": 95,
+      "estimated_duration_sec": 35.19,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 95 words is outside ideal range (60-85)."
+      ],
+      "labels": {
+        "label1": "Quran",
+        "label2": "Hadith"
+      },
+      "created_at": "2026-08-09T22:46:46.892484",
+      "updated_at": "2026-08-09T22:46:46.894140",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_05.json"
+    },
+    "farq_islamic_06": {
+      "id": "farq_islamic_06",
+      "title": "Shirk vs Bidah: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "approved",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Shirk",
+          "Bidah"
+        ]
+      ],
+      "script": "Ye hai Shirk aur ye hai Bidah, aakhir isme farq kya hai? Aksar log Shirk aur Bidah ko ek hi burai samajhte hain, lekin inme bada farq hai. Shirk Allah ke saath kisi ko shareek karna hai, yani ibadat mein ghair Allah ko shamil karna. Lekin Bidah Deen mein aisi nai cheez daalna hai jiske liye koi saboot na ho, chahe niyat achi bhi ho. Shirk tawheed ko tod deta hai, jabke Bidah sunnat ke khilaf naya tariqa hai. Mazeed videos ke liye follow karein.",
+      "word_count": 85,
+      "estimated_duration_sec": 31.48,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Shirk",
+        "label2": "Bidah"
+      },
+      "created_at": "2026-08-09T22:47:12.594654",
+      "updated_at": "2026-08-09T22:48:22.007506",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_06.json",
+      "notes": "Manually approved by user"
+    },
+    "farq_islamic_comp_03": {
+      "id": "farq_islamic_comp_03",
+      "title": "Tahaarat Ibadat aur Maafi: Farq Kya Hai",
+      "type": "compilation",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Wudu",
+          "Ghusl"
+        ],
+        [
+          "Salah",
+          "Dua"
+        ],
+        [
+          "Tawbah",
+          "Istighfar"
+        ]
+      ],
+      "script": "Ye hai Wudu aur ye hai Ghusl, aakhir isme farq kya hai? Wudu choti tahaarat namaz ke liye hai, jabke Ghusl poori tahaarat janabat ke baad zaruri hai. Ye hai Salah aur ye hai Dua, aakhir isme farq kya hai? Salah Allah ka muqarrar farz hai paanch waqt, jabke Dua kisi bhi waqt Allah se seedhi pukaar hai. Ye hai Tawbah aur ye hai Istighfar, aakhir isme farq kya hai? Tawbah dil se mukammal rujoo aur azm hai, jabke Istighfar zuban se maafi ki darkhwast hai. Mazeed videos ke liye follow karein.",
+      "word_count": 92,
+      "estimated_duration_sec": 34.07,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "pair1": [
+          "Wudu",
+          "Ghusl"
+        ],
+        "pair2": [
+          "Salah",
+          "Dua"
+        ],
+        "pair3": [
+          "Tawbah",
+          "Istighfar"
+        ]
+      },
+      "created_at": "2026-08-10T09:25:10.958942",
+      "updated_at": "2026-08-10T09:25:10.959944",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_comp_03.json"
+    },
+    "farq_islamic_comp_04": {
+      "id": "farq_islamic_comp_04",
+      "title": "Roza Kaffarah aur Jannah: Farq Kya Hai",
+      "type": "compilation",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Roza",
+          "Qaza Roza"
+        ],
+        [
+          "Kaffarah",
+          "Fidyah"
+        ],
+        [
+          "Jannah",
+          "Firdaus"
+        ]
+      ],
+      "script": "Ye hai Roza aur ye hai Qaza Roza, aakhir isme farq kya hai? Roza Ramadan mein ibadat ka sawab hai, jabke Qaza Roza choote hue roze ki baad mein zimmedari hai. Ye hai Kaffarah aur ye hai Fidyah, aakhir isme farq kya hai? Kaffarah kasdi ghalti ki saza hai, jabke Fidyah majburi mein ibadat na kar sakne ka muawwaza hai. Ye hai Jannah aur ye hai Firdaus, aakhir isme farq kya hai? Jannah jannat ka aam naam hai, jabke Firdaus jannat ka sabse aala darjah hai. Mazeed videos ke liye follow karein.",
+      "word_count": 92,
+      "estimated_duration_sec": 34.07,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "pair1": [
+          "Roza",
+          "Qaza Roza"
+        ],
+        "pair2": [
+          "Kaffarah",
+          "Fidyah"
+        ],
+        "pair3": [
+          "Jannah",
+          "Firdaus"
+        ]
+      },
+      "created_at": "2026-08-10T09:25:10.982708",
+      "updated_at": "2026-08-10T09:25:10.983706",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_comp_04.json"
     }
   }
 }

@@ -390,7 +390,337 @@ class ConceptCatalog:
         }
     ]
 
+    OPPORTUNITIES_URDU = [
+        {
+            "id": "farq_islamic_01",
+            "title": "Nabi vs Rasool: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Nabi", "Rasool"]],
+            "template_id": 1,
+            "entity_a": "Nabi",
+            "entity_b": "Rasool",
+            "concept_hook": "Aksar log samajhte hain ke Nabi aur Rasool ek hi hain, lekin aisa nahi hai.",
+            "mechanism_a": "Allah Ta'ala ki taraf se wahi aur hidayat haasik karte hain pehli shariat ko aage badhane ke liye",
+            "mechanism_b": "Naye Aasmani Kitab aur naye shariat ke saath nayi ummat ki taraf bheje jaate hain",
+            "punchline": "Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota."
+        },
+        {
+            "id": "farq_islamic_02",
+            "title": "Hajj vs Umrah: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Hajj", "Umrah"]],
+            "template_id": 1,
+            "entity_a": "Hajj",
+            "entity_b": "Umrah",
+            "concept_hook": "Aksar log Hajj aur Umrah ko ek jaisa ziarat samajhte hain, lekin inme bada farq hai.",
+            "mechanism_a": "Islam ka farz rukn hai jo saal mein sirf Zil-Hajj ke khass dino mein ada kiya jata hai",
+            "mechanism_b": "Nafli ibadat hai jise saal mein kisi bhi waqt ada kiya ja sakta hai",
+            "punchline": "Hajj mahsoos dino ka farz ibadat hai, jabke Umrah saal bhar mein kabhi bhi kiya jata hai."
+        },
+        {
+            "id": "farq_islamic_03",
+            "title": "Fard vs Sunnah: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Fard", "Sunnah"]],
+            "template_id": 1,
+            "entity_a": "Fard",
+            "entity_b": "Sunnah",
+            "concept_hook": "Aksar log Fard aur Sunnah mein farq nahi samajhte, lekin inke ahkaam alag hain.",
+            "mechanism_a": "Allah ki taraf se lazmi hukum hai jise chorna gunah hai",
+            "mechanism_b": "Nabi Kareem Sallallahu Alaihi Wasallam ki tareeqa hai jise karne par sawab aur na karne par mahrumi hai",
+            "punchline": "Fard chhorne par gunah aur azab hai, jabke Sunnah Nabi ki mohobbat aur tareeqa hai."
+        },
+        {
+            "id": "farq_islamic_04",
+            "title": "Zakat vs Sadaqah: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Zakat", "Sadaqah"]],
+            "template_id": 1,
+            "entity_a": "Zakat",
+            "entity_b": "Sadaqah",
+            "concept_hook": "Aksar log Zakat aur Sadaqah ko ek hi tarah ka khairat samajhte hain, lekin aisa nahi hai.",
+            "mechanism_a": "Maaldar Musalman par saal mein ek baar nisab par 2.5% farz hai",
+            "mechanism_b": "Kisi bhi waqt apni marzi se di jaane wali nafli khairat hai",
+            "punchline": "Zakat farz haq hai, jabke Sadaqah dil ki khushi se diya jata hai."
+        },
+
+        {
+            "id": "farq_islamic_05",
+            "title": "Quran vs Hadith: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Quran", "Hadith"]],
+            "template_id": 1,
+            "entity_a": "Quran",
+            "entity_b": "Hadith",
+            "concept_hook": "Aksar log Quran aur Hadith dono ko ek jaisi wahy samajhte hain, lekin inme bunyadi farq hai.",
+            "mechanism_a": "seedha Allah ka kalam hai jo Jibreel AS ke zariye Nabi SAW par nazil hua aur lafz-ba-lafz mahfooz hai",
+            "mechanism_b": "Nabi SAW ke aqwaal, afaal aur tagreeraat hain jo sahaabah ne yaad rakhe aur baad mein sanad ke saath likhe gaye",
+            "punchline": "Quran Allah ka seedha kalam hai, jabke Hadith Nabi SAW ki zindagi ki tafseer hai."
+        },
+        {
+            "id": "farq_islamic_06",
+            "title": "Shirk vs Bidah: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Shirk", "Bidah"]],
+            "template_id": 1,
+            "entity_a": "Shirk",
+            "entity_b": "Bidah",
+            "concept_hook": "Aksar log Shirk aur Bidah ko ek hi burai samajhte hain, lekin inme bada farq hai.",
+            "mechanism_a": "Allah ke saath kisi ko shareek karna hai, yani ibadat mein ghair Allah ko shamil karna",
+            "mechanism_b": "Deen mein aisi nai cheez daalna hai jiske liye koi saboot na ho, chahe niyat achi bhi ho",
+            "punchline": "Shirk tawheed ko tod deta hai, jabke Bidah sunnat ke khilaf naya tariqa hai."
+        },
+        {
+            "id": "farq_islamic_07",
+            "title": "Salah vs Dua: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Salah", "Dua"]],
+            "template_id": 1,
+            "entity_a": "Salah",
+            "entity_b": "Dua",
+            "concept_hook": "Aksar log samajhte hain ke Salah aur Dua ek hi cheez hain, lekin ye dono alag hain.",
+            "mechanism_a": "waqt ke saath mukammal ibadat hai jiske arkaan, niyyat aur tareeqa muqarrar hain aur din mein paanch baar farz hai",
+            "mechanism_b": "seedha Allah se maangna hai jo kisi bhi waqt, kisi bhi zabaan mein, kisi bhi haal mein ki ja sakti hai",
+            "punchline": "Salah Allah ki taraf se muqarrar ibadat hai, jabke Dua ek Musalman ki seedhi pukaar hai."
+        },
+        {
+            "id": "farq_islamic_08",
+            "title": "Tawbah vs Istighfar: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Tawbah", "Istighfar"]],
+            "template_id": 1,
+            "entity_a": "Tawbah",
+            "entity_b": "Istighfar",
+            "concept_hook": "Aksar log Tawbah aur Istighfar ko aik hi samajh lete hain, lekin dono mein bunyadi farq hai.",
+            "mechanism_a": "mukammal rujoo hai jisme gunah chhodna, pachtana, aur dobara na karne ka azm zaruri hai",
+            "mechanism_b": "Allah se maafi maangna hai jo Tawbah ka ek hissa hai lekin shart nahi ke puri Tawbah ho",
+            "punchline": "Istighfar zuban ki maafi hai, jabke Tawbah dil ki mukammal waapsi hai."
+        },
+        {
+            "id": "farq_islamic_09",
+            "title": "Jannah vs Firdaus: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Jannah", "Firdaus"]],
+            "template_id": 1,
+            "entity_a": "Jannah",
+            "entity_b": "Firdaus",
+            "concept_hook": "Aksar log samajhte hain ke Jannah aur Firdaus ek hi jagah ka naam hai, lekin aisa nahi hai.",
+            "mechanism_a": "jannat ke liye aam lafz hai jo saat darja jannat ke liye use hota hai aur kisi bhi darje se murad ho sakta hai",
+            "mechanism_b": "jannat ka sabse aala aur behtareen darjah hai jahan se jannat ki nahrein nikalti hain aur Arsh e Elahi iske upar hai",
+            "punchline": "Jannah jannat ka aam naam hai, jabke Firdaus uska sabse aacha aur aacha darjah hai."
+        },
+        {
+            "id": "farq_islamic_10",
+            "title": "Roza vs Qaza Roza: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Roza", "Qaza Roza"]],
+            "template_id": 1,
+            "entity_a": "Roza",
+            "entity_b": "Qaza Roza",
+            "concept_hook": "Aksar log samajhte hain ke Ramadan ke baad Qaza Roza rakhna same sawab deta hai, lekin aisa nahi.",
+            "mechanism_a": "Ramadan ke mahine mein Allah ke hukum par ibadat ke liye roza rakhna hai jisme azeem sawab aur lailat ul qadr hai",
+            "mechanism_b": "Ramadan ke choote hue roze ki qaza hai jo farz hone ki wajah se baad mein poora kiya jata hai",
+            "punchline": "Ramadan ka Roza ibadat ka mausam hai, jabke Qaza Roza farz zimmedari ka poora karna hai."
+        },
+        {
+            "id": "farq_islamic_11",
+            "title": "Masjid vs Masjid al-Haram: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Masjid", "Masjid al-Haram"]],
+            "template_id": 1,
+            "entity_a": "Masjid",
+            "entity_b": "Masjid al-Haram",
+            "concept_hook": "Aksar log samajhte hain ke kisi bhi masjid mein namaz ka sawab barabar hota hai, lekin aisa nahi.",
+            "mechanism_a": "aam ibadat gah hai jahan namaz ki jamaat ada hoti hai aur sawab aam jamaat se milta hai",
+            "mechanism_b": "Makkah ki muqaddas masjid hai jahan ek namaz kisi bhi dusri jagah ki ek lakh namaz se afzal hai",
+            "punchline": "Aam Masjid mein namaz barakar hai, jabke Masjid al-Haram mein ek lakh guna sawab hai."
+        },
+        {
+            "id": "farq_islamic_12",
+            "title": "Iman vs Islam: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Iman", "Islam"]],
+            "template_id": 1,
+            "entity_a": "Iman",
+            "entity_b": "Islam",
+            "concept_hook": "Aksar log Iman aur Islam ko ek hi cheez samajhte hain, lekin dono mein gehra farq hai.",
+            "mechanism_a": "andar ki sacchi tasdeeq hai, dil se Allah, Rasool, malaik, kitabon, qayamat aur taqdir par yaqeen",
+            "mechanism_b": "zaahiri amaal hain, paanch arkaan: Shahadah, Salah, Sawm, Zakat, aur Hajj",
+            "punchline": "Iman dil ki gehri sachai hai, jabke Islam usi yaqeen ka zaahiri amali izhar hai."
+        },
+        {
+            "id": "farq_islamic_13",
+            "title": "Kaffarah vs Fidyah: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Kaffarah", "Fidyah"]],
+            "template_id": 1,
+            "entity_a": "Kaffarah",
+            "entity_b": "Fidyah",
+            "concept_hook": "Aksar log Kaffarah aur Fidyah ko ek jaisi saza samajhte hain, lekin ye alag alag hain.",
+            "mechanism_a": "jaan boojh kar kisi ahad ya ibadat ke toorne ka kaffara hai, jaise qasd se roza todne par ek ghulam aazad karna ya 60 roze",
+            "mechanism_b": "mazeerat ki wajah se ibadat ada na kar sakne par muawwaza hai, jaise bimar shaks ka roza chhod kar mazloom ko khana dena",
+            "punchline": "Kaffarah kasdi ghalti ki saza hai, jabke Fidyah majburi ka muawwaza hai."
+        },
+        {
+            "id": "farq_islamic_14",
+            "title": "Wudu vs Ghusl: Farq Kya Hai?",
+            "type": "deepdive",
+            "fandom": "Islamic",
+            "pairs": [["Wudu", "Ghusl"]],
+            "template_id": 1,
+            "entity_a": "Wudu",
+            "entity_b": "Ghusl",
+            "concept_hook": "Aksar log samajhte hain ke Ghusl sirf napaaki ke liye hai, lekin dono mein poora farq hai.",
+            "mechanism_a": "choti tahaarat hai jo namaz se pehle munh, haath, sar aur paaon dhone se hasil hoti hai",
+            "mechanism_b": "badi tahaarat hai jo poore badan ko ghusal dene se janabat ya haidh ke baad hasil hoti hai",
+            "punchline": "Wudu rozmarra namaz ki tahaarat hai, jabke Ghusl poori tahaarat ki zarurat hai."
+        },
+        {
+            "id": "farq_islamic_comp_01",
+            "title": "3 Islamic Concepts Inme Farq Kya Hai",
+            "type": "compilation",
+            "fandom": "Islamic",
+            "pairs": [
+                ["Nabi", "Rasool"],
+                ["Hajj", "Umrah"],
+                ["Zakat", "Sadaqah"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Nabi",
+                    "entity_b": "Rasool",
+                    "contrast_a": "wahi haasil karta hai",
+                    "contrast_b": "nayi shariat aur kitab lata hai"
+                },
+                {
+                    "entity_a": "Hajj",
+                    "entity_b": "Umrah",
+                    "contrast_a": "Zil-Hajj ke khass dino mein farz hai",
+                    "contrast_b": "saal mein kisi bhi waqt ada kiya jata hai"
+                },
+                {
+                    "entity_a": "Zakat",
+                    "entity_b": "Sadaqah",
+                    "contrast_a": "saal mein 2.5% farz rukn hai",
+                    "contrast_b": "kisi bhi waqt nafli khairat hai"
+                }
+            ]
+        },
+        {
+            "id": "farq_islamic_comp_02",
+            "title": "Quran Hadith aur Iman: Farq Kya Hai",
+            "type": "compilation",
+            "fandom": "Islamic",
+            "pairs": [
+                ["Quran", "Hadith"],
+                ["Shirk", "Bidah"],
+                ["Iman", "Islam"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Quran",
+                    "entity_b": "Hadith",
+                    "contrast_a": "Allah ka seedha kalam aur lafz-ba-lafz wahy hai",
+                    "contrast_b": "Nabi SAW ke aqwaal aur afaal ka sanadyafta majmua hai"
+                },
+                {
+                    "entity_a": "Shirk",
+                    "entity_b": "Bidah",
+                    "contrast_a": "Allah ke saath shareek banana tawheed ko tod deta hai",
+                    "contrast_b": "deen mein saboot ke bagair nai cheez daalna hai"
+                },
+                {
+                    "entity_a": "Iman",
+                    "entity_b": "Islam",
+                    "contrast_a": "dil ki andar ki sacchi tasdeeq hai",
+                    "contrast_b": "paanch arkaan ka zaahiri amali izhar hai"
+                }
+            ]
+        },
+        {
+            "id": "farq_islamic_comp_03",
+            "title": "Tahaarat Ibadat aur Maafi: Farq Kya Hai",
+            "type": "compilation",
+            "fandom": "Islamic",
+            "pairs": [
+                ["Wudu", "Ghusl"],
+                ["Salah", "Dua"],
+                ["Tawbah", "Istighfar"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Wudu",
+                    "entity_b": "Ghusl",
+                    "contrast_a": "choti tahaarat namaz ke liye hai",
+                    "contrast_b": "poori tahaarat janabat ke baad zaruri hai"
+                },
+                {
+                    "entity_a": "Salah",
+                    "entity_b": "Dua",
+                    "contrast_a": "Allah ka muqarrar farz hai paanch waqt",
+                    "contrast_b": "kisi bhi waqt Allah se seedhi pukaar hai"
+                },
+                {
+                    "entity_a": "Tawbah",
+                    "entity_b": "Istighfar",
+                    "contrast_a": "dil se mukammal rujoo aur azm hai",
+                    "contrast_b": "zuban se maafi ki darkhwast hai"
+                }
+            ]
+        },
+        {
+            "id": "farq_islamic_comp_04",
+            "title": "Roza Kaffarah aur Jannah: Farq Kya Hai",
+            "type": "compilation",
+            "fandom": "Islamic",
+            "pairs": [
+                ["Roza", "Qaza Roza"],
+                ["Kaffarah", "Fidyah"],
+                ["Jannah", "Firdaus"]
+            ],
+            "template_id": 8,
+            "pairs_data": [
+                {
+                    "entity_a": "Roza",
+                    "entity_b": "Qaza Roza",
+                    "contrast_a": "Ramadan mein ibadat ka sawab hai",
+                    "contrast_b": "choote hue roze ki baad mein zimmedari hai"
+                },
+                {
+                    "entity_a": "Kaffarah",
+                    "entity_b": "Fidyah",
+                    "contrast_a": "kasdi ghalti ki saza hai",
+                    "contrast_b": "majburi mein ibadat na kar sakne ka muawwaza hai"
+                },
+                {
+                    "entity_a": "Jannah",
+                    "entity_b": "Firdaus",
+                    "contrast_a": "jannat ka aam naam hai",
+                    "contrast_b": "jannat ka sabse aala darjah hai"
+                }
+            ]
+        }
+    ]
+
     @classmethod
-    def get_all_opportunities(cls) -> List[Dict[str, Any]]:
-        """Returns all pre-curated concept opportunities."""
+    def get_all_opportunities(cls, channel: str = "dontmixthis") -> List[Dict[str, Any]]:
+        """Returns pre-curated concept opportunities based on target channel."""
+        if channel == "farqkya":
+            return cls.OPPORTUNITIES_URDU
         return cls.OPPORTUNITIES

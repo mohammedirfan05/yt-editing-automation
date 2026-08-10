@@ -1,253 +1,114 @@
-# 📖 YouTube Shorts Automation — Command Guide
+# 📖 YouTube Shorts Automation — Quick Command Guide
+
+Simple, minimal cheat sheet for generating scripts, managing tracker ideas, and creating ready-to-open CapCut Desktop drafts for both YouTube channels.
 
 ---
 
-## 📋 1. Seeing All Your Ideas & Scripts
+## 📺 Channel Overview
 
-### View the tracker as a spreadsheet (easiest)
-Open this CSV in Excel, Google Sheets, or VSCode:
-
-📄 **[config/content_tracker.csv](file:///c:/yt_editing_automation/automation/config/content_tracker.csv)**
-
-Each row is one topic. Columns: `ID`, `Title`, `Format`, `Fandom`, `X_vs_Y`, `Status`, `Views`, `Likes`.
+| Channel ID | Channel Name | Spoken Language | Opening Hook Template |
+|------------|--------------|-----------------|-----------------------|
+| `dontmixthis` | Dont Mix This (@dontmixthis) | English | `This is X. This is Y. So what's the difference?` |
+| `farqkya` | Farq Kya (@farqkya) | Roman Urdu | `Ye hai X aur ye hai Y, aakhir isme farq kya hai?` |
 
 ---
 
-### View tracker summary in the terminal
+## ⚡ 1. Master Interactive CLI (`run.py`)
 
-```powershell
+Run the step-by-step guided wizard to select channel, video format, project name, and labels:
+
+```bash
+python run.py
+```
+
+---
+
+## 📝 2. Script Generator Commands (`generate_scripts.py`)
+
+### Generate Fresh Scripts
+```bash
+# English Channel (@dontmixthis)
+python generate_scripts.py --channel dontmixthis --count 3
+
+# Roman Urdu Channel (@farqkya)
+python generate_scripts.py --channel farqkya --count 3
+
+# Filter by format or fandom category
+python generate_scripts.py --channel dontmixthis --mode deepdive --fandom Marvel
+python generate_scripts.py --channel farqkya --mode compilation --fandom Islamic
+```
+
+### Manage Script Tracker
+```bash
+# List all tracked topics and statistics
 python generate_scripts.py --list-tracker
-```
 
-**What it shows:**
-```
-📊 CONTENT TRACKER LIFECYCLE SUMMARY
-======================================
-  • Published (YouTube) : 24    ← Shorts already uploaded to your channel
-  • Approved Candidates : 2     ← Scripts you've approved for production
-  • Tested in Sandbox   : 0
-  • Ideas Queue         : 9     ← Fresh scripts waiting for your review
-  • Rejected            : 3
-  • Total Tracked       : 38
-
-Recent Topics in Tracker:
-  [PUBLISHED] 9IpnD9DCY5s   | 6 Crime Terms Everyone Gets Wrong (COMPILATION)
-  [IDEA     ] gemini_dd_01  | Jedi vs Sith The Force Divide (DEEPDIVE)
-  ...
-```
-
-**Status meanings:**
-
-| Status | Meaning |
-|--------|---------|
-| `POSTED` / `PUBLISHED` | Already uploaded to YouTube |
-| `IDEA` | Freshly generated, not yet reviewed |
-| `APPROVED` | You approved it — ready to build into a CapCut draft |
-| `REJECTED` | You rejected it — won't appear in future generations |
-| `TESTED` | Built as a CapCut draft and tested |
-
----
-
-## ✅ 2. Approving a Script
-
-Mark a topic as **approved** (ready for production):
-
-```powershell
+# Approve a candidate topic for production
 python generate_scripts.py --approve <topic_id>
-```
 
-**Example:**
-```powershell
-python generate_scripts.py --approve gemini_dd_01
-```
-
-Output:
-```
-✓ Marked topic 'gemini_dd_01' as APPROVED.
-```
-
-The topic ID is the short code you see in `--list-tracker` output or in the `config/content_tracker.csv` `ID` column (e.g. `gemini_dd_01`, `gemini_comp_03`).
-
----
-
-## ❌ 3. Rejecting a Script
-
-Mark a topic as **rejected** so it won't be re-generated:
-
-```powershell
+# Reject a candidate topic
 python generate_scripts.py --reject <topic_id>
-```
 
-**Example:**
-```powershell
-python generate_scripts.py --reject gemini_comp_02
-```
-
-Output:
-```
-✓ Marked topic 'gemini_comp_02' as REJECTED.
-```
-
-Rejected topics are excluded from future duplicate checks and won't show up in batch review menus.
-
----
-
-## 📌 4. Marking a Script as Published
-
-Once you've uploaded a Short to YouTube, mark it as published to permanently lock it out of future generation:
-
-```powershell
+# Mark a topic as published on YouTube
 python generate_scripts.py --publish <topic_id>
 ```
 
 ---
 
-## 🔍 5. Generating Fresh Scripts
+## 🎬 3. Single Video Draft Commands (`run.py`)
 
-Generate new Playbook-compliant scripts (writes to `config/ideas.json` + `generated_scripts/`):
+### 🇺🇸 English Channel (`dontmixthis`)
+```bash
+# Deepdive (1 Pair / 2 Images)
+python run.py SupermanVsShazam --channel dontmixthis --mode deepdive -x "SUPERMAN" -y "SHAZAM"
 
-```powershell
-# Generate 3 scripts (default, balanced 50/50)
-python generate_scripts.py
+# Compilation (3 Pairs / 6 Images)
+python run.py MarvelComp --channel dontmixthis --mode compilation --labels "MCU,COMICS;DCEU,DCU;CANON,ALT"
+```
 
-# Generate 10 scripts
-python generate_scripts.py --count 10
+### 🇵🇰 Roman Urdu Channel (`farqkya`)
+```bash
+# Deepdive (1 Pair / 2 Images)
+python run.py NabiVsRasool --channel farqkya --mode deepdive -x "NABI" -y "RASOOL"
 
-# Only Deepdive scripts
-python generate_scripts.py --count 5 --mode deepdive
+# Compilation (3 Pairs / 6 Images)
+python run.py IslamicComp --channel farqkya --mode compilation --labels "NABI,RASOOL;HAJJ,UMRAH;ZAKAT,SADAQAH"
+```
 
-# Only Compilation scripts
-python generate_scripts.py --count 5 --mode compilation
-
-# Filter by fandom (Marvel, DC, Anime, Mythology)
-python generate_scripts.py --count 5 --fandom Marvel
+### 🎙️ Using Pre-Recorded Audio (Skip Google TTS)
+```bash
+# Drop audio file (voiceover.wav / voiceover.mp3) into input/, then run:
+python run.py MyProject --channel farqkya --mode deepdive -x "NABI" -y "RASOOL" --skip-tts
 ```
 
 ---
 
-## ⚡ 6. Batch Build Commands (`run_batch.py`)
+## 🚀 4. Overnight Batch Builder (`run_batch.py`)
 
-### What `python run_batch.py` does (default)
+Automatically build multiple CapCut projects from `config/ideas.json`:
 
-1. Loads `config/ideas.json`
-2. If empty → auto-generates 10 fresh scripts via Gemini
-3. Shows the **interactive review menu** where you can pick which scripts to build
-4. Builds CapCut drafts for the ones you select
+```bash
+# Interactive batch runner for English channel
+python run_batch.py --channel dontmixthis
 
----
+# Interactive batch runner for Roman Urdu channel
+python run_batch.py --channel farqkya
 
-### `--validate` — Check `ideas.json` before running
+# Pre-generate 5 fresh scripts and launch batch review
+python run_batch.py --channel farqkya --generate 5
 
-```powershell
-python run_batch.py --validate
-```
+# Automated non-interactive run (builds all drafts automatically)
+python run_batch.py --channel farqkya --non-interactive
 
-**What it does:** Loads and validates `config/ideas.json` without building anything. Catches:
-- Missing required fields (`id`, `project_name`, `type`, `script`)
-- Duplicate IDs
-- Invalid `type` values (must be `deepdive` or `compilation`)
-- Empty scripts
-
-**When to use it:** After manually editing `ideas.json` to confirm it's still valid before kicking off a batch run.
-
-Output example:
-```
-✓ Pre-flight validation passed for 'config/ideas.json'. Found 9 valid topics.
-```
-
----
-
-### `--dry-run` — Test the full pipeline without making any API calls
-
-```powershell
-python run_batch.py --dry-run --non-interactive
-```
-
-**What it does:** Runs the entire batch loop — loads ideas, sets up sandboxes, formats all arguments — but **skips** TTS generation, SRT tagging, and CapCut draft building. No API calls, no files written to CapCut.
-
-**When to use it:** To verify your `ideas.json` structure is wired correctly and all topics would process without errors, before committing to a real overnight run.
-
-Output per topic:
-```
-[DRY-RUN] Verified sandbox layout and arguments for 'Auto_Deepdive_Jedi_vs_Sith'.
-```
-
----
-
-### `--resume` — Continue an interrupted batch run
-
-```powershell
+# Resume an interrupted batch run
 python run_batch.py --resume
 ```
 
-**What it does:** Reads `batch_status.json` (auto-saved after each completed topic) and skips any topics already marked `SUCCESS`. Useful if a run was interrupted mid-way.
-
 ---
 
-### `--generate N` — Pre-generate N fresh scripts before the batch run
+## 📁 Quick Asset Reference
 
-```powershell
-python run_batch.py --generate 10
-```
-
-Generates 10 fresh Gemini scripts, saves them to `ideas.json`, then launches the interactive review menu.
-
----
-
-### `--non-interactive` — Skip the review menu and build everything
-
-```powershell
-python run_batch.py --non-interactive
-```
-
-Skips the interactive CLI review and immediately starts building CapCut drafts for all topics in `ideas.json`. Useful for fully automated overnight runs.
-
----
-
-## 🔄 7. Resetting & Regenerating from Scratch
-
-To wipe the ideas queue and generate a fresh batch:
-
-```powershell
-# 1. Clear ideas.json
-echo [] > config\ideas.json
-
-# 2. Generate 10 fresh scripts
-python generate_scripts.py --count 10
-
-# 3. Review and build
-python run_batch.py
-```
-
----
-
-## 🚀 8. Single Video Pipeline (`run.py`)
-
-For building one CapCut draft at a time interactively:
-
-```powershell
-python run.py
-```
-
-Or non-interactively:
-
-```powershell
-# Deepdive (1 pair / 2 images)
-python run.py SupermanVsShazam --mode deepdive -x "SUPERMAN" -y "SHAZAM" -t "Script text here..."
-
-# Compilation (3 pairs / 6 images)
-python run.py CompTest --mode compilation --labels "MCU,MARVEL;DCEU,DCU;CANON,CONTINUITY" -t "Script..."
-
-# Skip TTS and use pre-recorded audio from input/
-python run.py MyProject --mode deepdive -x "LABEL1" -y "LABEL2" --skip-tts
-```
-
----
-
-## 📂 Asset Requirements (Quick Reference)
-
-| Mode | Images needed in `input/` |
-|------|--------------------------|
-| Deepdive | `image1.png`, `image2.png` |
-| Compilation | `image1.png` → `image6.png` |
-| Pre-recorded audio | Drop any `.wav` / `.mp3` into `input/` |
+- **Deepdive Mode:** Place `image1.png` (Left / Red Title X) and `image2.png` (Right / Blue Title Y) in `input/`.
+- **Compilation Mode:** Place `image1.png` through `image6.png` in `input/`.
+- **Pre-recorded Audio:** Place `.wav` / `.mp3` in `input/` when running with `--skip-tts`.
+- **CapCut Desktop Output:** Project drafts are automatically written directly into CapCut Desktop's project workspace directory ready for instant opening!

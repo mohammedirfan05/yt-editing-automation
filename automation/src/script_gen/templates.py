@@ -83,3 +83,84 @@ class ScriptTemplates:
 
         blocks.append("Follow for more.")
         return " ".join(blocks)
+
+
+class ScriptTemplatesUrdu:
+    """Formatter for Farq Kya (Roman Urdu) Playbook-compliant script templates."""
+
+    @staticmethod
+    def render_deepdive(
+        entity_a: str,
+        entity_b: str,
+        template_id: int,
+        concept_hook: str,
+        mechanism_a: str,
+        mechanism_b: str,
+        punchline: str
+    ) -> str:
+        """
+        Renders a Playbook-compliant DEEPDIVE script in Roman Urdu for Farq Kya channel.
+        Hook: 'Ye hai X aur ye hai Y, aakhir isme farq kya hai?'
+        """
+        # Hook (Line 1) - Mandatory Roman Urdu syntax for Farq Kya channel
+        hook_line = f"Ye hai {entity_a} aur ye hai {entity_b}, aakhir isme farq kya hai?"
+
+        # Misconception shatter
+        misconception_line = concept_hook.strip() if concept_hook else "Aksar log samajhte hain ke ye dono ek hi hain, lekin aisa nahi hai."
+
+        # Mechanism contrast
+        mech_a_str = mechanism_a.strip()
+        mech_b_str = mechanism_b.strip()
+
+        if mech_a_str.lower().startswith(entity_a.lower()):
+            part_a = mech_a_str
+        else:
+            part_a = f"{entity_a} {mech_a_str}"
+
+        if mech_b_str.lower().startswith(entity_b.lower()):
+            part_b = mech_b_str
+        else:
+            part_b = f"{entity_b} {mech_b_str}"
+
+        contrast_line = f"{part_a}. Lekin {part_b}."
+
+        # Punchline rule
+        punchline_line = punchline.strip()
+
+        # Outro
+        outro_line = "Mazeed videos ke liye follow karein."
+
+        # Combine into complete script text
+        lines = [
+            hook_line,
+            misconception_line,
+            contrast_line,
+            punchline_line,
+            outro_line
+        ]
+
+        full_text = " ".join(lines)
+        return full_text
+
+    @staticmethod
+    def render_compilation(pairs_data: List[Dict[str, str]]) -> str:
+        """
+        Renders a Playbook-compliant COMPILATION script in Roman Urdu for Farq Kya channel.
+        Expects 3 pairs in pairs_data.
+        """
+        blocks = []
+        for pair in pairs_data[:3]:
+            ea = pair.get("entity_a", "").strip()
+            eb = pair.get("entity_b", "").strip()
+            ca = pair.get("contrast_a", "").strip()
+            cb = pair.get("contrast_b", "").strip()
+
+            part_a = ca if ca.lower().startswith(ea.lower()) else f"{ea} {ca}"
+            part_b = cb if cb.lower().startswith(eb.lower()) else f"{eb} {cb}"
+
+            block = f"Ye hai {ea} aur ye hai {eb}, aakhir isme farq kya hai? {part_a}, jabke {part_b}."
+            blocks.append(block)
+
+        blocks.append("Mazeed videos ke liye follow karein.")
+        return " ".join(blocks)
+

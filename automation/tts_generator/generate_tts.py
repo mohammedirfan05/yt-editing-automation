@@ -19,7 +19,8 @@ import re
 import shutil
 import struct
 import sys
-from typing import Optional
+import time
+from typing import List, Optional
 
 import requests
 from colorama import Fore, Style, init
@@ -53,10 +54,54 @@ PROJECT_ROOT_INPUT = os.path.join(PROJECT_ROOT, "input")
 
 # Default Google Gemini TTS Settings (As requested)
 DEFAULT_TTS_MODEL = "gemini-3.1-flash-tts-preview"
-DEFAULT_VOICE = "Puck"  # Puck (Upbeat, Middle pitch)
 
-DEFAULT_SCENE = "A fast-paced educational explainer breaking down story terminology, direct-to-camera style"
-DEFAULT_CONTEXT = "Energetic YouTube Shorts narration, quick pacing, conversational but confident tone"
+# Built-in per-channel defaults (Fallback if config/channel_defaults.json is missing/unreadable)
+BUILTIN_CHANNEL_DEFAULTS = {
+    "dontmixthis": {
+        "display_name": "Dont Mix This",
+        "handle": "@dontmixthis",
+        "mascot_dir": "assets/mascot",
+        "draft_prefix": "dontmixthis",
+        "tts": {
+            "voice": "Puck",
+            "scene": "A fast-paced educational explainer breaking down story terminology, direct-to-camera style",
+            "context": "Energetic YouTube Shorts narration, quick pacing, conversational but confident tone"
+        }
+    },
+    "farqkya": {
+        "display_name": "Farq Kya",
+        "handle": "@farqkya",
+        "mascot_dir": "assets/mascot_urdu",
+        "draft_prefix": "farqkya",
+        "tts": {
+            "voice": "Alnilam",
+            "scene": "Calm, confident YouTube Shorts narration, natural Roman Urdu, slightly fast-paced but relaxed — like explaining something clearly to a friend, not reading a script.",
+            "context": "A short educational explainer comparing two Islamic terms or concepts, direct-to-camera style, simple sentence structure with natural pauses between thoughts."
+        }
+    }
+}
+
+
+def load_channel_defaults() -> dict:
+    """Loads channel defaults from config/channel_defaults.json if available."""
+    config_path = os.path.join(PROJECT_ROOT, "config", "channel_defaults.json")
+    if os.path.isfile(config_path):
+        try:
+            with open(config_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, dict) and data:
+                    return data
+        except Exception:
+            pass
+    return BUILTIN_CHANNEL_DEFAULTS
+
+
+def get_channel_tts_config(channel_name: str) -> dict:
+    """Gets the TTS defaults (voice, scene, context) for a given channel."""
+    all_channels = load_channel_defaults()
+    ch_key = (channel_name or "dontmixthis").lower().strip()
+    channel_data = all_channels.get(ch_key, all_channels.get("dontmixthis", BUILTIN_CHANNEL_DEFAULTS["dontmixthis"]))
+    return channel_data.get("tts", BUILTIN_CHANNEL_DEFAULTS["dontmixthis"]["tts"])
 
 
 def load_env_file() -> None:
@@ -193,12 +238,10 @@ def generate_speech_audio_rest(
     }
     headers = {"Content-Type": "application/json"}
 
-    import time
     max_retries = 5
     backoff_delay = 5.0
 
-    # Minimum inter-request delay to respect Google AI Studio 15 RPM limit
-    time.sleep(4.0)
+    time.sleep(2.0)
 
     for attempt in range(1, max_retries + 1):
         try:
@@ -224,6 +267,9 @@ def generate_speech_audio_rest(
                             data_buffer = convert_to_wav(data_buffer, last_mime)
                         save_binary_file(output_wav_path, data_buffer)
                         return output_wav_path
+            elif r.status_code in (401, 403):
+                print(Fore.YELLOW + f"\n⚠️ Google API Authentication Error ({r.status_code}). Invalid or expired GEMINI_API_KEY." + Style.RESET_ALL)
+                return None
             elif r.status_code == 429:
                 retry_seconds = backoff_delay
                 try:
@@ -251,36 +297,58 @@ def generate_speech_audio_rest(
     return None
 
 
+
 def generate_speech_audio(
     text_script: str,
     output_wav_path: str,
-    voice_name: str = DEFAULT_VOICE,
-    scene: str = DEFAULT_SCENE,
-    sample_context: str = DEFAULT_CONTEXT,
+    voice_name: Optional[str] = None,
+    scene: Optional[str] = None,
+    sample_context: Optional[str] = None,
+    channel: str = "dontmixthis",
     model: str = DEFAULT_TTS_MODEL,
     api_key: Optional[str] = None
 ) -> Optional[str]:
     """
     Generates speech audio using google-genai SDK or REST API fallback.
     """
+    tts_defaults = get_channel_tts_config(channel)
+    final_voice = voice_name if voice_name else tts_defaults["voice"]
+    final_scene = scene if scene else tts_defaults["scene"]
+    final_context = sample_context if sample_context else tts_defaults["context"]
+
     key = api_key or os.environ.get("GEMINI_API_KEY")
+    if not key:
+        # Load from root .env if available
+        root_env = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+        if os.path.isfile(root_env):
+            try:
+                with open(root_env, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if line.startswith("GEMINI_API_KEY="):
+                            key = line.split("=", 1)[1].strip().strip('"').strip("'")
+                            break
+            except Exception:
+                pass
+
     if not key:
         print(Fore.RED + "Error: GEMINI_API_KEY is not set in root .env file!" + Style.RESET_ALL)
         return None
 
     formatted_prompt = f"""## Scene:
-{scene}
+{final_scene}
 
 ## Sample Context:
-{sample_context}
+{final_context}
 
 ## Transcript:
 {text_script.strip()}"""
 
     print(Fore.CYAN + f"\n[Google TTS] Requesting speech audio from {model}..." + Style.RESET_ALL)
-    print(Fore.CYAN + f" - Voice Model   : {voice_name} (Upbeat, Middle pitch)" + Style.RESET_ALL)
-    print(Fore.CYAN + f" - Scene         : {scene}" + Style.RESET_ALL)
-    print(Fore.CYAN + f" - Context       : {sample_context}" + Style.RESET_ALL)
+    print(Fore.CYAN + f" - Channel       : {channel}" + Style.RESET_ALL)
+    print(Fore.CYAN + f" - Voice Model   : {final_voice}" + Style.RESET_ALL)
+    print(Fore.CYAN + f" - Scene         : {final_scene}" + Style.RESET_ALL)
+    print(Fore.CYAN + f" - Context       : {final_context}" + Style.RESET_ALL)
 
     # Try SDK if installed
     if HAS_GENAI_SDK:
@@ -300,7 +368,7 @@ def generate_speech_audio(
                 speech_config=types.SpeechConfig(
                     voice_config=types.VoiceConfig(
                         prebuilt_voice_config=types.PrebuiltVoiceConfig(
-                            voice_name=voice_name
+                            voice_name=final_voice
                         )
                     )
                 ),
@@ -336,10 +404,12 @@ def generate_speech_audio(
     return generate_speech_audio_rest(
         formatted_prompt=formatted_prompt,
         output_wav_path=output_wav_path,
-        voice_name=voice_name,
+        voice_name=final_voice,
         model=model,
         api_key=key
     )
+
+
 
 
 def clean_old_audio_files(target_dir: str) -> None:
@@ -390,6 +460,76 @@ def sync_audio_to_workflow(audio_path: str) -> None:
         print(Fore.GREEN + f"[AUTO-SYNC] Copied voiceover audio to: {dest2}" + Style.RESET_ALL)
 
 
+def prompt_manual_audio_fallback(
+    script_text: str,
+    output_path: str,
+    channel: str,
+    scene: str,
+    context: str
+) -> str:
+    """
+    Displays the Scene, Sample Context, and Script to the user,
+    specifies the target audio file location, and pauses until the user pastes the audio file and presses ENTER.
+    """
+    abs_output_path = os.path.abspath(output_path)
+    output_dir = os.path.dirname(abs_output_path)
+    os.makedirs(output_dir, exist_ok=True)
+
+    print(Fore.YELLOW + "\n" + "=" * 72 + Style.RESET_ALL)
+    print(Fore.YELLOW + " ⚠️ GOOGLE GEMINI TTS RATE LIMIT DETECTED — MANUAL AUDIO FALLBACK ACTIVE" + Style.RESET_ALL)
+    print(Fore.YELLOW + "=" * 72 + Style.RESET_ALL)
+    print(Fore.CYAN + "\n📋 SCENE DESCRIPTION:" + Style.RESET_ALL)
+    print(f"   {scene}")
+    print(Fore.CYAN + "\n🎯 SAMPLE CONTEXT:" + Style.RESET_ALL)
+    print(f"   {context}")
+    print(Fore.CYAN + "\n📜 TRANSCRIPT / SCRIPT TO RECORD OR GENERATE:" + Style.RESET_ALL)
+    print(Fore.WHITE + f"   \"{script_text.strip()}\"" + Style.RESET_ALL)
+    print(Fore.YELLOW + "\n📁 TARGET AUDIO FILE LOCATION:" + Style.RESET_ALL)
+    print(Fore.GREEN + f"   👉 {abs_output_path}" + Style.RESET_ALL)
+    print(Fore.YELLOW + "\n💡 INSTRUCTIONS:" + Style.RESET_ALL)
+    print(f"   1. Generate or record your voiceover audio file.")
+    print(f"   2. Paste/save the audio file as '.wav' or '.mp3' at the exact target path above.")
+
+    input(Fore.MAGENTA + "\n👉 Press ENTER once you have placed the audio file at the path above to resume... " + Style.RESET_ALL)
+
+    valid_exts = [".wav", ".mp3", ".m4a", ".aac"]
+    found_file = None
+
+    if os.path.isfile(abs_output_path):
+        found_file = abs_output_path
+    else:
+        base_no_ext = os.path.splitext(abs_output_path)[0]
+        for ext in valid_exts:
+            candidate = base_no_ext + ext
+            if os.path.isfile(candidate):
+                found_file = candidate
+                break
+
+    while not found_file or not os.path.isfile(found_file):
+        print(Fore.RED + f"\n❌ Audio file not found at: {abs_output_path}" + Style.RESET_ALL)
+        input(Fore.YELLOW + "👉 Please paste/save the voiceover audio file and press ENTER to retry... " + Style.RESET_ALL)
+        if os.path.isfile(abs_output_path):
+            found_file = abs_output_path
+        else:
+            base_no_ext = os.path.splitext(abs_output_path)[0]
+            for ext in valid_exts:
+                candidate = base_no_ext + ext
+                if os.path.isfile(candidate):
+                    found_file = candidate
+                    break
+
+    # If saved as mp3/m4a under a different extension, copy/rename to output_path if needed
+    if found_file != abs_output_path and not abs_output_path.lower().endswith(os.path.splitext(found_file)[1].lower()):
+        try:
+            shutil.copy2(found_file, abs_output_path)
+            found_file = abs_output_path
+        except Exception:
+            pass
+
+    print(Fore.GREEN + f"\n✅ Verified manual audio file: {found_file}" + Style.RESET_ALL)
+    return found_file
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Google Gemini 3.1 Flash TTS Generator (Supports SDK & REST API)."
@@ -397,9 +537,10 @@ def main():
     parser.add_argument("--text", "-t", type=str, help="Speech transcript text string to generate audio for")
     parser.add_argument("--input", "-i", type=str, help="Path to input text script file (.txt)")
     parser.add_argument("--output", "-o", type=str, help="Output .wav path (default: tts_generator/output_audio/voiceover.wav)")
-    parser.add_argument("--voice", "-v", default=DEFAULT_VOICE, help=f"Voice model name (default: {DEFAULT_VOICE})")
-    parser.add_argument("--scene", default=DEFAULT_SCENE, help="Scene description")
-    parser.add_argument("--context", default=DEFAULT_CONTEXT, help="Sample Context / voice persona description")
+    parser.add_argument("--channel", "-c", choices=["dontmixthis", "farqkya"], default="dontmixthis", help="Target YouTube channel ('dontmixthis' or 'farqkya'; default: 'dontmixthis')")
+    parser.add_argument("--voice", "-v", default=None, help="Voice model name (default: auto-selected by --channel)")
+    parser.add_argument("--scene", default=None, help="Scene description (default: auto-selected by --channel)")
+    parser.add_argument("--context", default=None, help="Sample Context description (default: auto-selected by --channel)")
     parser.add_argument("--auto-build", help="Optional project name to run end-to-end auto build after TTS generation")
 
     args = parser.parse_args()
@@ -424,7 +565,7 @@ def main():
             print(Fore.YELLOW + f"No transcript provided via --text and no .txt files found in: {DEFAULT_INPUT_DIR}" + Style.RESET_ALL)
             print(Fore.CYAN + "\nUsage Examples:" + Style.RESET_ALL)
             print("  python tts_generator/generate_tts.py -t \"[amused] This is Superman. This is Shazam.\"" )
-            print("  python tts_generator/generate_tts.py -i input_text/script.txt\n")
+            print("  python tts_generator/generate_tts.py -i input_text/script.txt --channel farqkya\n")
             sys.exit(0)
 
     output_path = args.output
@@ -437,12 +578,23 @@ def main():
         output_wav_path=output_path,
         voice_name=args.voice,
         scene=args.scene,
-        sample_context=args.context
+        sample_context=args.context,
+        channel=args.channel
     )
 
     if not result:
-        print(Fore.RED + "\n[ERROR] Stage 1: Speech audio generation failed (Google Gemini API Quota Exceeded / Rate Limit). Aborting pipeline." + Style.RESET_ALL)
-        sys.exit(1)
+        tts_defaults = get_channel_tts_config(args.channel)
+        scene_desc = args.scene if args.scene else tts_defaults["scene"]
+        context_desc = args.context if args.context else tts_defaults["context"]
+
+        result = prompt_manual_audio_fallback(
+            script_text=script_text,
+            output_path=output_path,
+            channel=args.channel,
+            scene=scene_desc,
+            context=context_desc
+        )
+
 
     sync_audio_to_workflow(result)
 
@@ -455,7 +607,7 @@ def main():
         build_script = os.path.join(PROJECT_ROOT, "build_draft.py")
 
         os.system(f'"{sys.executable}" "{srt_script}" -i "{result}"')
-        os.system(f'"{sys.executable}" "{build_script}" "{args.auto_build}"')
+        os.system(f'"{sys.executable}" "{build_script}" "{args.auto_build}" --channel "{args.channel}"')
 
 
 if __name__ == "__main__":

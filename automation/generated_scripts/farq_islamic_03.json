@@ -1,0 +1,26 @@
+{
+  "id": "farq_islamic_03",
+  "title": "Fard vs Sunnah: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Fard",
+      "Sunnah"
+    ]
+  ],
+  "script": "Ye hai Fard aur ye hai Sunnah, aakhir isme farq kya hai? Aksar log Fard aur Sunnah mein farq nahi samajhte, lekin inke ahkaam alag hain. Fard Allah ki taraf se lazmi hukum hai jise chorna gunah hai. Lekin Sunnah Nabi Kareem Sallallahu Alaihi Wasallam ki tareeqa hai jise karne par sawab aur na karne par mahrumi hai. Fard chhorne par gunah aur azab hai, jabke Sunnah Nabi ki mohobbat aur tareeqa hai. Mazeed videos ke liye follow karein.",
+  "word_count": 79,
+  "estimated_duration_sec": 29.26,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "label1": "Fard",
+    "label2": "Sunnah"
+  },
+  "created_at": "2026-08-09T16:02:13.530093",
+  "updated_at": "2026-08-09T16:02:13.530093"
+}

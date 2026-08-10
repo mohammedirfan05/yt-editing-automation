@@ -1,0 +1,27 @@
+{
+  "id": "farq_islamic_04",
+  "title": "Zakat vs Sadaqah: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "approved",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Zakat",
+      "Sadaqah"
+    ]
+  ],
+  "script": "Ye hai Zakat aur ye hai Sadaqah, aakhir isme farq kya hai? Aksar log Zakat aur Sadaqah ko ek hi tarah ka khairat samajhte hain, lekin aisa nahi hai. Zakat Maaldar Musalman par saal mein ek baar nisab par 2.5% farz hai. Lekin Sadaqah Kkisi bhi waqt apni marzi se di jaane wali nafli khairat hai. Zakat farz haq hai, jabke Sadaqah dil ki khushi se diya jata hai. Mazeed videos ke liye follow karein.",
+  "word_count": 76,
+  "estimated_duration_sec": 28.15,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "label1": "Zakat",
+    "label2": "Sadaqah"
+  },
+  "created_at": "2026-08-09T21:40:05.834394",
+  "updated_at": "2026-08-10T10:10:10.753495",
+  "notes": "Manually approved by user"
+}

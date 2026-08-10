@@ -1,0 +1,24 @@
+{
+  "dontmixthis": {
+    "display_name": "Dont Mix This",
+    "handle": "@dontmixthis",
+    "mascot_dir": "assets/mascot",
+    "draft_prefix": "dontmixthis",
+    "tts": {
+      "voice": "Puck",
+      "scene": "A fast-paced educational explainer breaking down story terminology, direct-to-camera style",
+      "context": "Energetic YouTube Shorts narration, quick pacing, conversational but confident tone"
+    }
+  },
+  "farqkya": {
+    "display_name": "Farq Kya",
+    "handle": "@farqkya",
+    "mascot_dir": "assets/mascot_urdu",
+    "draft_prefix": "farqkya",
+    "tts": {
+      "voice": "Alnilam",
+      "scene": "Calm, confident YouTube Shorts narration, natural Roman Urdu, slightly fast-paced but relaxed — like explaining something clearly to a friend, not reading a script.",
+      "context": "A short educational explainer comparing two Islamic terms or concepts, direct-to-camera style, simple sentence structure with natural pauses between thoughts."
+    }
+  }
+}

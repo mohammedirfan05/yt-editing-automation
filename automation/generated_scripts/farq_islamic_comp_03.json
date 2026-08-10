@@ -1,0 +1,44 @@
+{
+  "id": "farq_islamic_comp_03",
+  "title": "Tahaarat Ibadat aur Maafi: Farq Kya Hai",
+  "type": "compilation",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Wudu",
+      "Ghusl"
+    ],
+    [
+      "Salah",
+      "Dua"
+    ],
+    [
+      "Tawbah",
+      "Istighfar"
+    ]
+  ],
+  "script": "Ye hai Wudu aur ye hai Ghusl, aakhir isme farq kya hai? Wudu choti tahaarat namaz ke liye hai, jabke Ghusl poori tahaarat janabat ke baad zaruri hai. Ye hai Salah aur ye hai Dua, aakhir isme farq kya hai? Salah Allah ka muqarrar farz hai paanch waqt, jabke Dua kisi bhi waqt Allah se seedhi pukaar hai. Ye hai Tawbah aur ye hai Istighfar, aakhir isme farq kya hai? Tawbah dil se mukammal rujoo aur azm hai, jabke Istighfar zuban se maafi ki darkhwast hai. Mazeed videos ke liye follow karein.",
+  "word_count": 92,
+  "estimated_duration_sec": 34.07,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [],
+  "labels": {
+    "pair1": [
+      "Wudu",
+      "Ghusl"
+    ],
+    "pair2": [
+      "Salah",
+      "Dua"
+    ],
+    "pair3": [
+      "Tawbah",
+      "Istighfar"
+    ]
+  },
+  "created_at": "2026-08-10T09:25:10.958942",
+  "updated_at": "2026-08-10T09:25:10.958942"
+}

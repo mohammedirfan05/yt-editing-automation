@@ -1,56 +1,97 @@
 # 🎬 YouTube Shorts Editing Automation Engine
 
-A clean, minimal, and 100% automated pipeline that turns script text/audio and images into **ready-to-open CapCut Desktop projects**.
+Automated pipeline for generating scripts, TTS audio, subtitles, mascot tags, and ready-to-open **CapCut Desktop projects** for YouTube Shorts.
 
-Powered by **Google Gemini 3.1 Flash TTS**, **Local Whisper STT**, **Google Gemini 3.6 Flash AI**, and **CapCut PyCapCut Engine**.
-
----
-
-## ⚡ Video Creation Modes
-
-The engine supports two primary video formats:
-
-### 1️⃣ Option 1: Deepdive (Single Pair - 2 Images)
-Focuses on a single detailed comparison pair (`image1.png` vs `image2.png`) spanning the full video duration.
-
-- **Interactive Selection:** Choose Option `1` when running `python run.py`.
-- **Non-Interactive CLI Command:**
-  ```bash
-  python run.py SupermanVsShazam --mode deepdive -x "SUPERMAN" -y "SHAZAM"
-  ```
+Supports two YouTube channels natively:
+- 🇺🇸 **Dont Mix This** (`dontmixthis`): English Pop Culture & Comics comparisons (@dontmixthis)
+- 🇵🇰 **Farq Kya** (`farqkya`): Roman Urdu Islamic comparisons (@farqkya)
 
 ---
 
-### 2️⃣ Option 2: Compilation (3 Pairs - 6 Images)
-Features 3 distinct comparison pairs (`image1/image2`, `image3/image4`, `image5/image6`) switching dynamically as the voiceover advances.
+## ⚡ Quick Start (One Command)
 
-- **Interactive Selection:** Choose Option `2` when running `python run.py`.
-- **Non-Interactive CLI Command:**
-  ```bash
-  python run.py compilationtest --mode compilation --labels "MCU,MARVEL COMICS;DCEU,DCU;CANON,CONTINUITY"
-  ```
-
-#### 🎬 Timeline & Visual Features
-- ⚡ **Word-Level Subtitle Highlighting:** Automatically highlights the key concept/entity word in every subtitle block in high-contrast Electric Orange (`#FF5500`) for maximum legibility on light/white backgrounds.
-- 🖼️ **Dynamic Image Transitions:** `image1`/`image2` transition seamlessly into `image3`/`image4` and `image5`/`image6`!
-- 🏷️ **Dynamic Titles:** Red Title X & Blue Title Y switch automatically for each pair (`MCU` ➔ `DCEU` ➔ `CANON`).
-- 🎵 **Mouse Click SFX (6x):** Plays the exact millisecond each of the 6 images pops on screen!
-- 🍿 **Pop SFX (3x):** Plays 80ms before **EVERY** *"what's the difference"* segment in your video!
+Launch the master interactive pipeline:
+```bash
+python run.py
+```
+*Prompts for channel selection (`dontmixthis` vs `farqkya`), video format, project name, and titles.*
 
 ---
 
-## 🎧 How to Use Pre-Recorded Audio (Skip Google TTS)
+## 📝 1. Script Generation (`generate_scripts.py`)
 
-You can skip script text entry and Google TTS audio generation:
-
-### Option A: Automatic Detection (Interactive CLI)
-1. Drop your pre-recorded audio file (e.g. `voiceover.wav` or `my_audio.mp3`) into `input/`.
-2. Run `python run.py`.
-3. Press **ENTER** when prompted to use existing audio!
-
-### Option B: CLI Flag `--skip-tts` (Non-Interactive)
+Generate Playbook-compliant X vs Y comparison scripts using Gemini AI:
 
 ```bash
-python run.py my_project --mode deepdive -x "SUPERMAN" -y "SHAZAM" --skip-tts
+# English Channel (@dontmixthis)
+python generate_scripts.py --channel dontmixthis --count 3
+
+# Roman Urdu Channel (@farqkya) - Opens with: "Ye hai X aur ye hai Y, aakhir isme farq kya hai?"
+python generate_scripts.py --channel farqkya --count 3
+
+# Specific Modes & Fandoms
+python generate_scripts.py --channel dontmixthis --mode deepdive --fandom Marvel
+python generate_scripts.py --channel farqkya --mode compilation --fandom Islamic
 ```
 
+---
+
+## 🎬 2. Create Ready-to-Open CapCut Drafts (`run.py`)
+
+### 🇺🇸 English Channel (`dontmixthis`)
+```bash
+# Deepdive (1 Pair / 2 Images: image1 & image2)
+python run.py SupermanVsShazam --channel dontmixthis --mode deepdive -x "SUPERMAN" -y "SHAZAM"
+
+# Compilation (3 Pairs / 6 Images: image1 to image6)
+python run.py MarvelComp --channel dontmixthis --mode compilation --labels "MCU,COMICS;DCEU,DCU;CANON,ALT"
+```
+
+### 🇵🇰 Roman Urdu Channel (`farqkya`)
+```bash
+# Deepdive (1 Pair / 2 Images: image1 & image2)
+python run.py NabiVsRasool --channel farqkya --mode deepdive -x "NABI" -y "RASOOL"
+
+# Compilation (3 Pairs / 6 Images: image1 to image6)
+python run.py IslamicComp --channel farqkya --mode compilation --labels "NABI,RASOOL;HAJJ,UMRAH;ZAKAT,SADAQAH"
+```
+
+### 🎙️ Using Pre-Recorded Audio (Skip Google TTS)
+```bash
+# Drop voiceover.wav or voiceover.mp3 into input/ directory, then run:
+python run.py MyProject --channel farqkya --mode deepdive -x "NABI" -y "RASOOL" --skip-tts
+```
+
+---
+
+## 🚀 3. Overnight Batch Generator (`run_batch.py`)
+
+Automatically build multiple CapCut drafts from your ideas queue:
+
+```bash
+# Interactive review & build for English channel
+python run_batch.py --channel dontmixthis
+
+# Interactive review & build for Roman Urdu channel
+python run_batch.py --channel farqkya
+
+# Non-interactive automated run (Generates & builds 5 drafts)
+python run_batch.py --channel farqkya --generate 5 --non-interactive
+```
+
+---
+
+## 📺 Channel Reference Summary
+
+| Channel ID | Channel Name | Spoken Language | Opening Line Pattern | Mascot Folder | Voice Model |
+|------------|--------------|-----------------|----------------------|---------------|-------------|
+| `dontmixthis` | Dont Mix This | English | `This is X. This is Y. So what's the difference?` | `assets/mascot/` | Puck |
+| `farqkya` | Farq Kya | Roman Urdu | `Ye hai X aur ye hai Y, aakhir isme farq kya hai?` | `assets/mascot_urdu/` | Alnilam |
+
+---
+
+## 📁 Input Asset Requirements
+
+- **Deepdive Mode:** `input/image1.png` (Left / Red X) and `input/image2.png` (Right / Blue Y).
+- **Compilation Mode:** `input/image1.png` through `input/image6.png` (3 pairs).
+- **Pre-recorded Audio:** Place `.wav` or `.mp3` into `input/` when using `--skip-tts`.

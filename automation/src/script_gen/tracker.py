@@ -134,13 +134,16 @@ class ContentTracker:
             clean_title = re.sub(r"[^\w\s]", "", title).strip().replace(" ", "_")
             proj_name = t.get("project_name") or f"Auto_{ttype.capitalize()}_{clean_title[:35]}"
 
+            channel_val = t.get("channel") or ("farqkya" if (topic_id and topic_id.startswith("farq")) or script.strip().lower().startswith("ye hai") else "dontmixthis")
             formatted_ideas.append({
                 "id": topic_id,
                 "project_name": proj_name,
                 "type": ttype,
+                "channel": channel_val,
                 "script": script,
                 "labels": labels
             })
+
 
         if formatted_ideas:
             try:

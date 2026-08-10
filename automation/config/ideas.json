@@ -3,6 +3,7 @@
     "id": "opp_marvel_01",
     "project_name": "Auto_Deepdive_Uru_vs_Vibranium_Which_Metal_Is_Str",
     "type": "deepdive",
+    "channel": "dontmixthis",
     "script": "This is Uru Metal. This is Vibranium. So what's the difference? Most people think Vibranium is Marvel's strongest metal. It's not. Uru Metal Uru is a mystical forged metal from Asgard that absorbs magic and spell enchantments, growing stronger the more energy is poured into it. But Vibranium is a rare cosmic metal that absorbs kinetic physical force and vibrations, converting impacts into stored kinetic energy. Vibranium stops physical attacks, while Uru absorbs mystical power. Follow for more.",
     "labels": {
       "label1": "Uru",
@@ -13,6 +14,7 @@
     "id": "opp_marvel_02",
     "project_name": "Auto_Deepdive_Wolverine_vs_Deadpool_Healing_Facto",
     "type": "deepdive",
+    "channel": "dontmixthis",
     "script": "This is Wolverine. This is Deadpool. So what's the difference? Most people think Wolverine and Deadpool have the exact same healing factor. They don't. Wolverine's natural mutant healing factor constantly fights off his heavy Adamantium skeletal poisoning while repairing cellular damage. But Deadpool's artificial healing factor was cloned from Wolverine but mutated by his aggressive cancer, regenerating cells so fast his body constantly replaces itself. Wolverine heals to survive his own bones, while Deadpool heals to stay alive. Follow for more.",
     "labels": {
       "label1": "Wolverine",
@@ -23,10 +25,44 @@
     "id": "opp_marvel_03",
     "project_name": "Auto_Deepdive_Infinity_Stones_vs_Darkhold_Dark_Ma",
     "type": "deepdive",
+    "channel": "dontmixthis",
     "script": "This is The Infinity Stones. This is The Darkhold. So what's the difference? Most fans think the Infinity Stones are the ultimate power in Marvel. That's wrong. The Infinity Stones control the fundamental forces of physical reality, space, time, and mind in a single universe. But The Darkhold is a corrupting book of dark magic that corrupts the user's soul and allows dreamwalking across the multiverse. The Infinity Stones rule physical reality, while the Darkhold corrupts the mind. Follow for more.",
     "labels": {
       "label1": "Infinity Stones",
       "label2": "Darkhold"
+    }
+  },
+  {
+    "id": "farq_islamic_02",
+    "project_name": "Auto_Deepdive_Hajj_vs_Umrah_Farq_Kya_Hai",
+    "type": "deepdive",
+    "channel": "farqkya",
+    "script": "Ye hai Hajj aur ye hai Umrah, aakhir isme farq kya hai? Aksar log Hajj aur Umrah ko ek jaisa ziarat samajhte hain, lekin inme bada farq hai. Hajj Islam ka farz rukn hai jo saal mein sirf Zil-Hajj ke khass dino mein ada kiya jata hai. Lekin Umrah Nafli ibadat hai jise saal mein kisi bhi waqt ada kiya ja sakta hai. Hajj mahsoos dino ka farz ibadat hai, jabke Umrah saal bhar mein kabhi bhi kiya jata hai. Mazeed videos ke liye follow karein.",
+    "labels": {
+      "label1": "Hajj",
+      "label2": "Umrah"
+    }
+  },
+  {
+    "id": "farq_islamic_04",
+    "project_name": "Auto_Deepdive_Zakat_vs_Sadaqah_Farq_Kya_Hai",
+    "type": "deepdive",
+    "channel": "farqkya",
+    "script": "Ye hai Zakat aur ye hai Sadaqah, aakhir isme farq kya hai? Aksar log Zakat aur Sadaqah ko ek hi tarah ka khairat samajhte hain, lekin aisa nahi hai. Zakat Maaldar Musalman par saal mein ek baar nisab par 2.5% farz hai. Lekin Sadaqah Kkisi bhi waqt apni marzi se di jaane wali nafli khairat hai. Zakat farz haq hai, jabke Sadaqah dil ki khushi se diya jata hai. Mazeed videos ke liye follow karein.",
+    "labels": {
+      "label1": "Zakat",
+      "label2": "Sadaqah"
+    }
+  },
+  {
+    "id": "farq_islamic_06",
+    "project_name": "Auto_Deepdive_Shirk_vs_Bidah_Farq_Kya_Hai",
+    "type": "deepdive",
+    "channel": "farqkya",
+    "script": "Ye hai Shirk aur ye hai Bidah, aakhir isme farq kya hai? Aksar log Shirk aur Bidah ko ek hi burai samajhte hain, lekin inme bada farq hai. Shirk Allah ke saath kisi ko shareek karna hai, yani ibadat mein ghair Allah ko shamil karna. Lekin Bidah Deen mein aisi nai cheez daalna hai jiske liye koi saboot na ho, chahe niyat achi bhi ho. Shirk tawheed ko tod deta hai, jabke Bidah sunnat ke khilaf naya tariqa hai. Mazeed videos ke liye follow karein.",
+    "labels": {
+      "label1": "Shirk",
+      "label2": "Bidah"
     }
   }
 ]

@@ -96,8 +96,8 @@ class ConceptCatalog:
             "entity_a": "The Hellbat Armor",
             "entity_b": "The Hulkbuster Armor",
             "concept_hook": "Most fans think the Hulkbuster is the ultimate anti-god suit. It's not.",
-            "mechanism_a": "The Hellbat suit was forged by the entire Justice League in the sun to let Batman fight New Gods, but drains his life force while operating",
-            "mechanism_b": "The Hulkbuster uses modular heavy hydraulic armor plates and satellite replacement parts to withstand brute physical force",
+            "mechanism_a": "The Hellbat suit was forged by the Justice League in the sun to fight Gods, but drains Batman's life force",
+            "mechanism_b": "The Hulkbuster uses heavy hydraulic armor plates and satellite parts to withstand brute physical force",
             "punchline": "The Hulkbuster fights physical monsters, while the Hellbat drains life to kill Gods."
         },
         {
@@ -244,19 +244,19 @@ class ConceptCatalog:
                     "entity_a": "Force Push",
                     "entity_b": "Force Repulse",
                     "contrast_a": "directs kinetic force in a single forward line",
-                    "contrast_b": "unleashes a 360 degree shockwave around the user"
+                    "contrast_b": "unleashes a 360 degree shockwave"
                 },
                 {
                     "entity_a": "Jedi Mind Trick",
                     "entity_b": "Force Persuasion",
                     "contrast_a": "influences weak minds with gentle suggestion",
-                    "contrast_b": "forces absolute mental compliance on hostile minds"
+                    "contrast_b": "forces absolute mental compliance on hostiles"
                 },
                 {
                     "entity_a": "Force Lightning",
                     "entity_b": "Electric Judgement",
                     "contrast_a": "is a dark side attack fed by malice",
-                    "contrast_b": "is a light side emerald energy strike without hatred"
+                    "contrast_b": "is a light side emerald energy strike"
                 }
             ]
         },
@@ -339,20 +339,20 @@ class ConceptCatalog:
                 {
                     "entity_a": "Spider-Man 2099",
                     "entity_b": "Miles Morales",
-                    "contrast_a": "uses genetic fangs and energy talons",
-                    "contrast_b": "uses venom strike electricity and bio-camouflage"
+                    "contrast_a": "uses genetic fangs and talons",
+                    "contrast_b": "uses venom electricity and camouflage"
                 },
                 {
                     "entity_a": "Spider-Gwen",
                     "entity_b": "Spider-Woman",
-                    "contrast_a": "is Earth-65 Gwen Stacy with drum-beat instincts",
-                    "contrast_b": "is Jessica Drew powered by bio-electric venom blasts"
+                    "contrast_a": "is Gwen Stacy with drum-beat instincts",
+                    "contrast_b": "is Jessica Drew with bio-electric venom"
                 },
                 {
                     "entity_a": "Cosmic Spider-Man",
                     "entity_b": "Captain Universe",
-                    "contrast_a": "is Peter Parker bonded with the Enigma Force",
-                    "contrast_b": "is the manifestation of the Uni-Power sent to fix cosmic imbalance"
+                    "contrast_a": "is Peter Parker bonded with Enigma Force",
+                    "contrast_b": "is Uni-Power sent for cosmic balance"
                 }
             ]
         },

@@ -1,0 +1,46 @@
+{
+  "id": "opp_comp_07",
+  "title": "3 Spider-Man Variants People Mix Up",
+  "type": "compilation",
+  "channel": "dontmixthis",
+  "status": "idea",
+  "fandom": "Marvel",
+  "pairs": [
+    [
+      "Spider-Man 2099",
+      "Miles Morales"
+    ],
+    [
+      "Spider-Gwen",
+      "Spider-Woman"
+    ],
+    [
+      "Cosmic Spider-Man",
+      "Captain Universe"
+    ]
+  ],
+  "script": "This is Spider-Man 2099. This is Miles Morales. So what's the difference? Spider-Man 2099 uses genetic fangs and talons, while Miles Morales uses venom electricity and camouflage. This is Spider-Gwen. This is Spider-Woman. So what's the difference? Spider-Gwen is Gwen Stacy with drum-beat instincts, while Spider-Woman is Jessica Drew with bio-electric venom. This is Cosmic Spider-Man. This is Captain Universe. So what's the difference? Cosmic Spider-Man is Peter Parker bonded with Enigma Force, while Captain Universe is Uni-Power sent for cosmic balance. Follow for more.",
+  "word_count": 96,
+  "estimated_duration_sec": 35.56,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "validation_issues": [
+    "[Word Count] 96 words is outside ideal range (90-95)."
+  ],
+  "labels": {
+    "pair1": [
+      "Spider-Man 2099",
+      "Miles Morales"
+    ],
+    "pair2": [
+      "Spider-Gwen",
+      "Spider-Woman"
+    ],
+    "pair3": [
+      "Cosmic Spider-Man",
+      "Captain Universe"
+    ]
+  },
+  "created_at": "2026-08-10T17:00:35.381397",
+  "updated_at": "2026-08-10T17:00:35.381397"
+}

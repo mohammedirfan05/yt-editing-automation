@@ -1,25 +1,26 @@
 {
   "id": "gemini_dd_01",
-  "title": "Jedi vs Sith: The Force Divide",
+  "title": "Mutant vs Mutate",
   "type": "deepdive",
-  "status": "approved",
-  "fandom": "Star Wars",
+  "channel": "dontmixthis",
+  "status": "idea",
+  "fandom": "Marvel",
   "pairs": [
     [
-      "Jedi",
-      "Sith"
+      "Mutant",
+      "Mutate"
     ]
   ],
-  "script": "This is a Jedi. This is a Sith. So what's the difference? Most people think they're simply good versus evil. They're not. While both wield the Force, their philosophies diverge fundamentally. Jedi embrace the cosmic Force, seeking balance and selflessness through peace. Sith harness the living Force, driven by raw emotion, power, and personal gain. That's why a Jedi *defends the galaxy from tyranny*, while a Sith *seeks to rule it absolutely*. Follow for more.",
-  "word_count": 75,
-  "estimated_duration_sec": 27.78,
+  "script": "This is a Mutant. This is a Mutate. So what's the difference? Most people think Spider-Man and Wolverine are both mutants. They're not. Mutants are born with an active X-Gene, naturally unlocking superpowers during puberty. A Mutate is born ordinary, but gains superhuman powers after exposure to external radiation, lab accidents, or genetic experiments. One is born special, the other is altered later in life. That's why Wolverine was born a hero, while Spider-Man was made by a bite. Follow for more.",
+  "word_count": 85,
+  "estimated_duration_sec": 31.48,
   "speech_pacing_wps": 2.7,
   "playbook_compliant": true,
   "validation_issues": [],
   "labels": {
-    "label1": "Jedi",
-    "label2": "Sith"
+    "label1": "Mutant",
+    "label2": "Mutate"
   },
-  "created_at": "2026-08-08T17:07:46.171343",
-  "updated_at": "2026-08-08T17:07:46.171343"
+  "created_at": "2026-08-10T17:02:08.563390",
+  "updated_at": "2026-08-10T17:02:08.563390"
 }

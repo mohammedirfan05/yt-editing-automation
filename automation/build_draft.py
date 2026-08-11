@@ -39,6 +39,48 @@ logging.basicConfig(
 )
 logger = logging.getLogger("CapCutDraftBuilder")
 
+# Project root (directory containing this script), so default input/asset lookups do not
+# depend on the current working directory the pipeline happens to be invoked from.
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_INPUT_DIR = os.path.join(PROJECT_ROOT, "input")
+
+
+def resolve_project_path(path: Optional[str]) -> Optional[str]:
+    """
+    Resolves a repo-relative default (e.g. 'config/mapping.json', 'assets/mascot') against
+    the project root so the build works from any cwd. Absolute paths and paths that already
+    exist relative to the cwd are returned unchanged.
+    """
+    if not path:
+        return path
+    if os.path.isabs(path) or os.path.exists(path):
+        return path
+    candidate = os.path.join(PROJECT_ROOT, path)
+    return candidate if os.path.exists(candidate) else path
+
+
+def resolve_input_dir(
+    input_dir: Optional[str] = None,
+    image1_path: Optional[str] = None,
+    image2_path: Optional[str] = None,
+    srt_path: Optional[str] = None
+) -> str:
+    """
+    Resolves the directory that comparison images should be discovered in.
+
+    Precedence: explicit --input-dir > directory of an explicitly supplied image >
+    directory of the supplied SRT > <project_root>/input.
+    """
+    for candidate in (
+        input_dir,
+        os.path.dirname(os.path.abspath(image1_path)) if image1_path else None,
+        os.path.dirname(os.path.abspath(image2_path)) if image2_path else None,
+        os.path.dirname(os.path.abspath(srt_path)) if srt_path else None,
+    ):
+        if candidate and os.path.isdir(candidate):
+            return os.path.abspath(candidate)
+    return DEFAULT_INPUT_DIR
+
 
 # Known CapCut Cloud & Cache Resource IDs for Fonts
 KNOWN_CAPCUT_FONTS = {
@@ -1161,9 +1203,10 @@ def generate_capcut_draft(
     highlight_color: str = "orange",
     emphasis_text_scale: float = 1.4,
     emphasis_image_scale: float = 0.28,
-    focused_img_scale: float = 0.40,
-    unfocused_img_scale: float = 0.40,
-    img_anim_duration_us: int = 250_000
+    focused_img_scale: float = 0.46,
+    unfocused_img_scale: float = 0.34,
+    img_anim_duration_us: int = 250_000,
+    input_dir: Optional[str] = None
 ) -> Tuple[str, int]:
     """
     Creates CapCut draft project folder containing:
@@ -1231,10 +1274,19 @@ def generate_capcut_draft(
             img2_start_us = subtitle_blocks[1].start_us
 
     # Build compilation pair specifications for single-pair or multi-pair compilation shorts
-    image_dict = find_all_comparison_images("input")
-    if image1_path and 1 not in image_dict:
+    # Discovery dir is resolved from the actual inputs (batch sandboxes pass absolute paths),
+    # never from a cwd-relative "input" literal.
+    resolved_input_dir = resolve_input_dir(
+        input_dir=input_dir,
+        image1_path=image1_path,
+        image2_path=image2_path
+    )
+    image_dict = find_all_comparison_images(resolved_input_dir)
+    logger.info(f"Comparison image discovery dir: {resolved_input_dir} ({len(image_dict)} image(s) found)")
+    # Explicit --image1/--image2 always win over auto-discovered files at the same index.
+    if image1_path:
         image_dict[1] = os.path.abspath(image1_path)
-    if image2_path and 2 not in image_dict:
+    if image2_path:
         image_dict[2] = os.path.abspath(image2_path)
 
     # Resolve labels lists
@@ -1268,20 +1320,8 @@ def generate_capcut_draft(
         script.add_track(pcc.TrackType.video, "img_bottom_track")
         script.add_track(pcc.TrackType.video, "img_top_track")
 
-        img1_base_settings = pcc.ClipSettings(
-            scale_x=img1_scale,
-            scale_y=img1_scale,
-            alpha=1.0,
-            transform_x=img1_transform_x,
-            transform_y=img1_transform_y
-        )
-        img2_base_settings = pcc.ClipSettings(
-            scale_x=img2_scale,
-            scale_y=img2_scale,
-            alpha=1.0,
-            transform_x=img2_transform_x,
-            transform_y=img2_transform_y
-        )
+        # Per-segment ClipSettings are built inline below so each block carries its own
+        # focused/unfocused scale rather than inheriting one shared base scale.
 
         prev_img1_scale = img1_scale
         prev_img2_scale = img2_scale
@@ -1332,7 +1372,17 @@ def generate_capcut_draft(
                 if cropped_img1 and b_start_us >= p.start_us:
                     mat1 = pcc.VideoMaterial(cropped_img1)
                     tr1 = pcc.Timerange(b_start_us, b_dur_us)
-                    seg1 = pcc.VideoSegment(mat1, tr1, clip_settings=img1_base_settings)
+                    # Bake the target scale into the segment's own clip settings; a shared
+                    # base ClipSettings made every non-transitioning block snap back to
+                    # img1_scale as soon as focused/unfocused scales actually differed.
+                    seg1_settings = pcc.ClipSettings(
+                        scale_x=target_img1_scale,
+                        scale_y=target_img1_scale,
+                        alpha=1.0,
+                        transform_x=img1_transform_x,
+                        transform_y=img1_transform_y
+                    )
+                    seg1 = pcc.VideoSegment(mat1, tr1, clip_settings=seg1_settings)
                     if prev_img1_scale != target_img1_scale:
                         seg1.add_keyframe(pcc.KeyframeProperty.scale_x, 0, prev_img1_scale)
                         seg1.add_keyframe(pcc.KeyframeProperty.scale_y, 0, prev_img1_scale)
@@ -1349,7 +1399,14 @@ def generate_capcut_draft(
                 if cropped_img2 and b_start_us >= p.right_start_us:
                     mat2 = pcc.VideoMaterial(cropped_img2)
                     tr2 = pcc.Timerange(b_start_us, b_dur_us)
-                    seg2 = pcc.VideoSegment(mat2, tr2, clip_settings=img2_base_settings)
+                    seg2_settings = pcc.ClipSettings(
+                        scale_x=target_img2_scale,
+                        scale_y=target_img2_scale,
+                        alpha=1.0,
+                        transform_x=img2_transform_x,
+                        transform_y=img2_transform_y
+                    )
+                    seg2 = pcc.VideoSegment(mat2, tr2, clip_settings=seg2_settings)
                     if prev_img2_scale != target_img2_scale:
                         seg2.add_keyframe(pcc.KeyframeProperty.scale_x, 0, prev_img2_scale)
                         seg2.add_keyframe(pcc.KeyframeProperty.scale_y, 0, prev_img2_scale)
@@ -1633,6 +1690,7 @@ def main():
     parser.add_argument("name", nargs="?", help="Optional project name (e.g. 'capvsironman')")
     parser.add_argument("--name", "--project-name", dest="project_name_flag", help="Name for the output CapCut draft project")
     parser.add_argument("--channel", "-c", choices=list(CHANNEL_CONFIGS.keys()), default="dontmixthis", help="Target YouTube channel ('dontmixthis' or 'farqkya'; default: 'dontmixthis')")
+    parser.add_argument("--input-dir", default=None, help="Directory to auto-detect SRT/audio/comparison images from (default: inferred from explicit paths, else <project_root>/input)")
     parser.add_argument("--srt", help="Path to tagged SRT subtitle file (default: auto-detected from input/ folder)")
     parser.add_argument("--audio", help="Path to voiceover audio file WAV/MP3 (default: auto-detected from input/ folder)")
     parser.add_argument("--image1", help="Path to Image 1 comparison file (default: auto-detected from input/ folder)")
@@ -1687,8 +1745,8 @@ def main():
     parser.add_argument("--emphasis-image-scale", type=float, default=0.28, help="Mascot image scale factor for emphasis blocks (default: 0.28 = 28%%)")
 
     # Dynamic Comparison Image Scaling & Layer Options
-    parser.add_argument("--focused-img-scale", type=float, default=0.40, help="Scale factor for focused comparison image (default: 0.40 = 40%%)")
-    parser.add_argument("--unfocused-img-scale", type=float, default=0.40, help="Scale factor for unfocused comparison image (default: 0.40 = 40%%)")
+    parser.add_argument("--focused-img-scale", type=float, default=0.46, help="Scale factor for focused comparison image (default: 0.46 = 46%%)")
+    parser.add_argument("--unfocused-img-scale", type=float, default=0.34, help="Scale factor for unfocused comparison image (default: 0.34 = 34%%)")
     parser.add_argument("--img-anim-duration-ms", type=int, default=250, help="Duration in ms for comparison image scale transition (default: 250 = 0.25s)")
 
     # Sound Effects (SFX) Paths
@@ -1706,34 +1764,50 @@ def main():
 
     args = parser.parse_args()
 
+    # 0. Resolve the input directory once. Everything below is looked up relative to it,
+    #    so the build no longer depends on the cwd the pipeline was launched from.
+    input_dir = resolve_input_dir(
+        input_dir=args.input_dir,
+        image1_path=args.image1,
+        image2_path=args.image2,
+        srt_path=args.srt
+    )
+    logger.info(f"Resolved input directory: {input_dir}")
+
     # 0a. Auto-detect SRT file if not explicitly passed
     srt_path = args.srt
     if not srt_path:
-        srt_path = find_input_srt("input")
+        srt_path = find_input_srt(input_dir)
 
     if not srt_path:
-        logger.error("No SRT file provided and no .srt file found in 'input/' folder!")
-        logger.error("Please place your .srt file in 'input/' or specify via '--srt input/your_file.srt'")
+        logger.error(f"No SRT file provided and no .srt file found in '{input_dir}'!")
+        logger.error("Please place your .srt file there or specify via '--srt path/to/your_file.srt'")
         sys.exit(1)
 
     # 0b. Auto-detect Audio file if not explicitly passed
     audio_path = args.audio
     if not audio_path:
-        audio_path = find_input_audio("input")
+        audio_path = find_input_audio(input_dir)
 
     # 0c. Auto-detect Image 1 and Image 2 if not explicitly passed
     image1_path = args.image1
     if not image1_path:
-        image1_path = find_input_image_by_prefix(["image1", "img1", "left_image", "1"], "input")
+        image1_path = find_input_image_by_prefix(["image1", "img1", "left_image", "1"], input_dir)
 
     image2_path = args.image2
     if not image2_path:
-        image2_path = find_input_image_by_prefix(["image2", "img2", "right_image", "2"], "input")
+        image2_path = find_input_image_by_prefix(["image2", "img2", "right_image", "2"], input_dir)
 
     # Resolve channel and mascot asset directory
     channel = args.channel.lower()
     channel_cfg = CHANNEL_CONFIGS.get(channel, CHANNEL_CONFIGS["dontmixthis"])
-    assets_dir = args.assets if args.assets else channel_cfg["mascot_dir"]
+    assets_dir = resolve_project_path(args.assets if args.assets else channel_cfg["mascot_dir"])
+
+    # Repo-relative asset/config defaults must resolve against the project root, not the cwd.
+    args.mapping = resolve_project_path(args.mapping)
+    args.bg_image = resolve_project_path(args.bg_image)
+    args.click_sfx = resolve_project_path(args.click_sfx)
+    args.pop_sfx = resolve_project_path(args.pop_sfx)
 
     # Infer and format project name to be channel-aware (e.g. farqkya_ZakatVsSadaqah or dontmixthis_CapVsIronman)
     raw_proj_name = (args.project_name_flag or args.name or Path(srt_path).stem).strip('\\/ ')
@@ -1932,7 +2006,8 @@ def main():
             emphasis_image_scale=args.emphasis_image_scale,
             focused_img_scale=args.focused_img_scale,
             unfocused_img_scale=args.unfocused_img_scale,
-            img_anim_duration_us=args.img_anim_duration_ms * 1000
+            img_anim_duration_us=args.img_anim_duration_ms * 1000,
+            input_dir=input_dir
         )
         logger.info(f"SUCCESS: CapCut draft created at: {project_path}")
     except Exception as e:

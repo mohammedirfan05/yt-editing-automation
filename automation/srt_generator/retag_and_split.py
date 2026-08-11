@@ -243,28 +243,55 @@ _AWKWARD = {("wtd","disagree"), ("shocked","disagree"),
             ("remember_this","left"), ("remember_this","right")}
 _ENTITY_ROLES = {"entity_a","entity_b","contrast_a","contrast_b"}
 
-_CLO = {"follow","subscribe","comment","share","more","karein","karo","sub","chahiyen","channel","فالو","سبسکرائب","شئیر"}
+_CLO = {"follow","subscribe","comment","share","karein","karo","sub","chahiyen","channel","فالو","سبسکرائب","شئیر"}
+# Weak CTA words that also occur in ordinary comparison copy ("more powerful", "zyada").
+# Only count as a closing signal inside the outro zone, and only alongside another CTA token.
+_CLO_WEAK = {"more","zyada","again","phir"}
 _KEY = {"remember","key","tip","rule","important","lesson","takeaway","conclusion","yaad","khayal","zaroori","farz","aam","nisaab","rukn","یاد","فرض","نصاب","خیرات"}
 _NEG = ["don't","doesn't","didn't","can't","cannot","they don","no","nope","nahi","nahin","naah","lekin aisa nahi","aisa nahi","galat","نہیں","نہ"]
 
-def _classify(text: str, ea: set, eb: set, existing_tag: str = None) -> str:
+# Match _NEG patterns on whole-word boundaries only. Plain `in` matching made "no"
+# fire on know / now / canon / nothing, flipping the mascot to `disagree` on neutral lines.
+_NEG_RE = re.compile(
+    "|".join(r"(?<!\w)" + re.escape(p) + r"(?!\w)" for p in _NEG),
+    re.IGNORECASE
+)
+
+# A closing/CTA pose before the payoff reads as "video's over" and costs the ending.
+# Only allow `closing` in the final stretch of the timeline.
+_CLO_POSITION_GATE = 0.80
+
+def _classify(text: str, ea: set, eb: set, existing_tag: str = None,
+              position: float = None) -> str:
+    """Classify one original SRT sentence into a semantic role.
+
+    position: 0.0-1.0 location of this entry in the timeline, used to gate
+    outro-only roles. None disables the gate (treats the entry as outro-eligible).
+    """
+    in_outro_zone = position is None or position >= _CLO_POSITION_GATE
+
     # If SRT block already has an explicit valid pose tag, preserve its semantic role
     if existing_tag:
         m = re.search(r"\[IMG:([^\]]+)\]", existing_tag)
         if m:
             pose_code = m.group(1).strip().lower()
             if pose_code in _POSE_TO_ROLE and pose_code != "normal":
-                return _POSE_TO_ROLE[pose_code]
+                # Never honour an upstream final_end before the outro zone.
+                if not (pose_code == "final_end" and not in_outro_zone):
+                    return _POSE_TO_ROLE[pose_code]
 
     low   = text.lower()
     words = low.split()
     wset  = {_norm(w) for w in words}
     rw    = [_norm(w) for w in words]
 
-    if wset & _CLO: return "closing"
+    strong_clo = wset & _CLO
+    weak_clo   = wset & _CLO_WEAK
+    if in_outro_zone and (strong_clo or (weak_clo and len(weak_clo) >= 2)):
+        return "closing"
     if wset & _KEY or ("that" in wset and "why" in wset): return "takeaway"
     if "?" in text or "؟" in text or any(qp in low for qp in ["farq kya", "kya hai", "kon hai", "konsa", "kaise", "kyun", "what's the difference", "فرق"]): return "question"
-    if any(p in low for p in _NEG): return "negation"
+    if _NEG_RE.search(low): return "negation"
     if low.strip().rstrip(".!?") in {"they don't","they dont","no","nope","lekin aisa nahi hai","aisa nahi hai","nahi hai"}: return "negation"
 
     # Contrast: sentence STARTS with a pivot word
@@ -304,7 +331,12 @@ def build_tagged_entries(orig: list, min_hold: int = MIN_HOLD,
     n = len(orig)
 
     # --- classify original sentences ---
-    roles = [_classify(e["text"], ea, eb, e.get("tag")) for e in orig]
+    # position gates outro-only roles (closing/final_end) to the tail of the timeline
+    roles = [
+        _classify(e["text"], ea, eb, e.get("tag"),
+                  position=(i / (n - 1) if n > 1 else 1.0))
+        for i, e in enumerate(orig)
+    ]
     roles[-1] = "closing"
 
     # --- forward-fill neutral entries from current entity beat ---

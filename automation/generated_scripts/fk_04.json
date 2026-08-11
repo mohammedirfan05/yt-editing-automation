@@ -1,0 +1,53 @@
+{
+  "id": "fk_04",
+  "title": "Gunah-e-Kabeera vs Sagheera: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Gunah-e-Kabeera",
+      "Gunah-e-Sagheera"
+    ]
+  ],
+  "script": "Gunah-e-Kabeera aur Gunah-e-Sagheera mein sirf ek shart ka farq hai. Sagheera chhote gunah hain jo wuzu aur namaz se khud hi dhul jaate hain. Kabeera bade gunah hain, jaise jhooth ya sharab. Ye bina sachhi tauba ke maaf nahi hote. Isi liye chhote gunah ko baar baar karna use Kabeera bana deta hai. Chhota gunah wuzu se saaf hota hai, bada gunah sachhi tauba maangta hai. Agar baat samajh aa gayi to follow kar lein.",
+  "word_count": 79,
+  "estimated_duration_sec": 29.26,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [],
+  "hook_id": "free_open",
+  "cta": "Agar baat samajh aa gayi to follow kar lein.",
+  "payoff": "Chhota gunah wuzu se saaf hota hai, bada gunah sachhi tauba maangta hai.",
+  "payoff_echo": 0.0,
+  "verb_final_ratio": 0.86,
+  "max_body_overlap": 0.0,
+  "rhythm": {
+    "count": 7,
+    "stdev": 2.37,
+    "mean": 10.71,
+    "max": 14
+  },
+  "source": "llm",
+  "repair_passes": 0,
+  "labels": {
+    "label1": "Gunah-e-Kabeera",
+    "label2": "Gunah-e-Sagheera"
+  },
+  "seo_metadata": {
+    "seo_title": "Bade aur Chhote Gunah mein Farq Kya Hai?",
+    "ab_title": "Chhota Gunah Bada Kab Banta Hai?",
+    "thumbnail_text": "Kabeera vs Sagheera",
+    "hashtags": [
+      "#Shorts",
+      "#FarqKya",
+      "#IslamicReminders"
+    ],
+    "description": "Gunah-e-Kabeera aur Sagheera ki shart aur mafi ka tareeqa.",
+    "pinned_comment": "Kya aap ko pata hai gunah par naadim hona bhi tauba hai?"
+  },
+  "created_at": "2026-08-11T18:16:38.080128",
+  "updated_at": "2026-08-11T18:16:38.080128"
+}

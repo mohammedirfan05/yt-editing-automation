@@ -1,0 +1,53 @@
+{
+  "id": "dmt_02",
+  "title": "Valyrian Steel vs Dragonglass: What's the Difference?",
+  "type": "deepdive",
+  "channel": "dontmixthis",
+  "status": "rejected",
+  "fandom": "Game of Thrones",
+  "pairs": [
+    [
+      "Valyrian Steel",
+      "Dragonglass"
+    ]
+  ],
+  "script": "One is cheap volcanic glass. The other takes dragon fire, folded iron, and human blood magic to forge. Valyrian steel and Dragonglass kill White Walkers for totally different reasons. Obsidian. Dragonglass shatters White Walkers because it is packed with ancient frozen fire. Valyrian steel cuts through their ice blades because it's a spell-bound alloy that never dulls. One is cheap ammo for an army. The other is an irreplaceable heirloom for a king. If that finally clicked, subscribe.",
+  "word_count": 79,
+  "estimated_duration_sec": 29.26,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [],
+  "hook_id": "free_open",
+  "cta": "If that finally clicked, subscribe.",
+  "payoff": "The other is an irreplaceable heirloom for a king.",
+  "payoff_echo": 0.0,
+  "max_body_overlap": 0.0,
+  "rhythm": {
+    "count": 9,
+    "stdev": 4.27,
+    "mean": 8.67,
+    "max": 15
+  },
+  "source": "llm",
+  "repair_passes": 1,
+  "labels": {
+    "label1": "Valyrian Steel",
+    "label2": "Dragonglass"
+  },
+  "seo_metadata": {
+    "seo_title": "Valyrian Steel vs Dragonglass Explained",
+    "ab_title": "Why Dragonglass Works Differently Than Valyrian Steel",
+    "thumbnail_text": "NOT THE SAME METAL",
+    "hashtags": [
+      "#Shorts",
+      "#DontMixThis",
+      "#GameOfThrones"
+    ],
+    "description": "Both kill White Walkers, but they are completely different materials.",
+    "pinned_comment": "Which Valyrian steel sword is your favorite?"
+  },
+  "created_at": "2026-08-11T18:14:54.290668",
+  "updated_at": "2026-08-11T18:20:21.983290",
+  "notes": "Rejected during user review"
+}

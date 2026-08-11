@@ -52,8 +52,12 @@ DEFAULT_OUTPUT_DIR = os.path.join(SCRIPT_DIR, "output_audio")
 SRT_INPUT_AUDIO_DIR = os.path.join(PROJECT_ROOT, "srt_generator", "input_audio")
 PROJECT_ROOT_INPUT = os.path.join(PROJECT_ROOT, "input")
 
-# Default Google Gemini TTS Settings (As requested)
-DEFAULT_TTS_MODEL = "gemini-3.1-flash-tts-preview"
+# Default Google Gemini TTS Settings — model ID centralized in src/model_config.py
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+from src.model_config import get_tts_model
+
+DEFAULT_TTS_MODEL = get_tts_model()
 
 # Built-in per-channel defaults (Fallback if config/channel_defaults.json is missing/unreadable)
 BUILTIN_CHANNEL_DEFAULTS = {
@@ -63,7 +67,7 @@ BUILTIN_CHANNEL_DEFAULTS = {
         "mascot_dir": "assets/mascot",
         "draft_prefix": "dontmixthis",
         "tts": {
-            "voice": "Charon",
+            "voice": "Puck",
             "scene": "A fast-paced educational explainer breaking down story terminology, direct-to-camera style",
             "context": "Energetic YouTube Shorts narration, quick pacing, conversational but confident tone"
         }

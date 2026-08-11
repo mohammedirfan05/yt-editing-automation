@@ -312,7 +312,8 @@ def format_labels_arg(topic: Dict[str, Any]) -> List[str]:
     return []
 
 
-def process_single_topic(topic: Dict[str, Any], dry_run: bool = False, batch_channel: Optional[str] = None) -> Dict[str, Any]:
+def process_single_topic(topic: Dict[str, Any], dry_run: bool = False, batch_channel: Optional[str] = None,
+                         allow_overlong: bool = False) -> Dict[str, Any]:
     """Processes a single topic video draft generation."""
     topic_id = topic["id"]
     project_name = topic["project_name"]
@@ -370,8 +371,18 @@ def process_single_topic(topic: Dict[str, Any], dry_run: bool = False, batch_cha
     print(Fore.GREEN + f"✓ Voiceover Audio Duration: {audio_dur:.2f}s" + Style.RESET_ALL)
 
     if mode == "deepdive" and audio_dur > MAX_DEEPDIVE_DURATION_SEC:
-        print(Fore.YELLOW + f"⚠️  [GUARDRAIL ALERT] Deepdive audio duration ({audio_dur:.2f}s) exceeds max ceiling of {MAX_DEEPDIVE_DURATION_SEC}s!" + Style.RESET_ALL)
-        print(Fore.YELLOW + f"    The script will build cleanly, but consider tightening the script text for optimal retention." + Style.RESET_ALL)
+        msg = (f"Deepdive audio duration ({audio_dur:.2f}s) exceeds the "
+               f"{MAX_DEEPDIVE_DURATION_SEC}s retention ceiling.")
+        if allow_overlong:
+            print(Fore.YELLOW + f"⚠️  [GUARDRAIL OVERRIDE] {msg} Building anyway (--allow-overlong)." + Style.RESET_ALL)
+        else:
+            print(Fore.RED + f"❌ [GUARDRAIL] {msg}" + Style.RESET_ALL)
+            print(Fore.RED + f"    Aborting this topic so an overlong Short is never published. "
+                             f"Tighten the script (target ~{int(MAX_DEEPDIVE_DURATION_SEC * 0.8)}s) and re-run, "
+                             f"or pass --allow-overlong to build it as-is." + Style.RESET_ALL)
+            result["error"] = f"Duration guardrail: {msg}"
+            result["status"] = "FAILED (DURATION GUARDRAIL)"
+            return result
 
     # Copy sandbox images into root input/ for STT & build_draft pipeline
     for i in range(1, 7):
@@ -597,6 +608,7 @@ def main():
     parser.add_argument("--validate", action="store_true", help="Validate ideas.json schema and exit")
     parser.add_argument("--dry-run", action="store_true", help="Run structure & setup checks without external API calls")
     parser.add_argument("--non-interactive", "--no-prompt", action="store_true", help="Skip interactive CLI review menu and run batch directly")
+    parser.add_argument("--allow-overlong", action="store_true", help=f"Build deepdive drafts even when the voiceover exceeds the {MAX_DEEPDIVE_DURATION_SEC}s retention ceiling (default: abort the topic)")
     args = parser.parse_args()
 
     if args.init:
@@ -651,7 +663,8 @@ def main():
             report_topics.append(status_data["topics"][topic_id])
             continue
 
-        res = process_single_topic(topic, dry_run=args.dry_run, batch_channel=args.channel)
+        res = process_single_topic(topic, dry_run=args.dry_run, batch_channel=args.channel,
+                                   allow_overlong=args.allow_overlong)
         status_data["topics"][topic_id] = res
         save_status(status_data)
         report_topics.append(res)

@@ -1,0 +1,52 @@
+{
+  "id": "dmt_04",
+  "title": "Clone Troopers vs Stormtroopers: What's the Difference?",
+  "type": "deepdive",
+  "channel": "dontmixthis",
+  "status": "idea",
+  "fandom": "Star Wars",
+  "pairs": [
+    [
+      "Clone Troopers",
+      "Stormtroopers"
+    ]
+  ],
+  "script": "One detail separates these two armor suits, and it comes down to birth. Clone troopers and Stormtroopers. Clones were grown in facilities on Kamino from the DNA of a single bounty hunter. Every one of them had the exact same face. Stormtroopers were regular human recruits drafted from random planets across the galaxy. The Republic bought an elite army. The Empire built a massive police state. Don't mix this up again.",
+  "word_count": 71,
+  "estimated_duration_sec": 26.3,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [],
+  "hook_id": "free_open",
+  "cta": "Don't mix this up again.",
+  "payoff": "The Empire built a massive police state.",
+  "payoff_echo": 0.0,
+  "max_body_overlap": 0.0,
+  "rhythm": {
+    "count": 8,
+    "stdev": 3.79,
+    "mean": 8.88,
+    "max": 15
+  },
+  "source": "llm",
+  "repair_passes": 0,
+  "labels": {
+    "label1": "Clone Troopers",
+    "label2": "Stormtroopers"
+  },
+  "seo_metadata": {
+    "seo_title": "Clone Troopers vs Stormtroopers Explained",
+    "ab_title": "The Real Difference Between Clones and Stormtroopers",
+    "thumbnail_text": "NOT THE SAME SOLDIERS",
+    "hashtags": [
+      "#Shorts",
+      "#DontMixThis",
+      "#StarWars"
+    ],
+    "description": "They wear white armor, but their origins could not be more different.",
+    "pinned_comment": "Do you prefer Phase 2 Clone armor or classic Stormtrooper armor?"
+  },
+  "created_at": "2026-08-11T18:14:55.018110",
+  "updated_at": "2026-08-11T18:14:55.018110"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "dmt_01",
+  "title": "Orcs vs Uruks: What's the Difference?",
+  "type": "deepdive",
+  "channel": "dontmixthis",
+  "status": "idea",
+  "fandom": "Lord of the Rings",
+  "pairs": [
+    [
+      "Orcs",
+      "Uruks"
+    ]
+  ],
+  "script": "Orcs and Uruks are just two names for the same evil army. They aren't. Standard Orcs collapse under direct sunlight because their eyes burn. Uruks march through full daylight without losing a single drop of strength. Saruman bred them specifically to erase the one flaw in Sauron's original design. Orcs are fodder for the night. Uruks were built to conquer the sun. Follow for more.",
+  "word_count": 65,
+  "estimated_duration_sec": 24.07,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [],
+  "hook_id": "free_open",
+  "cta": "Follow for more.",
+  "payoff": "Uruks were built to conquer the sun.",
+  "payoff_echo": 0.0,
+  "max_body_overlap": 0.0,
+  "rhythm": {
+    "count": 8,
+    "stdev": 3.98,
+    "mean": 8.12,
+    "max": 13
+  },
+  "source": "llm",
+  "repair_passes": 0,
+  "labels": {
+    "label1": "Orcs",
+    "label2": "Uruks"
+  },
+  "seo_metadata": {
+    "seo_title": "Orcs vs Uruks Explained in 60 Seconds",
+    "ab_title": "Why Uruks Don't Burn in Sunlight",
+    "thumbnail_text": "ORCS VS URUKS",
+    "hashtags": [
+      "#Shorts",
+      "#DontMixThis",
+      "#LOTR"
+    ],
+    "description": "Discover the key physical difference between standard Orcs and Uruks in Lord of the Rings. Saruman engineered them to remove evil's biggest weakness.",
+    "pinned_comment": "Which army would you rather face on an open battlefield?"
+  },
+  "created_at": "2026-08-11T18:20:40.117993",
+  "updated_at": "2026-08-11T18:20:40.117993"
+}

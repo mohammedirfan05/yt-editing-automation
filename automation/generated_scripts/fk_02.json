@@ -1,0 +1,55 @@
+{
+  "id": "fk_02",
+  "title": "Sunnat vs Nafl: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Sunnat",
+      "Nafl"
+    ]
+  ],
+  "script": "Asal mein Sunnat aur Nafl ka farq bohat aasan hai. Sunnat wo ibadat hai jo Nabi Kareem sallallahu alaihi wasallam ne hamesha ki hai. Aur humein bhi is ki hidayat farmayi hai. Isey bina kisi wajah ke chhorna ghalti hai. Ab Nafl ki baat karte hain. Nafl poori tarah aap ki apni khushi par hai. Isey na parhne par koi pakad nahi hoti. Bas farq ye hai ke Sunnat Farz ki kami poori karti hai. Aur Nafl se darjaat buland hote hain.",
+  "word_count": 82,
+  "estimated_duration_sec": 30.37,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [
+    "[warn] cta.missing: Koi sign-off nahi. Payoff par khatam karna theek hai, warna bank se ek CTA lagayein."
+  ],
+  "hook_id": "free_open",
+  "cta": "Aur Nafl se darjaat buland hote hain.",
+  "payoff": "Aur Nafl se darjaat buland hote hain.",
+  "payoff_echo": 0.0,
+  "verb_final_ratio": 1.0,
+  "max_body_overlap": 0.0,
+  "rhythm": {
+    "count": 9,
+    "stdev": 2.38,
+    "mean": 9.11,
+    "max": 14
+  },
+  "source": "llm",
+  "repair_passes": 1,
+  "labels": {
+    "label1": "Sunnat",
+    "label2": "Nafl"
+  },
+  "seo_metadata": {
+    "seo_title": "Sunnat aur Nafl mein Farq Kya Hai?",
+    "ab_title": "Nafl Namaz Na Parhein To Kya Gunah Hoga?",
+    "thumbnail_text": "Sunnat vs Nafl",
+    "hashtags": [
+      "#Shorts",
+      "#FarqKya",
+      "#IslamicKnowledge"
+    ],
+    "description": "Sunnat aur Nafl ibadat mein asal farq kya hai? Ek minute mein jaanein.",
+    "pinned_comment": "Aap din mein kitni nafl ibadat karte hain?"
+  },
+  "created_at": "2026-08-11T18:16:02.913628",
+  "updated_at": "2026-08-11T18:16:02.913628"
+}

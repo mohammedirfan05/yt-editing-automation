@@ -29,8 +29,12 @@ DEFAULT_INPUT_DIR = os.path.join(SCRIPT_DIR, "input_audio")
 DEFAULT_OUTPUT_DIR = os.path.join(SCRIPT_DIR, "output_srt")
 PROJECT_ROOT_INPUT = os.path.join(PROJECT_ROOT, "input")
 
-# Strict Default Gemini Model requested by user
-DEFAULT_GEMINI_MODEL = "gemini-3.6-flash"
+# Model IDs live in src/model_config.py so a retired model is fixed in one place.
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)
+from src.model_config import TEXT_MODEL_FALLBACKS, get_tagging_model, model_chain
+
+DEFAULT_GEMINI_MODEL = get_tagging_model()
 
 
 def load_env_file() -> None:
@@ -337,11 +341,9 @@ written out using the Latin (English) alphabet. This is NOT translation; it is t
     }
     headers = {"Content-Type": "application/json"}
 
-    models_to_try = [model_name, "gemini-2.0-flash", "gemini-1.5-flash"]
-    seen_models = []
-    for m in models_to_try:
-        if m not in seen_models:
-            seen_models.append(m)
+    # gemini-2.0-flash / gemini-1.5-flash are retired (404). Fallbacks come from model_config.
+    seen_models = model_chain(model_name, TEXT_MODEL_FALLBACKS)
+
 
     for m_name in seen_models:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={api_key}"
@@ -454,11 +456,9 @@ First identify the two entities being compared:
 
     headers = {"Content-Type": "application/json"}
 
-    models_to_try = [model_name, "gemini-2.0-flash", "gemini-1.5-flash"]
-    seen_models = []
-    for m in models_to_try:
-        if m not in seen_models:
-            seen_models.append(m)
+    # gemini-2.0-flash / gemini-1.5-flash are retired (404). Fallbacks come from model_config.
+    seen_models = model_chain(model_name, TEXT_MODEL_FALLBACKS)
+
 
     for m_name in seen_models:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{m_name}:generateContent?key={api_key}"
@@ -488,6 +488,57 @@ First identify the two entities being compared:
                 break
 
     return raw_srt_content
+
+
+# Delivery directives written for the TTS prompt (e.g. "(excited)", "[pause]") are not
+# spoken, so they must never reach the on-screen captions. Parentheticals are only
+# stripped when they look like a directive, so real spoken asides survive.
+_TTS_DIRECTIVE_WORDS = {
+    "pause", "beat", "breath", "breathe", "laughs", "laugh", "chuckles", "sighs", "sigh",
+    "excited", "excitedly", "whisper", "whispering", "shouting", "emphasis", "emphasize",
+    "upbeat", "fast", "faster", "slow", "slower", "tone", "voice", "sfx", "music",
+    "narrator", "speaker", "host", "vo", "voiceover", "cut", "beat drop", "serious",
+    "calm", "energetic", "dramatic", "amused", "sarcastic", "deadpan", "warm",
+}
+
+_BRACKET_RE = re.compile(r"\[[^\]]*\]|<[^>]*>")
+_PAREN_RE = re.compile(r"\(([^)]*)\)")
+_SPEAKER_LABEL_RE = re.compile(r"(?im)^\s*(narrator|speaker|host|vo|voice\s*over)\s*:\s*")
+_MD_HEADER_RE = re.compile(r"(?im)^\s*#{1,6}\s*(scene|sample\s+context|transcript|script)\s*:?\s*$")
+_CODE_FENCE_RE = re.compile(r"```[\w]*")
+
+
+def sanitize_reference_script(text: str) -> str:
+    """
+    Strips TTS prompt scaffolding and delivery directives from reference script text
+    so the aligned captions contain only spoken words.
+    """
+    if not text:
+        return text
+
+    cleaned = _CODE_FENCE_RE.sub(" ", text)
+    cleaned = _MD_HEADER_RE.sub(" ", cleaned)
+    cleaned = _BRACKET_RE.sub(" ", cleaned)
+    cleaned = _SPEAKER_LABEL_RE.sub(" ", cleaned)
+
+    def _paren_repl(m: "re.Match") -> str:
+        inner = m.group(1).strip().lower()
+        inner_words = re.findall(r"[a-z']+", inner)
+        if not inner_words:
+            return " "
+        # Directive-looking: short, no terminal punctuation, contains a directive word
+        looks_directive = (
+            len(inner_words) <= 4
+            and not inner.endswith((".", "!", "?"))
+            and any(w in _TTS_DIRECTIVE_WORDS for w in inner_words)
+        )
+        return " " if looks_directive else m.group(0)
+
+    cleaned = _PAREN_RE.sub(_paren_repl, cleaned)
+    cleaned = re.sub(r"[*_`]+", "", cleaned)
+    cleaned = re.sub(r"[ \t]+", " ", cleaned)
+    cleaned = re.sub(r"\s*\n\s*", "\n", cleaned).strip()
+    return cleaned
 
 
 def align_script_text_with_timestamps(ref_text: str, whisper_words: List[Dict]) -> List[Dict]:
@@ -580,8 +631,16 @@ def convert_audio_to_tagged_srt(
                     pass
 
     if script_text and words:
-        words = align_script_text_with_timestamps(script_text, words)
-        print(Fore.GREEN + f"[Reference Script Alignment] Aligned captions with {len(words)} English script words." + Style.RESET_ALL)
+        raw_ref = script_text
+        script_text = sanitize_reference_script(script_text)
+        if script_text != raw_ref:
+            removed = len(raw_ref.split()) - len(script_text.split())
+            print(Fore.CYAN + f"[Reference Script] Stripped TTS directives/scaffolding from reference text ({removed} token(s) removed)." + Style.RESET_ALL)
+        if not script_text.strip():
+            print(Fore.YELLOW + "[Reference Script] Reference text was entirely directives; using raw Whisper words instead." + Style.RESET_ALL)
+        else:
+            words = align_script_text_with_timestamps(script_text, words)
+            print(Fore.GREEN + f"[Reference Script Alignment] Aligned captions with {len(words)} English script words." + Style.RESET_ALL)
 
     # 2. Chunk words into short subtitle blocks
     raw_srt = chunk_words_to_srt(words, max_words_per_line=max_words_per_line)

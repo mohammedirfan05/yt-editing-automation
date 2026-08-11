@@ -1,73 +1,94 @@
 """
-Farq Kya Script Templates Module.
-Playbook-compliant Roman Urdu script templates for Farq Kya channel.
-Enforces formula: "Ye hai X aur ye hai Y, aakhir isme farq kya hai?"
+Offline template renderers for farqkya (Roman Urdu).
+
+Only used when the LLM path returns nothing. The previous version hardcoded the
+exact patterns the audit flagged: one hook, `jabke` as the only contrast pivot,
+`aksar log samajhte hain` as the default setup, and
+"Aakhir mein ... yahi bunyadi farq hai" as the default payoff — a line that just
+restates the mechanism and is now a banned rule.
+
+Rotation is keyed on `template_id` so consecutive fallbacks differ, and every
+default sentence here is written to pass the channel's own rule pack.
 """
 
+import re
 from typing import Any, Dict, List
+
+from .farqkya_style import CTA_BANK
+
+# Each form matches a different archetype in farqkya_style.HOOKS.
+_HOOK_FORMS = [
+    "Ye hai {a} aur ye hai {b}, aakhir isme farq kya hai?",
+    "Bohat se log {a} aur {b} ko ek hi cheez samajh lete hain.",
+    "In dono mein sirf ek baat ka farq hai, magar wahi sab kuch badal deti hai.",
+    "Agar koi aap se poochhe ke {a} aur {b} mein farq kya hai, aap kya kahenge?",
+    "Ye dono lafz roz sunai dete hain, aur roz hi ek doosre ki jagah bole jaate hain.",
+]
+
+# `jabke` is capped at one use per script, so the pivot rotates. Spoken Urdu
+# contrasts with a full stop far more often than with a conjunction.
+_CONTRAST_FORMS = [
+    "{a}. Magar {b}.",
+    "{a}. Doosri taraf {b}.",
+    "{a}. Ab {b}.",
+    "{a}, jabke {b}.",
+]
+
+_COMP_CONTRASTS = ["{a}. Magar {b}.", "{a}. Doosra ye ke {b}.", "{a}. {b}."]
+
+
+def _as_sentence(text: str) -> str:
+    """Tracker fragments become real sentences so nothing joins into a run-on."""
+    t = (text or "").strip()
+    if not t:
+        return ""
+    t = t[0].upper() + t[1:]
+    return t if t[-1] in ".?!" else t + "."
+
+
+def _prefix_entity(entity: str, mech: str) -> str:
+    """Prepends the entity unless the mechanism already names it (full-name match)."""
+    mech = (mech or "").strip()
+    if not mech:
+        return entity
+    ent = (entity or "").strip()
+    if not ent:
+        return mech
+    first_clause = re.split(r"[,.]", mech, maxsplit=1)[0].lower()
+    if ent.lower() in first_clause:
+        return mech
+    return f"{ent} {mech}"
 
 
 class FarqKyaScriptTemplates:
-    """Formatter for Farq Kya (Roman Urdu) script templates."""
+    """Renders farqkya fallback scripts with rotating structure."""
 
     @staticmethod
-    def render_deepdive(
-        entity_a: str,
-        entity_b: str,
-        template_id: int,
-        concept_hook: str,
-        mechanism_a: str,
-        mechanism_b: str,
-        punchline: str
-    ) -> str:
-        """
-        Renders a DEEPDIVE script in Roman Urdu for Farq Kya channel.
-        Hook: 'Ye hai X aur ye hai Y, aakhir isme farq kya hai?'
-        """
-        hook_line = f"Ye hai {entity_a} aur ye hai {entity_b}, aakhir isme farq kya hai?"
-
-        misconception_line = concept_hook.strip() if concept_hook else f"Aksar log samajhte hain ke {entity_a} aur {entity_b} ek hi hain, lekin aisa nahi hai."
-
-        mech_a_str = mechanism_a.strip()
-        mech_b_str = mechanism_b.strip()
-
-        part_a = mech_a_str if mech_a_str.lower().startswith(entity_a.lower()) else f"{entity_a} {mech_a_str}"
-        part_b = mech_b_str if mech_b_str.lower().startswith(entity_b.lower()) else f"{entity_b} {mech_b_str}"
-
-        contrast_line = f"{part_a}. Lekin {part_b}."
-
-        punchline_line = punchline.strip() if punchline else f"Aakhir mein {entity_a} aur {entity_b} mein yahi bunyadi farq hai."
-
-        outro_line = "Mazeed videos ke liye follow karein."
-
-        lines = [
-            hook_line,
-            misconception_line,
-            contrast_line,
-            punchline_line,
-            outro_line
-        ]
-
-        return " ".join(lines)
+    def render_deepdive(entity_a: str, entity_b: str, template_id: int,
+                        concept_hook: str, mechanism_a: str, mechanism_b: str,
+                        punchline: str) -> str:
+        idx = max(0, int(template_id or 1) - 1)
+        hook = _HOOK_FORMS[idx % len(_HOOK_FORMS)].format(a=entity_a, b=entity_b)
+        setup = _as_sentence(concept_hook) or (
+            "Naam alag hain, kaam bhi alag hai, magar bola aksar ek hi tarah jaata hai.")
+        contrast = _CONTRAST_FORMS[idx % len(_CONTRAST_FORMS)].format(
+            a=_prefix_entity(entity_a, mechanism_a).rstrip("."),
+            b=_prefix_entity(entity_b, mechanism_b).rstrip("."))
+        payoff = _as_sentence(punchline) or (
+            f"Isi liye {entity_a} ki jagah {entity_b} nahi chalta, chahe baat ek hi lage.")
+        cta = CTA_BANK[idx % len(CTA_BANK)]
+        return " ".join(p for p in [hook, setup, contrast, payoff, cta] if p)
 
     @staticmethod
     def render_compilation(pairs_data: List[Dict[str, str]]) -> str:
-        """
-        Renders a COMPILATION script in Roman Urdu for Farq Kya channel.
-        Expects 3 pairs in pairs_data.
-        """
         blocks = []
-        for pair in pairs_data[:3]:
-            ea = pair.get("entity_a", "").strip()
-            eb = pair.get("entity_b", "").strip()
-            ca = pair.get("contrast_a", "").strip()
-            cb = pair.get("contrast_b", "").strip()
-
-            part_a = ca if ca.lower().startswith(ea.lower()) else f"{ea} {ca}"
-            part_b = cb if cb.lower().startswith(eb.lower()) else f"{eb} {cb}"
-
-            block = f"Ye hai {ea} aur ye hai {eb}, aakhir isme farq kya hai? {part_a}, jabke {part_b}."
-            blocks.append(block)
-
-        blocks.append("Mazeed videos ke liye follow karein.")
-        return " ".join(blocks)
+        for i, pair in enumerate(pairs_data[:3]):
+            ea = (pair.get("entity_a") or "").strip()
+            eb = (pair.get("entity_b") or "").strip()
+            ca = _prefix_entity(ea, pair.get("contrast_a", "")).rstrip(".")
+            cb = _prefix_entity(eb, pair.get("contrast_b", "")).rstrip(".")
+            hook = _HOOK_FORMS[i % len(_HOOK_FORMS)].format(a=ea, b=eb)
+            body = _COMP_CONTRASTS[i % len(_COMP_CONTRASTS)].format(a=ca, b=cb)
+            blocks.append(f"{hook} {body}")
+        blocks.append(CTA_BANK[0])
+        return " ".join(b for b in blocks if b)

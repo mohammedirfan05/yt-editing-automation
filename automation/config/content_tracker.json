@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated_at": "2026-08-11T11:04:48.392024",
+  "updated_at": "2026-08-11T18:20:40.124612",
   "topics": {
     "SS_Whsrltyw": {
       "id": "SS_Whsrltyw",
@@ -1726,6 +1726,440 @@
       "updated_at": "2026-08-11T11:04:33.262628",
       "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_anime_12.json",
       "notes": "Manually approved by user"
+    },
+    "dmt_01": {
+      "id": "dmt_01",
+      "title": "Orcs vs Uruks: What's the Difference?",
+      "type": "deepdive",
+      "channel": "dontmixthis",
+      "status": "idea",
+      "fandom": "Lord of the Rings",
+      "pairs": [
+        [
+          "Orcs",
+          "Uruks"
+        ]
+      ],
+      "script": "Orcs and Uruks are just two names for the same evil army. They aren't. Standard Orcs collapse under direct sunlight because their eyes burn. Uruks march through full daylight without losing a single drop of strength. Saruman bred them specifically to erase the one flaw in Sauron's original design. Orcs are fodder for the night. Uruks were built to conquer the sun. Follow for more.",
+      "word_count": 65,
+      "estimated_duration_sec": 24.07,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [],
+      "hook_id": "free_open",
+      "cta": "Follow for more.",
+      "payoff": "Uruks were built to conquer the sun.",
+      "payoff_echo": 0.0,
+      "max_body_overlap": 0.0,
+      "rhythm": {
+        "count": 8,
+        "stdev": 3.98,
+        "mean": 8.12,
+        "max": 13
+      },
+      "source": "llm",
+      "repair_passes": 0,
+      "labels": {
+        "label1": "Orcs",
+        "label2": "Uruks"
+      },
+      "seo_metadata": {
+        "seo_title": "Orcs vs Uruks Explained in 60 Seconds",
+        "ab_title": "Why Uruks Don't Burn in Sunlight",
+        "thumbnail_text": "ORCS VS URUKS",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#LOTR"
+        ],
+        "description": "Discover the key physical difference between standard Orcs and Uruks in Lord of the Rings. Saruman engineered them to remove evil's biggest weakness.",
+        "pinned_comment": "Which army would you rather face on an open battlefield?"
+      },
+      "created_at": "2026-08-11T18:20:40.117993",
+      "updated_at": "2026-08-11T18:20:40.122607",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\dmt_01.json"
+    },
+    "dmt_02": {
+      "id": "dmt_02",
+      "title": "Valyrian Steel vs Dragonglass: What's the Difference?",
+      "type": "deepdive",
+      "channel": "dontmixthis",
+      "status": "rejected",
+      "fandom": "Game of Thrones",
+      "pairs": [
+        [
+          "Valyrian Steel",
+          "Dragonglass"
+        ]
+      ],
+      "script": "One is cheap volcanic glass. The other takes dragon fire, folded iron, and human blood magic to forge. Valyrian steel and Dragonglass kill White Walkers for totally different reasons. Obsidian. Dragonglass shatters White Walkers because it is packed with ancient frozen fire. Valyrian steel cuts through their ice blades because it's a spell-bound alloy that never dulls. One is cheap ammo for an army. The other is an irreplaceable heirloom for a king. If that finally clicked, subscribe.",
+      "word_count": 79,
+      "estimated_duration_sec": 29.26,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [],
+      "hook_id": "free_open",
+      "cta": "If that finally clicked, subscribe.",
+      "payoff": "The other is an irreplaceable heirloom for a king.",
+      "payoff_echo": 0.0,
+      "max_body_overlap": 0.0,
+      "rhythm": {
+        "count": 9,
+        "stdev": 4.27,
+        "mean": 8.67,
+        "max": 15
+      },
+      "source": "llm",
+      "repair_passes": 1,
+      "labels": {
+        "label1": "Valyrian Steel",
+        "label2": "Dragonglass"
+      },
+      "seo_metadata": {
+        "seo_title": "Valyrian Steel vs Dragonglass Explained",
+        "ab_title": "Why Dragonglass Works Differently Than Valyrian Steel",
+        "thumbnail_text": "NOT THE SAME METAL",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#GameOfThrones"
+        ],
+        "description": "Both kill White Walkers, but they are completely different materials.",
+        "pinned_comment": "Which Valyrian steel sword is your favorite?"
+      },
+      "created_at": "2026-08-11T18:14:54.290668",
+      "updated_at": "2026-08-11T18:20:21.972073",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\dmt_02.json",
+      "notes": "Rejected during user review"
+    },
+    "dmt_03": {
+      "id": "dmt_03",
+      "title": "Legendary vs Mythical Pokemon: What's the Difference?",
+      "type": "deepdive",
+      "channel": "dontmixthis",
+      "status": "idea",
+      "fandom": "Pokemon",
+      "pairs": [
+        [
+          "Legendary Pokemon",
+          "Mythical Pokemon"
+        ]
+      ],
+      "script": "Stop calling Mew a Legendary Pokemon. It's a Mythical. Legendary Pokemon are forces of nature you catch inside the main storyline. Mewtwo and Rayquaza are Legendaries. Mythicals like Mew and Arceus don't appear in normal gameplay at all. You can only get them through real-world events and special distributions. Legendaries are gods living in the world. Mythicals are secrets living outside the code. Comment another pair people always mix up. I might do yours next.",
+      "word_count": 76,
+      "estimated_duration_sec": 28.15,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [],
+      "hook_id": "correction",
+      "cta": "Comment another pair people always mix up. I might do yours next.",
+      "payoff": "Mythicals are secrets living outside the code.",
+      "payoff_echo": 0.0,
+      "max_body_overlap": 0.0,
+      "rhythm": {
+        "count": 10,
+        "stdev": 2.97,
+        "mean": 7.5,
+        "max": 12
+      },
+      "source": "llm",
+      "repair_passes": 0,
+      "labels": {
+        "label1": "Legendary Pokemon",
+        "label2": "Mythical Pokemon"
+      },
+      "seo_metadata": {
+        "seo_title": "Legendary vs Mythical Pokemon Explained",
+        "ab_title": "Stop Calling Mew a Legendary Pokemon",
+        "thumbnail_text": "MEW IS NOT LEGENDARY",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#Pokemon"
+        ],
+        "description": "Mew and Mewtwo are not in the same category. Here is why.",
+        "pinned_comment": "What was the first Mythical Pokemon you ever collected?"
+      },
+      "created_at": "2026-08-11T18:14:54.656462",
+      "updated_at": "2026-08-11T18:14:54.659452",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\dmt_03.json"
+    },
+    "dmt_04": {
+      "id": "dmt_04",
+      "title": "Clone Troopers vs Stormtroopers: What's the Difference?",
+      "type": "deepdive",
+      "channel": "dontmixthis",
+      "status": "idea",
+      "fandom": "Star Wars",
+      "pairs": [
+        [
+          "Clone Troopers",
+          "Stormtroopers"
+        ]
+      ],
+      "script": "One detail separates these two armor suits, and it comes down to birth. Clone troopers and Stormtroopers. Clones were grown in facilities on Kamino from the DNA of a single bounty hunter. Every one of them had the exact same face. Stormtroopers were regular human recruits drafted from random planets across the galaxy. The Republic bought an elite army. The Empire built a massive police state. Don't mix this up again.",
+      "word_count": 71,
+      "estimated_duration_sec": 26.3,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [],
+      "hook_id": "free_open",
+      "cta": "Don't mix this up again.",
+      "payoff": "The Empire built a massive police state.",
+      "payoff_echo": 0.0,
+      "max_body_overlap": 0.0,
+      "rhythm": {
+        "count": 8,
+        "stdev": 3.79,
+        "mean": 8.88,
+        "max": 15
+      },
+      "source": "llm",
+      "repair_passes": 0,
+      "labels": {
+        "label1": "Clone Troopers",
+        "label2": "Stormtroopers"
+      },
+      "seo_metadata": {
+        "seo_title": "Clone Troopers vs Stormtroopers Explained",
+        "ab_title": "The Real Difference Between Clones and Stormtroopers",
+        "thumbnail_text": "NOT THE SAME SOLDIERS",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#StarWars"
+        ],
+        "description": "They wear white armor, but their origins could not be more different.",
+        "pinned_comment": "Do you prefer Phase 2 Clone armor or classic Stormtrooper armor?"
+      },
+      "created_at": "2026-08-11T18:14:55.018110",
+      "updated_at": "2026-08-11T18:14:55.021111",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\dmt_04.json"
+    },
+    "fk_01": {
+      "id": "fk_01",
+      "title": "Farz vs Wajib: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Farz",
+          "Wajib"
+        ]
+      ],
+      "script": "Log Wajib ko bhi Farz samajhte hain. Magar Farz aur Wajib mein bada farq hai. Farz Quran ke saaf hukum se sabit hai, jaise paanch waqt ki namaz. Us ka inkar karne wala Islam se nikal jata hai. Wajib ki daleel thodi kam hoti hai, jaise Witr ki namaz. Is ka inkar karne wala gunahgar to hota hai, kafir nahi. Farz chhoot jaye to namaz dobara parhni padti hai, Wajib mein Sajda-e-Sahv kafi hai. Kya aapko pehle se pata tha? Comment karein.",
+      "word_count": 84,
+      "estimated_duration_sec": 31.11,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [],
+      "hook_id": "free_open",
+      "cta": "Kya aapko pehle se pata tha? Comment karein.",
+      "payoff": "Farz chhoot jaye to namaz dobara parhni padti hai, Wajib mein Sajda-e-Sahv kafi hai.",
+      "payoff_echo": 0.0,
+      "verb_final_ratio": 0.75,
+      "max_body_overlap": 0.03,
+      "rhythm": {
+        "count": 9,
+        "stdev": 3.54,
+        "mean": 9.11,
+        "max": 14
+      },
+      "source": "llm",
+      "repair_passes": 0,
+      "labels": {
+        "label1": "Farz",
+        "label2": "Wajib"
+      },
+      "seo_metadata": {
+        "seo_title": "Farz aur Wajib mein Farq Kya Hai?",
+        "ab_title": "Kya Wajib Chhoot Jaye To Namaz Hoti Hai?",
+        "thumbnail_text": "Farz vs Wajib",
+        "hashtags": [
+          "#Shorts",
+          "#FarqKya",
+          "#IslamicKnowledge"
+        ],
+        "description": "Farz aur Wajib ke darje mein kya farq hai? Aasan alfaz mein samajhein.",
+        "pinned_comment": "Kya aapko Witr ki namaz ka hukum pata tha?"
+      },
+      "created_at": "2026-08-11T18:15:48.060288",
+      "updated_at": "2026-08-11T18:15:48.060288",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\fk_01.json"
+    },
+    "fk_02": {
+      "id": "fk_02",
+      "title": "Sunnat vs Nafl: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Sunnat",
+          "Nafl"
+        ]
+      ],
+      "script": "Asal mein Sunnat aur Nafl ka farq bohat aasan hai. Sunnat wo ibadat hai jo Nabi Kareem sallallahu alaihi wasallam ne hamesha ki hai. Aur humein bhi is ki hidayat farmayi hai. Isey bina kisi wajah ke chhorna ghalti hai. Ab Nafl ki baat karte hain. Nafl poori tarah aap ki apni khushi par hai. Isey na parhne par koi pakad nahi hoti. Bas farq ye hai ke Sunnat Farz ki kami poori karti hai. Aur Nafl se darjaat buland hote hain.",
+      "word_count": 82,
+      "estimated_duration_sec": 30.37,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [
+        "[warn] cta.missing: Koi sign-off nahi. Payoff par khatam karna theek hai, warna bank se ek CTA lagayein."
+      ],
+      "hook_id": "free_open",
+      "cta": "Aur Nafl se darjaat buland hote hain.",
+      "payoff": "Aur Nafl se darjaat buland hote hain.",
+      "payoff_echo": 0.0,
+      "verb_final_ratio": 1.0,
+      "max_body_overlap": 0.0,
+      "rhythm": {
+        "count": 9,
+        "stdev": 2.38,
+        "mean": 9.11,
+        "max": 14
+      },
+      "source": "llm",
+      "repair_passes": 1,
+      "labels": {
+        "label1": "Sunnat",
+        "label2": "Nafl"
+      },
+      "seo_metadata": {
+        "seo_title": "Sunnat aur Nafl mein Farq Kya Hai?",
+        "ab_title": "Nafl Namaz Na Parhein To Kya Gunah Hoga?",
+        "thumbnail_text": "Sunnat vs Nafl",
+        "hashtags": [
+          "#Shorts",
+          "#FarqKya",
+          "#IslamicKnowledge"
+        ],
+        "description": "Sunnat aur Nafl ibadat mein asal farq kya hai? Ek minute mein jaanein.",
+        "pinned_comment": "Aap din mein kitni nafl ibadat karte hain?"
+      },
+      "created_at": "2026-08-11T18:16:02.913628",
+      "updated_at": "2026-08-11T18:16:02.913628",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\fk_02.json"
+    },
+    "fk_03": {
+      "id": "fk_03",
+      "title": "Sahabi vs Tabi'i: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Sahabi",
+          "Tabi'i"
+        ]
+      ],
+      "script": "Sahabi aur Tabi'i mein farq kya hota hai? Asal mein jis ne eeman ki halat mein Nabi Kareem sallallahu alaihi wasallam ko dekha, wo Sahabi hai. Unka khatma bhi eeman par hi hua. Ab Tabi'i ki baat karte hain. Unhone Nabi Kareem sallallahu alaihi wasallam ko khud nahi dekha. Magar unhein kisi Sahabi ki sohbat mili. Sahaba ne deen seedha Aap se seekha. Phir Tabi'een ne Sahaba ke zariye ye deen aage phelaya. Isi liye Sahaba ke baad sab se aala darja Tabi'een ka hai. Mazeed videos ke liye follow karein.",
+      "word_count": 91,
+      "estimated_duration_sec": 33.7,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [
+        "[warn] length.outside_ideal: 91 alfaaz ideal 55-85 se bahar hai.",
+        "[warn] cta.repeated: Pichli script wala hi sign-off hai ('Mazeed videos ke liye follow karein.'). Badlein."
+      ],
+      "hook_id": "free_open",
+      "cta": "Mazeed videos ke liye follow karein.",
+      "payoff": "Isi liye Sahaba ke baad sab se aala darja Tabi'een ka hai.",
+      "payoff_echo": 0.0,
+      "verb_final_ratio": 0.6,
+      "max_body_overlap": 0.04,
+      "rhythm": {
+        "count": 10,
+        "stdev": 3.51,
+        "mean": 9.1,
+        "max": 18
+      },
+      "source": "llm",
+      "repair_passes": 2,
+      "labels": {
+        "label1": "Sahabi",
+        "label2": "Tabi'i"
+      },
+      "seo_metadata": {
+        "seo_title": "Sahabi aur Tabi'i mein Farq Kya Hai?",
+        "ab_title": "Tabi'i Kise Kehte Hain? Bada Farq",
+        "thumbnail_text": "Sahabi vs Tabi'i",
+        "hashtags": [
+          "#Shorts",
+          "#FarqKya",
+          "#IslamicHistory"
+        ],
+        "description": "Sahaba aur Tabi'een ke azim maqam ka asal farq samajhein.",
+        "pinned_comment": "Kya aap kisi mashhoor Tabi'i ka naam batayeinge?"
+      },
+      "created_at": "2026-08-11T18:16:37.793490",
+      "updated_at": "2026-08-11T18:16:37.794497",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\fk_03.json"
+    },
+    "fk_04": {
+      "id": "fk_04",
+      "title": "Gunah-e-Kabeera vs Sagheera: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "idea",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Gunah-e-Kabeera",
+          "Gunah-e-Sagheera"
+        ]
+      ],
+      "script": "Gunah-e-Kabeera aur Gunah-e-Sagheera mein sirf ek shart ka farq hai. Sagheera chhote gunah hain jo wuzu aur namaz se khud hi dhul jaate hain. Kabeera bade gunah hain, jaise jhooth ya sharab. Ye bina sachhi tauba ke maaf nahi hote. Isi liye chhote gunah ko baar baar karna use Kabeera bana deta hai. Chhota gunah wuzu se saaf hota hai, bada gunah sachhi tauba maangta hai. Agar baat samajh aa gayi to follow kar lein.",
+      "word_count": 79,
+      "estimated_duration_sec": 29.26,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [],
+      "hook_id": "free_open",
+      "cta": "Agar baat samajh aa gayi to follow kar lein.",
+      "payoff": "Chhota gunah wuzu se saaf hota hai, bada gunah sachhi tauba maangta hai.",
+      "payoff_echo": 0.0,
+      "verb_final_ratio": 0.86,
+      "max_body_overlap": 0.0,
+      "rhythm": {
+        "count": 7,
+        "stdev": 2.37,
+        "mean": 10.71,
+        "max": 14
+      },
+      "source": "llm",
+      "repair_passes": 0,
+      "labels": {
+        "label1": "Gunah-e-Kabeera",
+        "label2": "Gunah-e-Sagheera"
+      },
+      "seo_metadata": {
+        "seo_title": "Bade aur Chhote Gunah mein Farq Kya Hai?",
+        "ab_title": "Chhota Gunah Bada Kab Banta Hai?",
+        "thumbnail_text": "Kabeera vs Sagheera",
+        "hashtags": [
+          "#Shorts",
+          "#FarqKya",
+          "#IslamicReminders"
+        ],
+        "description": "Gunah-e-Kabeera aur Sagheera ki shart aur mafi ka tareeqa.",
+        "pinned_comment": "Kya aap ko pata hai gunah par naadim hona bhi tauba hai?"
+      },
+      "created_at": "2026-08-11T18:16:38.080128",
+      "updated_at": "2026-08-11T18:16:38.081635",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\fk_04.json"
     }
   }
 }

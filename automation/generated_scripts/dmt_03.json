@@ -1,0 +1,52 @@
+{
+  "id": "dmt_03",
+  "title": "Legendary vs Mythical Pokemon: What's the Difference?",
+  "type": "deepdive",
+  "channel": "dontmixthis",
+  "status": "idea",
+  "fandom": "Pokemon",
+  "pairs": [
+    [
+      "Legendary Pokemon",
+      "Mythical Pokemon"
+    ]
+  ],
+  "script": "Stop calling Mew a Legendary Pokemon. It's a Mythical. Legendary Pokemon are forces of nature you catch inside the main storyline. Mewtwo and Rayquaza are Legendaries. Mythicals like Mew and Arceus don't appear in normal gameplay at all. You can only get them through real-world events and special distributions. Legendaries are gods living in the world. Mythicals are secrets living outside the code. Comment another pair people always mix up. I might do yours next.",
+  "word_count": 76,
+  "estimated_duration_sec": 28.15,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [],
+  "hook_id": "correction",
+  "cta": "Comment another pair people always mix up. I might do yours next.",
+  "payoff": "Mythicals are secrets living outside the code.",
+  "payoff_echo": 0.0,
+  "max_body_overlap": 0.0,
+  "rhythm": {
+    "count": 10,
+    "stdev": 2.97,
+    "mean": 7.5,
+    "max": 12
+  },
+  "source": "llm",
+  "repair_passes": 0,
+  "labels": {
+    "label1": "Legendary Pokemon",
+    "label2": "Mythical Pokemon"
+  },
+  "seo_metadata": {
+    "seo_title": "Legendary vs Mythical Pokemon Explained",
+    "ab_title": "Stop Calling Mew a Legendary Pokemon",
+    "thumbnail_text": "MEW IS NOT LEGENDARY",
+    "hashtags": [
+      "#Shorts",
+      "#DontMixThis",
+      "#Pokemon"
+    ],
+    "description": "Mew and Mewtwo are not in the same category. Here is why.",
+    "pinned_comment": "What was the first Mythical Pokemon you ever collected?"
+  },
+  "created_at": "2026-08-11T18:14:54.656462",
+  "updated_at": "2026-08-11T18:14:54.656462"
+}

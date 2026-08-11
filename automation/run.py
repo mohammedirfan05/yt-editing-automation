@@ -94,6 +94,7 @@ def run_python_script(script_path: str, args: list) -> int:
 def generate_auto_script_text(channel: str, mode: str, label1: str = "", label2: str = "", labels_str: str = "", project_name: str = "", build_args: list = None) -> str:
     """Generates a Playbook-compliant script text automatically using Gemini AI LLM or template fallback."""
     from src.env_utils import get_gemini_api_key
+    from src.model_config import generate_content_url, get_text_model, model_chain
     from src.script_gen.templates import ScriptTemplates
     from src.script_gen.farqkya_templates import FarqKyaScriptTemplates
     import requests
@@ -152,10 +153,14 @@ Strict Structural Rules:
 
 Return ONLY the raw final script text without markdown formatting or code blocks."""
 
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
                 payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"temperature": 0.7}}
-                r = requests.post(url, json=payload, timeout=20)
-                if r.status_code == 200:
+                r = None
+                for model in model_chain(get_text_model()):
+                    r = requests.post(generate_content_url(model, api_key), json=payload, timeout=20)
+                    if r.status_code == 200:
+                        break
+                    print(Fore.YELLOW + f"⚠️ Gemini model '{model}' returned {r.status_code}; trying next model." + Style.RESET_ALL)
+                if r is not None and r.status_code == 200:
                     res_data = r.json()
                     generated_text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
                     generated_text = re.sub(r'^```[\w]*\n?', '', generated_text)
@@ -214,10 +219,14 @@ Strict Structural Rules:
 
 Return ONLY the raw final script text without markdown formatting or code blocks."""
 
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
             payload = {"contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"temperature": 0.7}}
-            r = requests.post(url, json=payload, timeout=20)
-            if r.status_code == 200:
+            r = None
+            for model in model_chain(get_text_model()):
+                r = requests.post(generate_content_url(model, api_key), json=payload, timeout=20)
+                if r.status_code == 200:
+                    break
+                print(Fore.YELLOW + f"⚠️ Gemini model '{model}' returned {r.status_code}; trying next model." + Style.RESET_ALL)
+            if r is not None and r.status_code == 200:
                 res_data = r.json()
                 generated_text = res_data["candidates"][0]["content"]["parts"][0]["text"].strip()
                 generated_text = re.sub(r'^```[\w]*\n?', '', generated_text)

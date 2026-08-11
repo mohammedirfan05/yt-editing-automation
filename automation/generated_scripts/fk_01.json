@@ -1,0 +1,53 @@
+{
+  "id": "fk_01",
+  "title": "Farz vs Wajib: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Farz",
+      "Wajib"
+    ]
+  ],
+  "script": "Log Wajib ko bhi Farz samajhte hain. Magar Farz aur Wajib mein bada farq hai. Farz Quran ke saaf hukum se sabit hai, jaise paanch waqt ki namaz. Us ka inkar karne wala Islam se nikal jata hai. Wajib ki daleel thodi kam hoti hai, jaise Witr ki namaz. Is ka inkar karne wala gunahgar to hota hai, kafir nahi. Farz chhoot jaye to namaz dobara parhni padti hai, Wajib mein Sajda-e-Sahv kafi hai. Kya aapko pehle se pata tha? Comment karein.",
+  "word_count": 84,
+  "estimated_duration_sec": 31.11,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [],
+  "hook_id": "free_open",
+  "cta": "Kya aapko pehle se pata tha? Comment karein.",
+  "payoff": "Farz chhoot jaye to namaz dobara parhni padti hai, Wajib mein Sajda-e-Sahv kafi hai.",
+  "payoff_echo": 0.0,
+  "verb_final_ratio": 0.75,
+  "max_body_overlap": 0.03,
+  "rhythm": {
+    "count": 9,
+    "stdev": 3.54,
+    "mean": 9.11,
+    "max": 14
+  },
+  "source": "llm",
+  "repair_passes": 0,
+  "labels": {
+    "label1": "Farz",
+    "label2": "Wajib"
+  },
+  "seo_metadata": {
+    "seo_title": "Farz aur Wajib mein Farq Kya Hai?",
+    "ab_title": "Kya Wajib Chhoot Jaye To Namaz Hoti Hai?",
+    "thumbnail_text": "Farz vs Wajib",
+    "hashtags": [
+      "#Shorts",
+      "#FarqKya",
+      "#IslamicKnowledge"
+    ],
+    "description": "Farz aur Wajib ke darje mein kya farq hai? Aasan alfaz mein samajhein.",
+    "pinned_comment": "Kya aapko Witr ki namaz ka hukum pata tha?"
+  },
+  "created_at": "2026-08-11T18:15:48.060288",
+  "updated_at": "2026-08-11T18:15:48.060288"
+}

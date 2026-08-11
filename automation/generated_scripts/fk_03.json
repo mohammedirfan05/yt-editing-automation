@@ -1,0 +1,56 @@
+{
+  "id": "fk_03",
+  "title": "Sahabi vs Tabi'i: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Sahabi",
+      "Tabi'i"
+    ]
+  ],
+  "script": "Sahabi aur Tabi'i mein farq kya hota hai? Asal mein jis ne eeman ki halat mein Nabi Kareem sallallahu alaihi wasallam ko dekha, wo Sahabi hai. Unka khatma bhi eeman par hi hua. Ab Tabi'i ki baat karte hain. Unhone Nabi Kareem sallallahu alaihi wasallam ko khud nahi dekha. Magar unhein kisi Sahabi ki sohbat mili. Sahaba ne deen seedha Aap se seekha. Phir Tabi'een ne Sahaba ke zariye ye deen aage phelaya. Isi liye Sahaba ke baad sab se aala darja Tabi'een ka hai. Mazeed videos ke liye follow karein.",
+  "word_count": 91,
+  "estimated_duration_sec": 33.7,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [
+    "[warn] length.outside_ideal: 91 alfaaz ideal 55-85 se bahar hai.",
+    "[warn] cta.repeated: Pichli script wala hi sign-off hai ('Mazeed videos ke liye follow karein.'). Badlein."
+  ],
+  "hook_id": "free_open",
+  "cta": "Mazeed videos ke liye follow karein.",
+  "payoff": "Isi liye Sahaba ke baad sab se aala darja Tabi'een ka hai.",
+  "payoff_echo": 0.0,
+  "verb_final_ratio": 0.6,
+  "max_body_overlap": 0.04,
+  "rhythm": {
+    "count": 10,
+    "stdev": 3.51,
+    "mean": 9.1,
+    "max": 18
+  },
+  "source": "llm",
+  "repair_passes": 2,
+  "labels": {
+    "label1": "Sahabi",
+    "label2": "Tabi'i"
+  },
+  "seo_metadata": {
+    "seo_title": "Sahabi aur Tabi'i mein Farq Kya Hai?",
+    "ab_title": "Tabi'i Kise Kehte Hain? Bada Farq",
+    "thumbnail_text": "Sahabi vs Tabi'i",
+    "hashtags": [
+      "#Shorts",
+      "#FarqKya",
+      "#IslamicHistory"
+    ],
+    "description": "Sahaba aur Tabi'een ke azim maqam ka asal farq samajhein.",
+    "pinned_comment": "Kya aap kisi mashhoor Tabi'i ka naam batayeinge?"
+  },
+  "created_at": "2026-08-11T18:16:37.793490",
+  "updated_at": "2026-08-11T18:16:37.793490"
+}

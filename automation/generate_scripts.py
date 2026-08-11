@@ -45,6 +45,7 @@ def main():
     parser.add_argument("--fandom", "-f", type=str, default=None, help="Filter by fandom (Marvel, DC, Anime, Mythology, Islamic)")
     parser.add_argument("--channel", "-c", type=str, default="dontmixthis", choices=["dontmixthis", "farqkya"], help="Select YouTube channel ('dontmixthis' or 'farqkya')")
     parser.add_argument("--seed-tracker", action="store_true", help="Initialize/re-seed content tracker from historical transcripts")
+    parser.add_argument("--clear-ideas", action="store_true", help="Clear unapproved candidate script ideas to allow generating fresh scripts")
 
     parser.add_argument("--list-tracker", action="store_true", help="Display content tracker status breakdown")
     parser.add_argument("--approve", type=str, help="Mark topic ID as approved in tracker")
@@ -61,6 +62,14 @@ def main():
         tracker.seed_from_historical()
         stats = tracker.get_stats()
         print(Fore.GREEN + f"✨ Tracker seeded successfully! Total topics: {stats['total']} (Published: {stats['published']}, Tested: {stats['tested']}, Ideas: {stats['idea']})" + Style.RESET_ALL)
+        return
+
+    # Handle clearing unapproved ideas
+    if args.clear_ideas:
+        print(Fore.CYAN + "🧹 Clearing unapproved candidate script ideas..." + Style.RESET_ALL)
+        count_cleared = tracker.clear_unapproved_ideas()
+        stats = tracker.get_stats()
+        print(Fore.GREEN + f"✨ Cleared {count_cleared} unapproved candidate ideas! (Remaining published/approved: {stats['total']})" + Style.RESET_ALL)
         return
 
     # Handle status updates
@@ -133,13 +142,17 @@ def main():
         print(f"  • Mode: {item['type'].upper()} | Fandom: {item['fandom']}")
         print(f"  • Word Count: {item['word_count']} words | Duration: ~{item['estimated_duration_sec']}s (Pacing: {item['speech_pacing_wps']} W/s)")
         print(f"  • Playbook Compliant: {Fore.GREEN if item['playbook_compliant'] else Fore.RED}{item['playbook_compliant']}{Style.RESET_ALL}")
+        print(f"  • Unslop Sanitized: {Fore.GREEN}✓ Yes (deterministic AI slop removed){Style.RESET_ALL}")
         print(f"  • Saved File: {item['artifact_path']}")
-        
-        hooks = item.get("hook_variants", [])
-        if hooks:
-            print(Fore.BLUE + "  • A/B Hook Variants:" + Style.RESET_ALL)
-            for h_idx, h in enumerate(hooks, 1):
-                print(Fore.BLUE + f"    {h_idx}. \"{h}\"" + Style.RESET_ALL)
+
+        seo = item.get("seo_metadata", {})
+        if seo:
+            print(Fore.MAGENTA + "  • YOUTUBE SEO PACKAGE:" + Style.RESET_ALL)
+            print(f"    - SEO Title     : {seo.get('seo_title', '')}")
+            print(f"    - A/B Title     : {seo.get('ab_title', '')}")
+            print(f"    - Thumbnail Text: {Fore.YELLOW}{seo.get('thumbnail_text', '')}{Style.RESET_ALL}")
+            print(f"    - Hashtags      : {Fore.BLUE}{' '.join(seo.get('hashtags', []))}{Style.RESET_ALL}")
+            print(f"    - Pinned Comment: {seo.get('pinned_comment', '')}")
 
         print(Fore.YELLOW + "\n--- SCRIPT TEXT ---" + Style.RESET_ALL)
         print(item["script"])

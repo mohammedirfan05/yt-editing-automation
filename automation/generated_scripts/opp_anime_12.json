@@ -1,0 +1,42 @@
+{
+  "id": "opp_anime_12",
+  "title": "Gojo Limitless vs Sukuna Malevolent Shrine",
+  "type": "deepdive",
+  "channel": "dontmixthis",
+  "status": "approved",
+  "fandom": "Anime",
+  "pairs": [
+    [
+      "Unlimited Void",
+      "Malevolent Shrine"
+    ]
+  ],
+  "script": "This is Unlimited Void. This is Malevolent Shrine. So what's the difference? Most JJK fans think Gojo and Sukuna's domains work the same way. They don't. Unlimited Void floods the enemy's brain with infinite information to paralyze them. But Malevolent Shrine has no outer barrier, unleashing relentless slashes across a 200m radius. Gojo's domain overwhelms the mind, while Sukuna's domain shreds physical reality. Follow for more.",
+  "word_count": 66,
+  "estimated_duration_sec": 24.44,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [
+    "[Word Count] 66 words is outside ideal range (75-85)."
+  ],
+  "labels": {
+    "label1": "Unlimited Void",
+    "label2": "Malevolent Shrine"
+  },
+  "seo_metadata": {
+    "seo_title": "Unlimited Void vs Malevolent Shrine: What's the Difference?",
+    "ab_title": "The Real Difference Between Unlimited Void vs Malevolent Shrine",
+    "thumbnail_text": "Unlimited Void vs Malevolent Shrine Difference!",
+    "hashtags": [
+      "#Shorts",
+      "#DontMixThis",
+      "#PopCulture"
+    ],
+    "description": "What's the real difference between Unlimited Void vs Malevolent Shrine? Watch this 30-second breakdown.",
+    "pinned_comment": "Which one do you prefer: Unlimited Void or Malevolent Shrine? Let us know!"
+  },
+  "created_at": "2026-08-11T11:03:39.820846",
+  "updated_at": "2026-08-11T11:04:33.273865",
+  "notes": "Manually approved by user"
+}

@@ -16,11 +16,24 @@
   "estimated_duration_sec": 27.78,
   "speech_pacing_wps": 2.7,
   "playbook_compliant": true,
+  "unslop_sanitized": true,
   "validation_issues": [],
   "labels": {
     "label1": "Super Saiyan",
     "label2": "Super Saiyan God"
   },
-  "created_at": "2026-08-09T15:57:31.490874",
-  "updated_at": "2026-08-09T15:57:31.490874"
+  "seo_metadata": {
+    "seo_title": "Super Saiyan vs Super Saiyan God: What's the Difference?",
+    "ab_title": "The Real Difference Between Super Saiyan vs Super Saiyan God",
+    "thumbnail_text": "Super Saiyan vs Super Saiyan God Difference!",
+    "hashtags": [
+      "#Shorts",
+      "#DontMixThis",
+      "#PopCulture"
+    ],
+    "description": "What's the real difference between Super Saiyan vs Super Saiyan God? Watch this 30-second breakdown.",
+    "pinned_comment": "Which one do you prefer: Super Saiyan or Super Saiyan God? Let us know!"
+  },
+  "created_at": "2026-08-11T10:59:52.593541",
+  "updated_at": "2026-08-11T10:59:52.593541"
 }

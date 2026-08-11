@@ -153,6 +153,43 @@ class ContentTracker:
             except Exception as e:
                 pass
 
+    def clear_unapproved_ideas(self, clear_generated_files: bool = True) -> int:
+        """Removes unapproved candidate script ideas from tracker and deletes generated JSON files."""
+        removed_count = 0
+        topics_to_delete = []
+
+        for topic_id, topic in list(self.data.get("topics", {}).items()):
+            if topic.get("status") in ["idea", "candidate", "rejected"]:
+                topics_to_delete.append(topic_id)
+
+        for tid in topics_to_delete:
+            del self.data["topics"][tid]
+            removed_count += 1
+
+        if clear_generated_files:
+            gen_dir = os.path.join(os.path.dirname(self.tracker_path), "..", "generated_scripts")
+            if os.path.exists(gen_dir):
+                for fname in os.listdir(gen_dir):
+                    if fname.endswith(".json"):
+                        fpath = os.path.join(gen_dir, fname)
+                        try:
+                            with open(fpath, "r", encoding="utf-8") as f:
+                                item = json.load(f)
+                            if item.get("status") in ["idea", "candidate", "rejected"]:
+                                os.remove(fpath)
+                        except Exception:
+                            pass
+
+        if os.path.exists(self.ideas_path):
+            try:
+                with open(self.ideas_path, "w", encoding="utf-8") as f:
+                    json.dump([], f, indent=2)
+            except Exception:
+                pass
+
+        self.save()
+        return removed_count
+
     def save(self) -> None:
         """Saves current tracker state to JSON and CSV formats."""
         os.makedirs(os.path.dirname(self.tracker_path), exist_ok=True)

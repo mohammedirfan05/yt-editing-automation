@@ -1,0 +1,41 @@
+{
+  "id": "opp_marvel_11",
+  "title": "Thanos vs Darkseid: Marvel vs DC Gods",
+  "type": "deepdive",
+  "channel": "dontmixthis",
+  "status": "idea",
+  "fandom": "Marvel",
+  "pairs": [
+    [
+      "Thanos",
+      "Darkseid"
+    ]
+  ],
+  "script": "This is Thanos. This is Darkseid. So what's the difference? Most fans think Thanos and Darkseid are copies of each other. They're wrong. Thanos is a warlord titan seeking the Infinity Stones to rebalance resource scarcity in the universe. But Darkseid is a New God ruler of Apokolips seeking the Anti-Life Equation to strip all free will across reality. Thanos seeks universal balance, while Darkseid seeks total mental enslavement. Follow for more.",
+  "word_count": 73,
+  "estimated_duration_sec": 27.04,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [
+    "[Word Count] 73 words is outside ideal range (75-85)."
+  ],
+  "labels": {
+    "label1": "Thanos",
+    "label2": "Darkseid"
+  },
+  "seo_metadata": {
+    "seo_title": "Thanos vs Darkseid: What's the Difference?",
+    "ab_title": "The Real Difference Between Thanos vs Darkseid",
+    "thumbnail_text": "Thanos vs Darkseid Difference!",
+    "hashtags": [
+      "#Shorts",
+      "#DontMixThis",
+      "#PopCulture"
+    ],
+    "description": "What's the real difference between Thanos vs Darkseid? Watch this 30-second breakdown.",
+    "pinned_comment": "Which one do you prefer: Thanos or Darkseid? Let us know!"
+  },
+  "created_at": "2026-08-11T11:02:19.998702",
+  "updated_at": "2026-08-11T11:02:19.998702"
+}

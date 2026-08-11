@@ -64,5 +64,38 @@
       "label1": "Shirk",
       "label2": "Bidah"
     }
+  },
+  {
+    "id": "farq_fk_opt_22",
+    "project_name": "Auto_Deepdive_FarzeAin_vs_FarzeKifayah_Farq_Kya_H",
+    "type": "deepdive",
+    "channel": "farqkya",
+    "script": "Ye hai Farz-e-Ain aur ye hai Farz-e-Kifayah, aakhir isme farq kya hai? Ek har musalman par shakhsi farz hai... Jabke doosra chand logon ke karne se ada ho jata hai! Farz-e-Ain har ek musalman par alag se lazmi hai jaise paanch waqt ki salah. Lekin Farz-e-Kifayah ijtima'i zimmedari hai jaise Namaz-e-Janazah jo chand log ada karein to sabki taraf se ada ho jati hai. Farz-e-Ain shakhsi zimmedari hai, jabke Farz-e-Kifayah ijtimai. Mazeed videos ke liye follow karein.",
+    "labels": {
+      "label1": "Farz-e-Ain",
+      "label2": "Farz-e-Kifayah"
+    }
+  },
+  {
+    "id": "opp_dc_11",
+    "project_name": "Auto_Deepdive_Doctor_Strange_vs_Doctor_Fate",
+    "type": "deepdive",
+    "channel": "dontmixthis",
+    "script": "This is Doctor Strange. This is Doctor Fate. So what's the difference? Most fans think Doctor Fate copied Doctor Strange. It's actually the opposite. Doctor Strange draws arcane energy through study and spells as Sorcerer Supreme. But Doctor Fate is a mortal host possessed by Nabu, a Lord of Order through the Helmet of Fate. Strange casts spells with human agency, while Fate acts as a divine puppet of Order. Follow for more.",
+    "labels": {
+      "label1": "Doctor Strange",
+      "label2": "Doctor Fate"
+    }
+  },
+  {
+    "id": "opp_anime_12",
+    "project_name": "Auto_Deepdive_Gojo_Limitless_vs_Sukuna_Malevolent",
+    "type": "deepdive",
+    "channel": "dontmixthis",
+    "script": "This is Unlimited Void. This is Malevolent Shrine. So what's the difference? Most JJK fans think Gojo and Sukuna's domains work the same way. They don't. Unlimited Void floods the enemy's brain with infinite information to paralyze them. But Malevolent Shrine has no outer barrier, unleashing relentless slashes across a 200m radius. Gojo's domain overwhelms the mind, while Sukuna's domain shreds physical reality. Follow for more.",
+    "labels": {
+      "label1": "Unlimited Void",
+      "label2": "Malevolent Shrine"
+    }
   }
 ]

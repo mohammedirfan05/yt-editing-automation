@@ -1,0 +1,41 @@
+{
+  "id": "farq_fk_opt_01",
+  "title": "Nabi vs Rasool: Farq Kya Hai?",
+  "type": "deepdive",
+  "channel": "farqkya",
+  "status": "idea",
+  "fandom": "Islamic",
+  "pairs": [
+    [
+      "Nabi",
+      "Rasool"
+    ]
+  ],
+  "script": "Ye hai Nabi aur ye hai Rasool, aakhir isme farq kya hai? Har Rasool Nabi hota hai... Lekin har Nabi Rasool kyun nahi hota? Nabi pehli shariat ko aage badhate hain aur wahi haasil karte hain. Lekin Rasool nayi aasmani kitab aur nayi shariat ke saath aate hain. Har Rasool ke paas Nayi Shariat hoti hai, jabke Nabi pichli shariat ko aam karte hain. Mazeed videos ke liye follow karein.",
+  "word_count": 70,
+  "estimated_duration_sec": 25.93,
+  "speech_pacing_wps": 2.7,
+  "playbook_compliant": true,
+  "unslop_sanitized": true,
+  "validation_issues": [
+    "[Misconception] Script missing explicit misconception shatter in Roman Urdu."
+  ],
+  "labels": {
+    "label1": "Nabi",
+    "label2": "Rasool"
+  },
+  "seo_metadata": {
+    "seo_title": "Nabi vs Rasool: Farq Kya Hai? | Islamic Shorts",
+    "ab_title": "Aakhir Nabi vs Rasool Mein Kya Farq Hai?",
+    "thumbnail_text": "Nabi vs Rasool Farq!",
+    "hashtags": [
+      "#Shorts",
+      "#FarqKya",
+      "#IslamicKnowledge"
+    ],
+    "description": "Aakhir Nabi vs Rasool mein kya farq hai? Janiye is short video mein 30 seconds mein.",
+    "pinned_comment": "Kya aapko Nabi vs Rasool ke is farq ka pehle se ilam tha? Comments mein zaroor batayein!"
+  },
+  "created_at": "2026-08-11T10:59:57.230512",
+  "updated_at": "2026-08-11T10:59:57.230512"
+}

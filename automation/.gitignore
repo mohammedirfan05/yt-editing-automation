@@ -1,14 +1,40 @@
+# Environment & Secrets
 .env
 .env.*
+*.pem
+test.py
+test_*.py
 
-# Python bytecache
+# Python Cache & Artifacts
 __pycache__/
-*.pyc
-*.pyo
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
 
-# Runtime batch artifacts
+# Batch Processing Workspaces & Runtime Logs
+batch_workspace/
 batch_status.json
 batch_report.json
+my_yt_data/
 
-# Scratch directory
-scratch/
+# Temporary / Pipeline Inputs & Outputs
+input/
+output/
+srt_generator/input_audio/*
+!srt_generator/input_audio/.gitkeep
+srt_generator/output_srt/*
+!srt_generator/output_srt/.gitkeep
+tts_generator/input_text/*
+!tts_generator/input_text/.gitkeep
+tts_generator/output_audio/*
+!tts_generator/output_audio/.gitkeep
+
+# Scratch Directory
+scratch/
+
+# Operating System & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

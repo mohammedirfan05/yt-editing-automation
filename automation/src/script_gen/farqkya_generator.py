@@ -2,6 +2,7 @@
 Farq Kya Script Generator Orchestration Module.
 Dedicated generator for Farq Kya channel (@farqkya) written in Roman Urdu.
 Enforces hook formula: "Ye hai X aur ye hai Y, aakhir isme farq kya hai?"
+Post-processes prose with unslop CLI / sanitizer and generates YouTube SEO packages.
 """
 
 import json
@@ -14,10 +15,11 @@ from .farqkya_catalog import FarqKyaCatalog
 from .farqkya_templates import FarqKyaScriptTemplates
 from .farqkya_validator import FarqKyaValidator
 from .tracker import ContentTracker
+from .unslop_sanitizer import UnslopSanitizer
 
 
 class FarqKyaScriptGenerator:
-    """Orchestrates concept selection, script generation, and validation for Farq Kya."""
+    """Orchestrates concept selection, script generation, unslop sanitization, and validation for Farq Kya."""
 
     def __init__(
         self,
@@ -52,7 +54,7 @@ class FarqKyaScriptGenerator:
         count_deepdives = 0
         count_compilations = 0
 
-        # Primary Path: Gemini LLM Script Generation
+        # Primary Path: Gemini LLM Script Generation with Few-Shot Prompt Engineering
         llm_scripts = self._generate_via_gemini_llm(
             count=count,
             target_deepdives=target_deepdives,
@@ -67,19 +69,24 @@ class FarqKyaScriptGenerator:
             opp_fandom = opp.get("fandom", "Islamic")
             pairs = opp.get("pairs", [])
             title = opp.get("title", "")
-            script_text = opp.get("script", "")
+            raw_script_text = opp.get("script", "")
 
-            # 1. Duplicate Check
+            # 1. Post-process & sanitize script using unslop
+            script_text = UnslopSanitizer.sanitize(raw_script_text)
+
+            # 2. Duplicate Check
             is_dup, match_id, reason = self.tracker.is_duplicate(pairs, title)
             if is_dup:
                 continue
 
-            # 2. Playbook Validation
+            # 3. Playbook Validation
             is_compliant, issues, metrics = FarqKyaValidator.validate_script(script_text, mode=opp_type)
             if not is_compliant:
                 continue
 
             topic_id = opp.get("id", f"farq_fk_{len(generated)+1:02d}")
+            seo_metadata = opp.get("seo_metadata", self._generate_default_seo_package(title, pairs, script_text))
+
             topic_entry = {
                 "id": topic_id,
                 "title": title,
@@ -93,8 +100,10 @@ class FarqKyaScriptGenerator:
                 "estimated_duration_sec": metrics.get("estimated_duration_sec", 28.0),
                 "speech_pacing_wps": metrics.get("speech_pacing_wps", 2.7),
                 "playbook_compliant": is_compliant,
+                "unslop_sanitized": True,
                 "validation_issues": issues,
                 "labels": self._build_labels(pairs, opp_type),
+                "seo_metadata": seo_metadata,
                 "created_at": datetime.now().isoformat(),
                 "updated_at": datetime.now().isoformat()
             }
@@ -135,7 +144,7 @@ class FarqKyaScriptGenerator:
                     continue
 
                 if opp_type == "deepdive":
-                    script_text = FarqKyaScriptTemplates.render_deepdive(
+                    raw_script = FarqKyaScriptTemplates.render_deepdive(
                         entity_a=opp.get("entity_a", pairs[0][0] if pairs else "Entity A"),
                         entity_b=opp.get("entity_b", pairs[0][1] if pairs and len(pairs[0]) > 1 else "Entity B"),
                         template_id=opp.get("template_id", 1),
@@ -145,15 +154,19 @@ class FarqKyaScriptGenerator:
                         punchline=opp.get("punchline", "")
                     )
                 else:
-                    script_text = FarqKyaScriptTemplates.render_compilation(
+                    raw_script = FarqKyaScriptTemplates.render_compilation(
                         pairs_data=opp.get("pairs_data", [])
                     )
+
+                script_text = UnslopSanitizer.sanitize(raw_script)
 
                 is_compliant, issues, metrics = FarqKyaValidator.validate_script(script_text, mode=opp_type)
                 if not is_compliant:
                     continue
 
                 topic_id = opp["id"]
+                seo_metadata = self._generate_default_seo_package(title, pairs, script_text)
+
                 topic_entry = {
                     "id": topic_id,
                     "title": title,
@@ -167,8 +180,10 @@ class FarqKyaScriptGenerator:
                     "estimated_duration_sec": metrics.get("estimated_duration_sec", 0.0),
                     "speech_pacing_wps": metrics.get("speech_pacing_wps", 2.7),
                     "playbook_compliant": is_compliant,
+                    "unslop_sanitized": True,
                     "validation_issues": issues,
                     "labels": self._build_labels(pairs, opp_type),
+                    "seo_metadata": seo_metadata,
                     "created_at": datetime.now().isoformat(),
                     "updated_at": datetime.now().isoformat()
                 }
@@ -195,7 +210,8 @@ class FarqKyaScriptGenerator:
         target_compilations: int
     ) -> List[Dict[str, Any]]:
         """
-        Calls Gemini LLM to generate Roman Urdu scripts for Farq Kya channel.
+        Calls Gemini LLM using Prompt-Engineering patterns (Instruction Hierarchy & Few-Shot Learning)
+        to generate Roman Urdu scripts for Farq Kya channel.
         """
         from src.env_utils import get_gemini_api_key
         api_key = get_gemini_api_key()
@@ -211,27 +227,49 @@ class FarqKyaScriptGenerator:
 
         excluded_str = ", ".join(published_pairs) if published_pairs else "None"
 
-        prompt = f"""You are the expert YouTube Shorts scriptwriter for Urdu/Hindi Islamic channel "Farq Kya" (@farqkya).
-Your job is to generate {count} fresh, high-potential Islamic X vs Y Shorts scripts written in clear, natural Roman Urdu (Urdu written in Latin/English script).
-Target distribution: {target_deepdives} DEEPDIVE scripts and {target_compilations} COMPILATION scripts.
+        # PROMPT ENGINEERING STRUCTURE:
+        # [System Context] -> [Task Rules] -> [Few-Shot Examples] -> [Exclusions] -> [Output Schema]
+        prompt = f"""You are an elite YouTube Shorts scriptwriter for the popular Roman Urdu Islamic channel "Farq Kya" (@farqkya).
 
-CRITICAL DUPLICATE RULE:
-Do NOT generate any of the following already published concepts:
+### CHANNEL MISSION & BRAND VOICE
+- AUDIENCE: Urdu/Hindi speakers seeking clear, respectful, engaging Islamic comparison knowledge.
+- RETENTION GOAL: Shatter common misconceptions in the first 5 seconds and deliver punchy contrast.
+- LANGUAGE: Clean, natural Roman Urdu (Latin script). No meta-commentary, no preambles, no generic AI fluff (e.g. "aaj ki video mein", "welcome back").
+
+### DEEPDIVE SCRIPT PLAYBOOK (60-85 words total):
+1. MANDATORY HOOK (Line 1 exact formula): "Ye hai [Entity A] aur ye hai [Entity B], aakhir isme farq kya hai?"
+2. MISCONCEPTION SHATTER: Address common misunderstanding ("Aksar log samajhte hain ke... Lekin aisa nahi hai.")
+3. UNDERLYING MECHANISM: Explain core difference ("Isliye [Entity A] [mechanism A], jabke [Entity B] [mechanism B].")
+4. PUNCHLINE: Decisive summary sentence highlighting the fundamental distinction.
+5. OUTRO CTA: "Mazeed videos ke liye follow karein."
+
+### FEW-SHOT GOLD STANDARD EXAMPLES
+
+Example 1 (DEEPDIVE):
+Input Topic: Nabi vs Rasool
+Output Component Breakdown:
+- Entity A: Nabi
+- Entity B: Rasool
+- Misconception: Aksar log samajhte hain ke dono ek hi hain, lekin aisa nahi hai.
+- Mechanism: Nabi Allah ki taraf se wahi haasil karte hain aur pehli shariat ko aage badhate hain, jabke Rasool nayi aasmani kitab aur nayi shariat ke saath bheje jaate hain.
+- Punchline: Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota.
+Script: "Ye hai Nabi aur ye hai Rasool, aakhir isme farq kya hai? Aksar log samajhte hain ke dono ek hi hain, lekin aisa nahi hai. Nabi Allah ki taraf se wahi haasil karte hain aur pehli shariat ko aage badhate hain, jabke Rasool nayi aasmani kitab aur nayi shariat ke saath bheje jaate hain. Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota. Mazeed videos ke liye follow karein."
+
+Example 2 (DEEPDIVE):
+Input Topic: Hajj vs Umrah
+Script: "Ye hai Hajj aur ye hai Umrah, aakhir isme farq kya hai? Ek saal mein sirf ek baar Zil-Hajj ke makhsoos dino mein hota hai, jabke doosra saal bhar kabhi bhi kiya ja sakta hai. Hajj Islam ka ek farz rukn hai jo har sahib-e-ista'at par zindagi mein ek baar farz hai, jabke Umrah ek nafli ibadat hai. Mazeed videos ke liye follow karein."
+
+Example 3 (COMPILATION - 75-95 words, 3 pairs):
+Script: "Ye hai Zakat aur ye hai Sadaqah, aakhir isme farq kya hai? Zakat saal mein ek baar farz hai, jabke Sadaqah aam nafli khairat hai. Ye hai Fard aur ye hai Sunnah, aakhir isme farq kya hai? Fard Allah ka lazmi hukum hai, jabke Sunnah Nabi Kareem SAW ka mubarak tareeqa. Ye hai Tawbah aur ye hai Istighfar, aakhir isme farq kya hai? Istighfar zuban ki pukaar hai, jabke Tawbah dil ki mukammal waapsi. Mazeed videos ke liye follow karein."
+
+### CURRENT TASK INSTRUCTIONS
+Generate exactly {count} fresh, non-duplicate Islamic X vs Y scripts for Farq Kya.
+Target breakdown: {target_deepdives} DEEPDIVE scripts, {target_compilations} COMPILATION scripts.
+
+DO NOT REPEAT THESE PUBLISHED CONCEPTS:
 {excluded_str}
 
-Playbook Instructions for Farq Kya (Roman Urdu):
-1. DEEPDIVE Mode (60-85 words total in Roman Urdu):
-   - Mandatory Hook (Line 1): "Ye hai [X] aur ye hai [Y], aakhir isme farq kya hai?"
-   - Misconception shatter: "Aksar log samajhte hain ke... Lekin aisa nahi hai."
-   - Contrast mechanism, end with punchline rule: "Isliye [X] [action], jabke [Y] [result]."
-   - Outro: "Mazeed videos ke liye follow karein."
-
-2. COMPILATION Mode (75-95 words total, 3 pairs):
-   - 3 pairs, repeating hook: "Ye hai [A] aur ye hai [B], aakhir isme farq kya hai? [A] [contrast A], jabke [B] [contrast B]."
-   - Outro: "Mazeed videos ke liye follow karein."
-
-OUTPUT JSON SCHEMA ONLY:
-Return strictly valid JSON with no markdown block wrappers around the JSON:
+### OUTPUT JSON SCHEMA (STRICT JSON ONLY, NO MARKDOWN WRAPPERS):
 {{
   "topics": [
     {{
@@ -240,7 +278,19 @@ Return strictly valid JSON with no markdown block wrappers around the JSON:
       "type": "deepdive",
       "fandom": "Islamic",
       "pairs": [["Nabi", "Rasool"]],
-      "script": "Ye hai Nabi aur ye hai Rasool, aakhir isme farq kya hai? Aksar log samajhte hain ke dono ek hi hain, lekin aisa nahi hai. Nabi Allah ki taraf se wahi haasil karte hain, jabke Rasool nayi shariat aur kitab ke saath bheje jaate hain. Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota. Mazeed videos ke liye follow karein."
+      "entity_a": "Nabi",
+      "entity_b": "Rasool",
+      "misconception_shatter": "Aksar log samajhte hain ke dono ek hi hain, lekin aisa nahi hai.",
+      "punchline": "Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota.",
+      "script": "Ye hai Nabi aur ye hai Rasool, aakhir isme farq kya hai? Aksar log samajhte hain ke dono ek hi hain, lekin aisa nahi hai. Nabi Allah ki taraf se wahi haasil karte hain, jabke Rasool nayi shariat aur kitab ke saath bheje jaate hain. Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota. Mazeed videos ke liye follow karein.",
+      "seo_metadata": {{
+        "seo_title": "Nabi vs Rasool: Farq Kya Hai? (60-70 chars SEO Title)",
+        "ab_title": "Har Rasool Nabi Hota Hai Lekin Har Nabi Rasool Kyun Nahi?",
+        "thumbnail_text": "Nabi Vs Rasool Farq!",
+        "hashtags": ["#Shorts", "#FarqKya", "#IslamicKnowledge", "#NabiVsRasool"],
+        "description": "Nabi aur Rasool mein kya farq hai? Is short video mein janiye Islamic history aur Quran-o-Sunnah ki roshni mein in dono azeem darjat ka bunyadi farq.",
+        "pinned_comment": "Kya aapko Nabi aur Rasool ke is bunyadi farq ka pehle se pata tha? Comments mein batayein!"
+      }}
     }}
   ]
 }}"""
@@ -262,10 +312,31 @@ Return strictly valid JSON with no markdown block wrappers around the JSON:
                 content_text = res_data["candidates"][0]["content"]["parts"][0]["text"]
                 parsed = json.loads(content_text)
                 return parsed.get("topics", [])
-        except Exception:
-            pass
+            else:
+                from colorama import Fore, Style
+                print(Fore.YELLOW + f"⚠️ Gemini API returned status {r.status_code}. Falling back to offline concept catalog." + Style.RESET_ALL)
+                print(Fore.YELLOW + "   To generate infinite AI scripts, ensure GEMINI_API_KEY in .env is a valid Google AI Studio key (starts with AIzaSy...)." + Style.RESET_ALL)
+        except Exception as e:
+            from colorama import Fore, Style
+            print(Fore.YELLOW + f"⚠️ Gemini LLM call error: {e}. Falling back to offline concept catalog." + Style.RESET_ALL)
 
         return []
+
+    def _generate_default_seo_package(self, title: str, pairs: List[List[str]], script_text: str) -> Dict[str, Any]:
+        """Generates a default YouTube Shorts SEO package if LLM did not provide one."""
+        p_str = f"{pairs[0][0]} vs {pairs[0][1]}" if pairs and len(pairs[0]) >= 2 else title
+        seo_title = f"{p_str}: Farq Kya Hai? | Islamic Shorts"
+        if len(seo_title) > 70:
+            seo_title = seo_title[:67] + "..."
+
+        return {
+            "seo_title": seo_title,
+            "ab_title": f"Aakhir {p_str} Mein Kya Farq Hai?",
+            "thumbnail_text": f"{p_str} Farq!",
+            "hashtags": ["#Shorts", "#FarqKya", "#IslamicKnowledge"],
+            "description": f"Aakhir {p_str} mein kya farq hai? Janiye is short video mein 30 seconds mein.",
+            "pinned_comment": f"Kya aapko {p_str} ke is farq ka pehle se ilam tha? Comments mein zaroor batayein!"
+        }
 
     def _build_labels(self, pairs: List[List[str]], mode: str) -> Dict[str, Any]:
         """Formats labels structure required by CapCut builder if exported to batch."""

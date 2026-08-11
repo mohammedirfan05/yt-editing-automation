@@ -2,6 +2,7 @@
   "id": "opp_dc_02",
   "title": "Speed Force vs Artificial Speed: Flash vs Reverse Flash",
   "type": "deepdive",
+  "channel": "dontmixthis",
   "status": "idea",
   "fandom": "DC",
   "pairs": [
@@ -15,11 +16,24 @@
   "estimated_duration_sec": 31.11,
   "speech_pacing_wps": 2.7,
   "playbook_compliant": true,
+  "unslop_sanitized": true,
   "validation_issues": [],
   "labels": {
     "label1": "Positive Speed Force",
     "label2": "Negative Speed Force"
   },
-  "created_at": "2026-08-09T08:08:26.975296",
-  "updated_at": "2026-08-09T08:08:26.975296"
+  "seo_metadata": {
+    "seo_title": "Positive Speed Force vs Negative Speed Force: What's the Difference?",
+    "ab_title": "The Real Difference Between Positive Speed Force vs Negative Speed Force",
+    "thumbnail_text": "Positive Speed Force vs Negative Speed Force Difference!",
+    "hashtags": [
+      "#Shorts",
+      "#DontMixThis",
+      "#PopCulture"
+    ],
+    "description": "What's the real difference between Positive Speed Force vs Negative Speed Force? Watch this 30-second breakdown.",
+    "pinned_comment": "Which one do you prefer: Positive Speed Force or Negative Speed Force? Let us know!"
+  },
+  "created_at": "2026-08-11T10:59:52.333428",
+  "updated_at": "2026-08-11T10:59:52.333428"
 }

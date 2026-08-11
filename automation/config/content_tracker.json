@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated_at": "2026-08-10T23:01:29.209271",
+  "updated_at": "2026-08-11T11:04:48.392024",
   "topics": {
     "SS_Whsrltyw": {
       "id": "SS_Whsrltyw",
@@ -581,210 +581,6 @@
       "created_at": "2026-08-08T16:54:50.774525",
       "updated_at": "2026-08-08T16:54:50.774525"
     },
-    "gemini_dd_01": {
-      "id": "gemini_dd_01",
-      "title": "Jedi vs Sith The Force Divide",
-      "type": "deepdive",
-      "status": "rejected",
-      "fandom": "PopCulture",
-      "pairs": [
-        [
-          "Jedi",
-          ""
-        ],
-        [
-          "Sith",
-          ""
-        ]
-      ],
-      "script": "This is a Jedi. This is a Sith. So what's the difference? Most people think they're simply good versus evil. They're not. While both wield the Force, their philosophies diverge fundamentally. Jedi embrace the cosmic Force, seeking balance and selflessness through peace. Sith harness the living Force, driven by raw emotion, power, and personal gain. That's why a Jedi *defends the galaxy from tyranny*, while a Sith *seeks to rule it absolutely*. Follow for more.",
-      "word_count": 75,
-      "duration_sec": 30.0,
-      "playbook_compliant": true,
-      "notes": "Unuploaded fresh script in config/ideas.json | Rejected during user review",
-      "created_at": "2026-08-08T23:42:46.071166",
-      "updated_at": "2026-08-09T08:04:40.238478"
-    },
-    "gemini_dd_02": {
-      "id": "gemini_dd_02",
-      "title": "Wizard vs Istari Middleearths ",
-      "type": "deepdive",
-      "status": "idea",
-      "fandom": "PopCulture",
-      "pairs": [
-        [
-          "Wizard",
-          ""
-        ],
-        [
-          "Istari",
-          ""
-        ]
-      ],
-      "script": "This is a Wizard. This is an Istari. So what's the difference? Most people think they're interchangeable terms for magical beings. They're not. A 'Wizard' is a general term for magic-user in Middle-earth. An 'Istari' is a specific, powerful Maiar spirit sent by the Valar to aid mortals against Sauron, embodying a Wizard's form. That's why Gandalf *is an Istari*, while a random sorcerer *is just a wizard*. Follow for more.",
-      "word_count": 71,
-      "duration_sec": 30.0,
-      "playbook_compliant": true,
-      "notes": "Unuploaded fresh script in config/ideas.json",
-      "created_at": "2026-08-08T23:42:46.071166",
-      "updated_at": "2026-08-08T23:42:46.071166"
-    },
-    "gemini_dd_03": {
-      "id": "gemini_dd_03",
-      "title": "Genjutsu vs Ninjutsu Narutos J",
-      "type": "deepdive",
-      "status": "idea",
-      "fandom": "Anime",
-      "pairs": [
-        [
-          "Genjutsu",
-          ""
-        ],
-        [
-          "Ninjutsu",
-          ""
-        ]
-      ],
-      "script": "This is Genjutsu. This is Ninjutsu. So what's the difference? Most people think they're both just types of jutsu for fighting. They're not. Ninjutsu manipulates chakra to affect the physical world, like Rasengan or Chidori. Genjutsu, however, targets the opponent's senses and chakra flow to create illusions, affecting their mind. That's why Ninjutsu *can break bones*, while Genjutsu *can make you see things that aren't there*. Follow for more.",
-      "word_count": 69,
-      "duration_sec": 30.0,
-      "playbook_compliant": true,
-      "notes": "Unuploaded fresh script in config/ideas.json",
-      "created_at": "2026-08-08T23:42:46.071166",
-      "updated_at": "2026-08-08T23:42:46.071166"
-    },
-    "gemini_dd_04": {
-      "id": "gemini_dd_04",
-      "title": "Legendary vs Mythical Pokémon",
-      "type": "deepdive",
-      "status": "idea",
-      "fandom": "PopCulture",
-      "pairs": [
-        [
-          "Legendary Pokémon",
-          ""
-        ],
-        [
-          "Mythical Pokémon",
-          ""
-        ]
-      ],
-      "script": "This is a Legendary Pokémon. This is a Mythical Pokémon. So what's the difference? Most people think they're the same rare, powerful Pokémon. They're not. Legendary Pokémon are typically caught in-game, often central to the main story. Mythical Pokémon are even rarer, usually distributed through real-world events or special promotions, often having unique lore. That's why you *can catch Rayquaza in Emerald*, while you *needed an event for Mew*. Follow for more.",
-      "word_count": 72,
-      "duration_sec": 30.0,
-      "playbook_compliant": true,
-      "notes": "Unuploaded fresh script in config/ideas.json",
-      "created_at": "2026-08-08T23:42:46.071166",
-      "updated_at": "2026-08-08T23:42:46.071166"
-    },
-    "gemini_dd_05": {
-      "id": "gemini_dd_05",
-      "title": "Metahuman vs Mutant DC and Mar",
-      "type": "deepdive",
-      "status": "idea",
-      "fandom": "Marvel",
-      "pairs": [
-        [
-          "Metahuman",
-          ""
-        ],
-        [
-          "Mutant",
-          ""
-        ]
-      ],
-      "script": "This is a Metahuman. This is a Mutant. So what's the difference? Most people think these terms describe the same type of superpowered individual. They're not. In DC, Metahumans gain powers through external factors like genetic anomalies, alien exposure, or scientific experimentation. In Marvel, Mutants are born with the X-gene, developing powers naturally at puberty. That's why Flash *became a Metahuman from the S.T.A.R. Labs explosion*, while Wolverine *was born a Mutant*. Follow for more.",
-      "word_count": 75,
-      "duration_sec": 30.0,
-      "playbook_compliant": true,
-      "notes": "Unuploaded fresh script in config/ideas.json",
-      "created_at": "2026-08-08T23:42:46.071166",
-      "updated_at": "2026-08-08T23:42:46.071166"
-    },
-    "gemini_comp_01": {
-      "id": "gemini_comp_01",
-      "title": "Marvel MixUp Avengers Inhumans",
-      "type": "compilation",
-      "status": "idea",
-      "fandom": "Marvel",
-      "pairs": [
-        [
-          "Avenger",
-          "Defender"
-        ],
-        [
-          "Inhuman",
-          "Kree"
-        ],
-        [
-          "Asgardian",
-          "Jotun"
-        ]
-      ],
-      "script": "This is an Avenger. This is a Defender. So what's the difference? Avengers are Earth's mightiest heroes, often government-backed, tackling global threats. Defenders are street-level heroes, dealing with local issues. This is an Inhuman. This is a Kree. So what's the difference? Inhumans are humans genetically altered by Kree experimentation. Kree are an alien race, often the manipulators. This is an Asgardian. This is a Jotun. So what's the difference? Asgardians are powerful beings from Asgard. Jotuns are Frost Giants, their ancient enemies. Follow for more.",
-      "word_count": 86,
-      "duration_sec": 30.0,
-      "playbook_compliant": true,
-      "notes": "Unuploaded fresh script in config/ideas.json",
-      "created_at": "2026-08-08T23:42:46.071166",
-      "updated_at": "2026-08-08T23:42:46.071166"
-    },
-    "gemini_comp_02": {
-      "id": "gemini_comp_02",
-      "title": "Star Wars Troopers Sabers  Gov",
-      "type": "compilation",
-      "status": "idea",
-      "fandom": "PopCulture",
-      "pairs": [
-        [
-          "Clone Trooper",
-          "Stormtrooper"
-        ],
-        [
-          "Lightsaber",
-          "Darksaber"
-        ],
-        [
-          "Republic",
-          "Empire"
-        ]
-      ],
-      "script": "This is a Clone Trooper. This is a Stormtrooper. So what's the difference? Clone Troopers are genetically identical soldiers for the Republic. Stormtroopers are conscripted or recruited soldiers for the Empire. This is a Lightsaber. This is a Darksaber. So what's the difference? A Lightsaber is a plasma blade used by Force-sensitives. A Darksaber is a unique, black-bladed lightsaber, an ancient Mandalorian relic. This is the Republic. This is the Empire. So what's the difference? The Republic was a democratic government. The Empire was a tyrannical regime. Follow for more.",
-      "word_count": 90,
-      "duration_sec": 30.0,
-      "playbook_compliant": true,
-      "notes": "Unuploaded fresh script in config/ideas.json",
-      "created_at": "2026-08-08T23:42:46.072168",
-      "updated_at": "2026-08-08T23:42:46.072168"
-    },
-    "gemini_comp_03": {
-      "id": "gemini_comp_03",
-      "title": "Harry Potter Magic Jobs  Trave",
-      "type": "compilation",
-      "status": "idea",
-      "fandom": "PopCulture",
-      "pairs": [
-        [
-          "Animagus",
-          "Werewolf"
-        ],
-        [
-          "Auror",
-          "Hit-Wizard"
-        ],
-        [
-          "Apparition",
-          "Portkey"
-        ]
-      ],
-      "script": "This is an Animagus. This is a Werewolf. So what's the difference? An Animagus is a wizard who can voluntarily transform into an animal. A Werewolf is a human cursed to involuntarily transform under the full moon. This is an Auror. This is a Hit-Wizard. So what's the difference? Aurors are dark wizard catchers for the Ministry. Hit-Wizards are international magical law enforcement. This is Apparition. This is a Portkey. So what's the difference? Apparition is instant self-teleportation. A Portkey is an enchanted object for group travel. Follow for more.",
-      "word_count": 90,
-      "duration_sec": 30.0,
-      "playbook_compliant": true,
-      "notes": "Unuploaded fresh script in config/ideas.json",
-      "created_at": "2026-08-08T23:42:46.072168",
-      "updated_at": "2026-08-08T23:42:46.072168"
-    },
     "gemini_comp_04": {
       "id": "gemini_comp_04",
       "title": "Jujutsu Kaisen Sorcerers Curse",
@@ -812,6 +608,475 @@
       "notes": "Unuploaded fresh script in config/ideas.json | Published on YouTube",
       "created_at": "2026-08-08T23:42:46.072168",
       "updated_at": "2026-08-08T23:42:46.074167"
+    },
+    "opp_marvel_01": {
+      "id": "opp_marvel_01",
+      "title": "Uru vs Vibranium: Which Metal Is Stronger?",
+      "type": "deepdive",
+      "status": "approved",
+      "fandom": "Marvel",
+      "pairs": [
+        [
+          "Uru",
+          "Vibranium"
+        ]
+      ],
+      "script": "This is Uru Metal. This is Vibranium. So what's the difference? Most people think Vibranium is Marvel's strongest metal. It's not. Uru Metal Uru is a mystical forged metal from Asgard that absorbs magic and spell enchantments, growing stronger the more energy is poured into it. But Vibranium is a rare cosmic metal that absorbs kinetic physical force and vibrations, converting impacts into stored kinetic energy. Vibranium stops physical attacks, while Uru absorbs mystical power. Follow for more.",
+      "word_count": 78,
+      "estimated_duration_sec": 28.89,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Uru",
+        "label2": "Vibranium"
+      },
+      "created_at": "2026-08-09T08:05:41.629766",
+      "updated_at": "2026-08-09T08:08:18.544636",
+      "notes": "Manually approved by user"
+    },
+    "opp_marvel_02": {
+      "id": "opp_marvel_02",
+      "title": "Wolverine vs Deadpool: Healing Factor Diff",
+      "type": "deepdive",
+      "status": "approved",
+      "fandom": "Marvel",
+      "pairs": [
+        [
+          "Wolverine",
+          "Deadpool"
+        ]
+      ],
+      "script": "This is Wolverine. This is Deadpool. So what's the difference? Most people think Wolverine and Deadpool have the exact same healing factor. They don't. Wolverine's natural mutant healing factor constantly fights off his heavy Adamantium skeletal poisoning while repairing cellular damage. But Deadpool's artificial healing factor was cloned from Wolverine but mutated by his aggressive cancer, regenerating cells so fast his body constantly replaces itself. Wolverine heals to survive his own bones, while Deadpool heals to stay alive. Follow for more.",
+      "word_count": 81,
+      "estimated_duration_sec": 30.0,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Wolverine",
+        "label2": "Deadpool"
+      },
+      "created_at": "2026-08-09T08:05:41.630777",
+      "updated_at": "2026-08-09T08:08:20.505530",
+      "notes": "Manually approved by user"
+    },
+    "opp_marvel_03": {
+      "id": "opp_marvel_03",
+      "title": "Infinity Stones vs Darkhold: Dark Magic",
+      "type": "deepdive",
+      "status": "approved",
+      "fandom": "Marvel",
+      "pairs": [
+        [
+          "Infinity Stones",
+          "Darkhold"
+        ]
+      ],
+      "script": "This is The Infinity Stones. This is The Darkhold. So what's the difference? Most fans think the Infinity Stones are the ultimate power in Marvel. That's wrong. The Infinity Stones control the fundamental forces of physical reality, space, time, and mind in a single universe. But The Darkhold is a corrupting book of dark magic that corrupts the user's soul and allows dreamwalking across the multiverse. The Infinity Stones rule physical reality, while the Darkhold corrupts the mind. Follow for more.",
+      "word_count": 81,
+      "estimated_duration_sec": 30.0,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Infinity Stones",
+        "label2": "Darkhold"
+      },
+      "created_at": "2026-08-09T08:05:41.631777",
+      "updated_at": "2026-08-09T08:08:22.613981",
+      "notes": "Manually approved by user"
+    },
+    "farq_islamic_02": {
+      "id": "farq_islamic_02",
+      "title": "Hajj vs Umrah: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "approved",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Hajj",
+          "Umrah"
+        ]
+      ],
+      "script": "Ye hai Hajj aur ye hai Umrah, aakhir isme farq kya hai? Aksar log Hajj aur Umrah ko ek jaisa ziarat samajhte hain, lekin inme bada farq hai. Hajj Islam ka farz rukn hai jo saal mein sirf Zil-Hajj ke khass dino mein ada kiya jata hai. Lekin Umrah Nafli ibadat hai jise saal mein kisi bhi waqt ada kiya ja sakta hai. Hajj mahsoos dino ka farz ibadat hai, jabke Umrah saal bhar mein kabhi bhi kiya jata hai. Mazeed videos ke liye follow karein.",
+      "word_count": 87,
+      "estimated_duration_sec": 32.22,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 87 words is outside ideal range (60-85)."
+      ],
+      "labels": {
+        "label1": "Hajj",
+        "label2": "Umrah"
+      },
+      "created_at": "2026-08-09T16:02:13.512481",
+      "updated_at": "2026-08-09T16:03:16.716238",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_02.json",
+      "notes": "Manually approved by user"
+    },
+    "farq_islamic_04": {
+      "id": "farq_islamic_04",
+      "title": "Zakat vs Sadaqah: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "approved",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Zakat",
+          "Sadaqah"
+        ]
+      ],
+      "script": "Ye hai Zakat aur ye hai Sadaqah, aakhir isme farq kya hai? Aksar log Zakat aur Sadaqah ko ek hi tarah ka khairat samajhte hain, lekin aisa nahi hai. Zakat Maaldar Musalman par saal mein ek baar nisab par 2.5% farz hai. Lekin Sadaqah Kkisi bhi waqt apni marzi se di jaane wali nafli khairat hai. Zakat farz haq hai, jabke Sadaqah dil ki khushi se diya jata hai. Mazeed videos ke liye follow karein.",
+      "word_count": 76,
+      "estimated_duration_sec": 28.15,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Zakat",
+        "label2": "Sadaqah"
+      },
+      "created_at": "2026-08-09T21:40:05.834394",
+      "updated_at": "2026-08-10T10:10:10.745088",
+      "notes": "Manually approved by user"
+    },
+    "farq_islamic_06": {
+      "id": "farq_islamic_06",
+      "title": "Shirk vs Bidah: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "approved",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Shirk",
+          "Bidah"
+        ]
+      ],
+      "script": "Ye hai Shirk aur ye hai Bidah, aakhir isme farq kya hai? Aksar log Shirk aur Bidah ko ek hi burai samajhte hain, lekin inme bada farq hai. Shirk Allah ke saath kisi ko shareek karna hai, yani ibadat mein ghair Allah ko shamil karna. Lekin Bidah Deen mein aisi nai cheez daalna hai jiske liye koi saboot na ho, chahe niyat achi bhi ho. Shirk tawheed ko tod deta hai, jabke Bidah sunnat ke khilaf naya tariqa hai. Mazeed videos ke liye follow karein.",
+      "word_count": 85,
+      "estimated_duration_sec": 31.48,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Shirk",
+        "label2": "Bidah"
+      },
+      "created_at": "2026-08-09T22:47:12.594654",
+      "updated_at": "2026-08-09T22:48:22.007506",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_06.json",
+      "notes": "Manually approved by user"
+    },
+    "farq_fk_opt_22": {
+      "id": "farq_fk_opt_22",
+      "title": "Farz-e-Ain vs Farz-e-Kifayah: Farq Kya Hai?",
+      "type": "deepdive",
+      "channel": "farqkya",
+      "status": "approved",
+      "fandom": "Islamic",
+      "pairs": [
+        [
+          "Farz-e-Ain",
+          "Farz-e-Kifayah"
+        ]
+      ],
+      "script": "Ye hai Farz-e-Ain aur ye hai Farz-e-Kifayah, aakhir isme farq kya hai? Ek har musalman par shakhsi farz hai... Jabke doosra chand logon ke karne se ada ho jata hai! Farz-e-Ain har ek musalman par alag se lazmi hai jaise paanch waqt ki salah. Lekin Farz-e-Kifayah ijtima'i zimmedari hai jaise Namaz-e-Janazah jo chand log ada karein to sabki taraf se ada ho jati hai. Farz-e-Ain shakhsi zimmedari hai, jabke Farz-e-Kifayah ijtimai. Mazeed videos ke liye follow karein.",
+      "word_count": 91,
+      "estimated_duration_sec": 33.7,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [
+        "[Word Count] 91 words is outside ideal range (60-85).",
+        "[Misconception] Script missing explicit misconception shatter in Roman Urdu."
+      ],
+      "labels": {
+        "label1": "Farz-e-Ain",
+        "label2": "Farz-e-Kifayah"
+      },
+      "seo_metadata": {
+        "seo_title": "Farz-e-Ain vs Farz-e-Kifayah: Farq Kya Hai? | Islamic Shorts",
+        "ab_title": "Aakhir Farz-e-Ain vs Farz-e-Kifayah Mein Kya Farq Hai?",
+        "thumbnail_text": "Farz-e-Ain vs Farz-e-Kifayah Farq!",
+        "hashtags": [
+          "#Shorts",
+          "#FarqKya",
+          "#IslamicKnowledge"
+        ],
+        "description": "Aakhir Farz-e-Ain vs Farz-e-Kifayah mein kya farq hai? Janiye is short video mein 30 seconds mein.",
+        "pinned_comment": "Kya aapko Farz-e-Ain vs Farz-e-Kifayah ke is farq ka pehle se ilam tha? Comments mein zaroor batayein!"
+      },
+      "created_at": "2026-08-10T23:15:21.101404",
+      "updated_at": "2026-08-11T10:11:21.082578",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_22.json",
+      "notes": "Manually approved by user"
+    },
+    "gemini_comp_01": {
+      "id": "gemini_comp_01",
+      "title": "Marvel Mix-Up: Avengers, Inhumans & Asgardians",
+      "type": "compilation",
+      "status": "idea",
+      "fandom": "Marvel",
+      "pairs": [
+        [
+          "Avenger",
+          "Defender"
+        ],
+        [
+          "Inhuman",
+          "Kree"
+        ],
+        [
+          "Asgardian",
+          "Jotun"
+        ]
+      ],
+      "script": "This is an Avenger. This is a Defender. So what's the difference? Avengers are Earth's mightiest heroes, often government-backed, tackling global threats. Defenders are street-level heroes, dealing with local issues. This is an Inhuman. This is a Kree. So what's the difference? Inhumans are humans genetically altered by Kree experimentation. Kree are an alien race, often the manipulators. This is an Asgardian. This is a Jotun. So what's the difference? Asgardians are powerful beings from Asgard. Jotuns are Frost Giants, their ancient enemies. Follow for more.",
+      "word_count": 88,
+      "estimated_duration_sec": 32.59,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 88 words is outside ideal range (90-95)."
+      ],
+      "labels": {
+        "pair1": [
+          "Avenger",
+          "Defender"
+        ],
+        "pair2": [
+          "Inhuman",
+          "Kree"
+        ],
+        "pair3": [
+          "Asgardian",
+          "Jotun"
+        ]
+      },
+      "created_at": "2026-08-08T17:07:46.187412",
+      "updated_at": "2026-08-08T17:07:46.187412"
+    },
+    "gemini_comp_02": {
+      "id": "gemini_comp_02",
+      "title": "Star Wars: Troopers, Sabers & Governments",
+      "type": "compilation",
+      "status": "idea",
+      "fandom": "Star Wars",
+      "pairs": [
+        [
+          "Clone Trooper",
+          "Stormtrooper"
+        ],
+        [
+          "Lightsaber",
+          "Darksaber"
+        ],
+        [
+          "Republic",
+          "Empire"
+        ]
+      ],
+      "script": "This is a Clone Trooper. This is a Stormtrooper. So what's the difference? Clone Troopers are genetically identical soldiers for the Republic. Stormtroopers are conscripted or recruited soldiers for the Empire. This is a Lightsaber. This is a Darksaber. So what's the difference? A Lightsaber is a plasma blade used by Force-sensitives. A Darksaber is a unique, black-bladed lightsaber, an ancient Mandalorian relic. This is the Republic. This is the Empire. So what's the difference? The Republic was a democratic government. The Empire was a tyrannical regime. Follow for more.",
+      "word_count": 92,
+      "estimated_duration_sec": 34.07,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "pair1": [
+          "Clone Trooper",
+          "Stormtrooper"
+        ],
+        "pair2": [
+          "Lightsaber",
+          "Darksaber"
+        ],
+        "pair3": [
+          "Republic",
+          "Empire"
+        ]
+      },
+      "created_at": "2026-08-08T17:07:46.189412",
+      "updated_at": "2026-08-08T17:07:46.189412"
+    },
+    "gemini_comp_03": {
+      "id": "gemini_comp_03",
+      "title": "Harry Potter: Magic, Jobs & Travel",
+      "type": "compilation",
+      "status": "idea",
+      "fandom": "Harry Potter",
+      "pairs": [
+        [
+          "Animagus",
+          "Werewolf"
+        ],
+        [
+          "Auror",
+          "Hit-Wizard"
+        ],
+        [
+          "Apparition",
+          "Portkey"
+        ]
+      ],
+      "script": "This is an Animagus. This is a Werewolf. So what's the difference? An Animagus is a wizard who can voluntarily transform into an animal. A Werewolf is a human cursed to involuntarily transform under the full moon. This is an Auror. This is a Hit-Wizard. So what's the difference? Aurors are dark wizard catchers for the Ministry. Hit-Wizards are international magical law enforcement. This is Apparition. This is a Portkey. So what's the difference? Apparition is instant self-teleportation. A Portkey is an enchanted object for group travel. Follow for more.",
+      "word_count": 93,
+      "estimated_duration_sec": 34.44,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "pair1": [
+          "Animagus",
+          "Werewolf"
+        ],
+        "pair2": [
+          "Auror",
+          "Hit-Wizard"
+        ],
+        "pair3": [
+          "Apparition",
+          "Portkey"
+        ]
+      },
+      "created_at": "2026-08-08T17:07:46.191605",
+      "updated_at": "2026-08-08T17:07:46.191605"
+    },
+    "gemini_dd_01": {
+      "id": "gemini_dd_01",
+      "title": "Jedi vs Sith: The Force Divide",
+      "type": "deepdive",
+      "status": "idea",
+      "fandom": "Star Wars",
+      "pairs": [
+        [
+          "Jedi",
+          "Sith"
+        ]
+      ],
+      "script": "This is a Jedi. This is a Sith. So what's the difference? Most people think they're simply good versus evil. They're not. While both wield the Force, their philosophies diverge fundamentally. Jedi embrace the cosmic Force, seeking balance and selflessness through peace. Sith harness the living Force, driven by raw emotion, power, and personal gain. That's why a Jedi *defends the galaxy from tyranny*, while a Sith *seeks to rule it absolutely*. Follow for more.",
+      "word_count": 75,
+      "estimated_duration_sec": 27.78,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Jedi",
+        "label2": "Sith"
+      },
+      "created_at": "2026-08-08T17:07:46.171343",
+      "updated_at": "2026-08-08T17:07:46.171343"
+    },
+    "gemini_dd_02": {
+      "id": "gemini_dd_02",
+      "title": "Wizard vs Istari: Middle-earth's Magic Users",
+      "type": "deepdive",
+      "status": "idea",
+      "fandom": "Lord of the Rings",
+      "pairs": [
+        [
+          "Wizard",
+          "Istari"
+        ]
+      ],
+      "script": "This is a Wizard. This is an Istari. So what's the difference? Most people think they're interchangeable terms for magical beings. They're not. A 'Wizard' is a general term for magic-user in Middle-earth. An 'Istari' is a specific, powerful Maiar spirit sent by the Valar to aid mortals against Sauron, embodying a Wizard's form. That's why Gandalf *is an Istari*, while a random sorcerer *is just a wizard*. Follow for more.",
+      "word_count": 73,
+      "estimated_duration_sec": 27.04,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 73 words is outside ideal range (75-85)."
+      ],
+      "labels": {
+        "label1": "Wizard",
+        "label2": "Istari"
+      },
+      "created_at": "2026-08-08T17:07:46.174341",
+      "updated_at": "2026-08-08T17:07:46.174341"
+    },
+    "gemini_dd_03": {
+      "id": "gemini_dd_03",
+      "title": "Genjutsu vs Ninjutsu: Naruto's Jutsu Explained",
+      "type": "deepdive",
+      "status": "idea",
+      "fandom": "Naruto",
+      "pairs": [
+        [
+          "Genjutsu",
+          "Ninjutsu"
+        ]
+      ],
+      "script": "This is Genjutsu. This is Ninjutsu. So what's the difference? Most people think they're both just types of jutsu for fighting. They're not. Ninjutsu manipulates chakra to affect the physical world, like Rasengan or Chidori. Genjutsu, however, targets the opponent's senses and chakra flow to create illusions, affecting their mind. That's why Ninjutsu *can break bones*, while Genjutsu *can make you see things that aren't there*. Follow for more.",
+      "word_count": 69,
+      "estimated_duration_sec": 25.56,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 69 words is outside ideal range (75-85)."
+      ],
+      "labels": {
+        "label1": "Genjutsu",
+        "label2": "Ninjutsu"
+      },
+      "created_at": "2026-08-08T17:07:46.175858",
+      "updated_at": "2026-08-08T17:07:46.175858"
+    },
+    "gemini_dd_04": {
+      "id": "gemini_dd_04",
+      "title": "Legendary vs Mythical Pokémon",
+      "type": "deepdive",
+      "status": "idea",
+      "fandom": "Pokémon",
+      "pairs": [
+        [
+          "Legendary Pokémon",
+          "Mythical Pokémon"
+        ]
+      ],
+      "script": "This is a Legendary Pokémon. This is a Mythical Pokémon. So what's the difference? Most people think they're the same rare, powerful Pokémon. They're not. Legendary Pokémon are typically caught in-game, often central to the main story. Mythical Pokémon are even rarer, usually distributed through real-world events or special promotions, often having unique lore. That's why you *can catch Rayquaza in Emerald*, while you *needed an event for Mew*. Follow for more.",
+      "word_count": 74,
+      "estimated_duration_sec": 27.41,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [
+        "[Word Count] 74 words is outside ideal range (75-85)."
+      ],
+      "labels": {
+        "label1": "Legendary Pokémon",
+        "label2": "Mythical Pokémon"
+      },
+      "created_at": "2026-08-08T17:07:46.180887",
+      "updated_at": "2026-08-08T17:07:46.180887"
+    },
+    "gemini_dd_05": {
+      "id": "gemini_dd_05",
+      "title": "Metahuman vs Mutant: DC and Marvel Powers",
+      "type": "deepdive",
+      "status": "idea",
+      "fandom": "DC/Marvel",
+      "pairs": [
+        [
+          "Metahuman",
+          "Mutant"
+        ]
+      ],
+      "script": "This is a Metahuman. This is a Mutant. So what's the difference? Most people think these terms describe the same type of superpowered individual. They're not. In DC, Metahumans gain powers through external factors like genetic anomalies, alien exposure, or scientific experimentation. In Marvel, Mutants are born with the X-gene, developing powers naturally at puberty. That's why Flash *became a Metahuman from the S.T.A.R. Labs explosion*, while Wolverine *was born a Mutant*. Follow for more.",
+      "word_count": 79,
+      "estimated_duration_sec": 29.26,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Metahuman",
+        "label2": "Mutant"
+      },
+      "created_at": "2026-08-08T17:07:46.183889",
+      "updated_at": "2026-08-08T17:07:46.183889"
     },
     "opp_comp_02": {
       "id": "opp_comp_02",
@@ -1063,84 +1328,6 @@
       "created_at": "2026-08-08T17:00:59.687821",
       "updated_at": "2026-08-08T17:00:59.687821"
     },
-    "opp_marvel_01": {
-      "id": "opp_marvel_01",
-      "title": "Uru vs Vibranium: Which Metal Is Stronger?",
-      "type": "deepdive",
-      "status": "approved",
-      "fandom": "Marvel",
-      "pairs": [
-        [
-          "Uru",
-          "Vibranium"
-        ]
-      ],
-      "script": "This is Uru Metal. This is Vibranium. So what's the difference? Most people think Vibranium is Marvel's strongest metal. It's not. Uru Metal Uru is a mystical forged metal from Asgard that absorbs magic and spell enchantments, growing stronger the more energy is poured into it. But Vibranium is a rare cosmic metal that absorbs kinetic physical force and vibrations, converting impacts into stored kinetic energy. Vibranium stops physical attacks, while Uru absorbs mystical power. Follow for more.",
-      "word_count": 78,
-      "estimated_duration_sec": 28.89,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Uru",
-        "label2": "Vibranium"
-      },
-      "created_at": "2026-08-09T08:05:41.629766",
-      "updated_at": "2026-08-09T08:08:18.544636",
-      "notes": "Manually approved by user"
-    },
-    "opp_marvel_02": {
-      "id": "opp_marvel_02",
-      "title": "Wolverine vs Deadpool: Healing Factor Diff",
-      "type": "deepdive",
-      "status": "approved",
-      "fandom": "Marvel",
-      "pairs": [
-        [
-          "Wolverine",
-          "Deadpool"
-        ]
-      ],
-      "script": "This is Wolverine. This is Deadpool. So what's the difference? Most people think Wolverine and Deadpool have the exact same healing factor. They don't. Wolverine's natural mutant healing factor constantly fights off his heavy Adamantium skeletal poisoning while repairing cellular damage. But Deadpool's artificial healing factor was cloned from Wolverine but mutated by his aggressive cancer, regenerating cells so fast his body constantly replaces itself. Wolverine heals to survive his own bones, while Deadpool heals to stay alive. Follow for more.",
-      "word_count": 81,
-      "estimated_duration_sec": 30.0,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Wolverine",
-        "label2": "Deadpool"
-      },
-      "created_at": "2026-08-09T08:05:41.630777",
-      "updated_at": "2026-08-09T08:08:20.505530",
-      "notes": "Manually approved by user"
-    },
-    "opp_marvel_03": {
-      "id": "opp_marvel_03",
-      "title": "Infinity Stones vs Darkhold: Dark Magic",
-      "type": "deepdive",
-      "status": "approved",
-      "fandom": "Marvel",
-      "pairs": [
-        [
-          "Infinity Stones",
-          "Darkhold"
-        ]
-      ],
-      "script": "This is The Infinity Stones. This is The Darkhold. So what's the difference? Most fans think the Infinity Stones are the ultimate power in Marvel. That's wrong. The Infinity Stones control the fundamental forces of physical reality, space, time, and mind in a single universe. But The Darkhold is a corrupting book of dark magic that corrupts the user's soul and allows dreamwalking across the multiverse. The Infinity Stones rule physical reality, while the Darkhold corrupts the mind. Follow for more.",
-      "word_count": 81,
-      "estimated_duration_sec": 30.0,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Infinity Stones",
-        "label2": "Darkhold"
-      },
-      "created_at": "2026-08-09T08:05:41.631777",
-      "updated_at": "2026-08-09T08:08:22.613981",
-      "notes": "Manually approved by user"
-    },
     "opp_marvel_04": {
       "id": "opp_marvel_04",
       "title": "Spider-Man vs Symbiote Spider-Man",
@@ -1172,6 +1359,7 @@
       "id": "opp_dc_02",
       "title": "Speed Force vs Artificial Speed: Flash vs Reverse Flash",
       "type": "deepdive",
+      "channel": "dontmixthis",
       "status": "idea",
       "fandom": "DC",
       "pairs": [
@@ -1185,13 +1373,26 @@
       "estimated_duration_sec": 31.11,
       "speech_pacing_wps": 2.7,
       "playbook_compliant": true,
+      "unslop_sanitized": true,
       "validation_issues": [],
       "labels": {
         "label1": "Positive Speed Force",
         "label2": "Negative Speed Force"
       },
-      "created_at": "2026-08-09T08:08:26.975296",
-      "updated_at": "2026-08-09T08:08:26.976296",
+      "seo_metadata": {
+        "seo_title": "Positive Speed Force vs Negative Speed Force: What's the Difference?",
+        "ab_title": "The Real Difference Between Positive Speed Force vs Negative Speed Force",
+        "thumbnail_text": "Positive Speed Force vs Negative Speed Force Difference!",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#PopCulture"
+        ],
+        "description": "What's the real difference between Positive Speed Force vs Negative Speed Force? Watch this 30-second breakdown.",
+        "pinned_comment": "Which one do you prefer: Positive Speed Force or Negative Speed Force? Let us know!"
+      },
+      "created_at": "2026-08-11T10:59:52.333428",
+      "updated_at": "2026-08-11T10:59:52.334405",
       "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_dc_02.json"
     },
     "opp_anime_01": {
@@ -1212,17 +1413,30 @@
       "estimated_duration_sec": 27.78,
       "speech_pacing_wps": 2.7,
       "playbook_compliant": true,
+      "unslop_sanitized": true,
       "validation_issues": [],
       "labels": {
         "label1": "Super Saiyan",
         "label2": "Super Saiyan God"
       },
-      "created_at": "2026-08-09T15:57:31.490874",
-      "updated_at": "2026-08-09T15:57:31.491875",
+      "seo_metadata": {
+        "seo_title": "Super Saiyan vs Super Saiyan God: What's the Difference?",
+        "ab_title": "The Real Difference Between Super Saiyan vs Super Saiyan God",
+        "thumbnail_text": "Super Saiyan vs Super Saiyan God Difference!",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#PopCulture"
+        ],
+        "description": "What's the real difference between Super Saiyan vs Super Saiyan God? Watch this 30-second breakdown.",
+        "pinned_comment": "Which one do you prefer: Super Saiyan or Super Saiyan God? Let us know!"
+      },
+      "created_at": "2026-08-11T10:59:52.593541",
+      "updated_at": "2026-08-11T10:59:52.595055",
       "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_anime_01.json"
     },
-    "farq_islamic_01": {
-      "id": "farq_islamic_01",
+    "farq_fk_opt_01": {
+      "id": "farq_fk_opt_01",
       "title": "Nabi vs Rasool: Farq Kya Hai?",
       "type": "deepdive",
       "channel": "farqkya",
@@ -1234,538 +1448,284 @@
           "Rasool"
         ]
       ],
-      "script": "Ye hai Nabi aur ye hai Rasool, aakhir isme farq kya hai? Aksar log samajhte hain ke Nabi aur Rasool ek hi hain, lekin aisa nahi hai. Nabi Allah Ta'ala ki taraf se wahi aur hidayat haasik karte hain pehli shariat ko aage badhane ke liye. Lekin Rasool Naye Aasmani Kitab aur naye shariat ke saath nayi ummat ki taraf bheje jaate hain. Har Rasool Nabi hota hai, lekin har Nabi Rasool nahi hota. Mazeed videos ke liye follow karein.",
-      "word_count": 80,
-      "estimated_duration_sec": 29.63,
+      "script": "Ye hai Nabi aur ye hai Rasool, aakhir isme farq kya hai? Har Rasool Nabi hota hai... Lekin har Nabi Rasool kyun nahi hota? Nabi pehli shariat ko aage badhate hain aur wahi haasil karte hain. Lekin Rasool nayi aasmani kitab aur nayi shariat ke saath aate hain. Har Rasool ke paas Nayi Shariat hoti hai, jabke Nabi pichli shariat ko aam karte hain. Mazeed videos ke liye follow karein.",
+      "word_count": 70,
+      "estimated_duration_sec": 25.93,
       "speech_pacing_wps": 2.7,
       "playbook_compliant": true,
-      "validation_issues": [],
+      "unslop_sanitized": true,
+      "validation_issues": [
+        "[Misconception] Script missing explicit misconception shatter in Roman Urdu."
+      ],
       "labels": {
         "label1": "Nabi",
         "label2": "Rasool"
       },
-      "created_at": "2026-08-09T15:57:34.183243",
-      "updated_at": "2026-08-09T15:57:34.184205",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_01.json"
+      "seo_metadata": {
+        "seo_title": "Nabi vs Rasool: Farq Kya Hai? | Islamic Shorts",
+        "ab_title": "Aakhir Nabi vs Rasool Mein Kya Farq Hai?",
+        "thumbnail_text": "Nabi vs Rasool Farq!",
+        "hashtags": [
+          "#Shorts",
+          "#FarqKya",
+          "#IslamicKnowledge"
+        ],
+        "description": "Aakhir Nabi vs Rasool mein kya farq hai? Janiye is short video mein 30 seconds mein.",
+        "pinned_comment": "Kya aapko Nabi vs Rasool ke is farq ka pehle se ilam tha? Comments mein zaroor batayein!"
+      },
+      "created_at": "2026-08-11T10:59:57.230512",
+      "updated_at": "2026-08-11T10:59:57.231498",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_01.json"
     },
-    "farq_islamic_02": {
-      "id": "farq_islamic_02",
-      "title": "Hajj vs Umrah: Farq Kya Hai?",
+    "opp_marvel_10": {
+      "id": "opp_marvel_10",
+      "title": "Necrosword vs All-Black: Marvel Lore",
       "type": "deepdive",
-      "channel": "farqkya",
-      "status": "approved",
-      "fandom": "Islamic",
+      "channel": "dontmixthis",
+      "status": "idea",
+      "fandom": "Marvel",
       "pairs": [
         [
-          "Hajj",
-          "Umrah"
+          "All-Black The Necrosword",
+          "Symbiotes"
         ]
       ],
-      "script": "Ye hai Hajj aur ye hai Umrah, aakhir isme farq kya hai? Aksar log Hajj aur Umrah ko ek jaisa ziarat samajhte hain, lekin inme bada farq hai. Hajj Islam ka farz rukn hai jo saal mein sirf Zil-Hajj ke khass dino mein ada kiya jata hai. Lekin Umrah Nafli ibadat hai jise saal mein kisi bhi waqt ada kiya ja sakta hai. Hajj mahsoos dino ka farz ibadat hai, jabke Umrah saal bhar mein kabhi bhi kiya jata hai. Mazeed videos ke liye follow karein.",
-      "word_count": 87,
-      "estimated_duration_sec": 32.22,
+      "script": "This is All-Black The Necrosword. This is Klyntar Symbiotes. So what's the difference? Most fans think Knull created symbiotes before weapons. They're wrong. All-Black The Necrosword All-Black was the very first primordial weapon forged by Knull from the shadow of a slain Celestial. But Klyntar symbiotes were created later as living offspring spawned from the Necrosword's dark divine mass. The Necrosword is the god-slaying father of all symbiotes. Follow for more.",
+      "word_count": 75,
+      "estimated_duration_sec": 27.78,
       "speech_pacing_wps": 2.7,
       "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "All-Black The Necrosword",
+        "label2": "Symbiotes"
+      },
+      "seo_metadata": {
+        "seo_title": "All-Black The Necrosword vs Symbiotes: What's the Difference?",
+        "ab_title": "The Real Difference Between All-Black The Necrosword vs Symbiotes",
+        "thumbnail_text": "All-Black The Necrosword vs Symbiotes Difference!",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#PopCulture"
+        ],
+        "description": "What's the real difference between All-Black The Necrosword vs Symbiotes? Watch this 30-second breakdown.",
+        "pinned_comment": "Which one do you prefer: All-Black The Necrosword or Symbiotes? Let us know!"
+      },
+      "created_at": "2026-08-11T11:00:22.658637",
+      "updated_at": "2026-08-11T11:00:22.659638",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_marvel_10.json"
+    },
+    "opp_dc_10": {
+      "id": "opp_dc_10",
+      "title": "Speed Force vs Negative Speed Force",
+      "type": "deepdive",
+      "channel": "dontmixthis",
+      "status": "idea",
+      "fandom": "DC",
+      "pairs": [
+        [
+          "Speed Force",
+          "Negative Speed Force"
+        ]
+      ],
+      "script": "This is The Speed Force. This is The Negative Speed Force. So what's the difference? Most people think Reverse Flash uses Barry's Speed Force. He doesn't. The Speed Force is an extra-dimensional kinetic field generated by Barry Allen running forward in time. But The Negative Speed Force was created by Eobard Thawne to decay and consume kinetic energy. The Speed Force generates motion, while the Negative Speed Force rots it away. Follow for more.",
+      "word_count": 75,
+      "estimated_duration_sec": 27.78,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
+      "validation_issues": [],
+      "labels": {
+        "label1": "Speed Force",
+        "label2": "Negative Speed Force"
+      },
+      "seo_metadata": {
+        "seo_title": "Speed Force vs Negative Speed Force: What's the Difference?",
+        "ab_title": "The Real Difference Between Speed Force vs Negative Speed Force",
+        "thumbnail_text": "Speed Force vs Negative Speed Force Difference!",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#PopCulture"
+        ],
+        "description": "What's the real difference between Speed Force vs Negative Speed Force? Watch this 30-second breakdown.",
+        "pinned_comment": "Which one do you prefer: Speed Force or Negative Speed Force? Let us know!"
+      },
+      "created_at": "2026-08-11T11:00:22.922864",
+      "updated_at": "2026-08-11T11:00:22.923813",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_dc_10.json"
+    },
+    "opp_anime_10": {
+      "id": "opp_anime_10",
+      "title": "Domain Expansion vs Simple Domain",
+      "type": "deepdive",
+      "channel": "dontmixthis",
+      "status": "idea",
+      "fandom": "Anime",
+      "pairs": [
+        [
+          "Domain Expansion",
+          "Simple Domain"
+        ]
+      ],
+      "script": "This is Domain Expansion. This is Simple Domain. So what's the difference? Most fans think Simple Domain is just a weak Domain Expansion. It's not. Domain Expansion manifests your innate cursed technique into a barrier guaranteeing a sure-hit attack. But Simple Domain is an anti-domain barrier technique that neutralizes the sure-hit effect of an enemy's domain. Domain Expansion forces a guaranteed hit, while Simple Domain cancels it out. Follow for more.",
+      "word_count": 74,
+      "estimated_duration_sec": 27.41,
+      "speech_pacing_wps": 2.7,
+      "playbook_compliant": true,
+      "unslop_sanitized": true,
       "validation_issues": [
-        "[Word Count] 87 words is outside ideal range (60-85)."
+        "[Word Count] 74 words is outside ideal range (75-85)."
       ],
       "labels": {
-        "label1": "Hajj",
-        "label2": "Umrah"
+        "label1": "Domain Expansion",
+        "label2": "Simple Domain"
       },
-      "created_at": "2026-08-09T16:02:13.512481",
-      "updated_at": "2026-08-09T16:03:16.716238",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_02.json",
-      "notes": "Manually approved by user"
+      "seo_metadata": {
+        "seo_title": "Domain Expansion vs Simple Domain: What's the Difference?",
+        "ab_title": "The Real Difference Between Domain Expansion vs Simple Domain",
+        "thumbnail_text": "Domain Expansion vs Simple Domain Difference!",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#PopCulture"
+        ],
+        "description": "What's the real difference between Domain Expansion vs Simple Domain? Watch this 30-second breakdown.",
+        "pinned_comment": "Which one do you prefer: Domain Expansion or Simple Domain? Let us know!"
+      },
+      "created_at": "2026-08-11T11:02:19.718553",
+      "updated_at": "2026-08-11T11:02:19.719551",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_anime_10.json"
     },
-    "farq_islamic_03": {
-      "id": "farq_islamic_03",
-      "title": "Fard vs Sunnah: Farq Kya Hai?",
+    "opp_marvel_11": {
+      "id": "opp_marvel_11",
+      "title": "Thanos vs Darkseid: Marvel vs DC Gods",
       "type": "deepdive",
-      "channel": "farqkya",
+      "channel": "dontmixthis",
       "status": "idea",
-      "fandom": "Islamic",
+      "fandom": "Marvel",
       "pairs": [
         [
-          "Fard",
-          "Sunnah"
+          "Thanos",
+          "Darkseid"
         ]
       ],
-      "script": "Ye hai Fard aur ye hai Sunnah, aakhir isme farq kya hai? Aksar log Fard aur Sunnah mein farq nahi samajhte, lekin inke ahkaam alag hain. Fard Allah ki taraf se lazmi hukum hai jise chorna gunah hai. Lekin Sunnah Nabi Kareem Sallallahu Alaihi Wasallam ki tareeqa hai jise karne par sawab aur na karne par mahrumi hai. Fard chhorne par gunah aur azab hai, jabke Sunnah Nabi ki mohobbat aur tareeqa hai. Mazeed videos ke liye follow karein.",
-      "word_count": 79,
-      "estimated_duration_sec": 29.26,
+      "script": "This is Thanos. This is Darkseid. So what's the difference? Most fans think Thanos and Darkseid are copies of each other. They're wrong. Thanos is a warlord titan seeking the Infinity Stones to rebalance resource scarcity in the universe. But Darkseid is a New God ruler of Apokolips seeking the Anti-Life Equation to strip all free will across reality. Thanos seeks universal balance, while Darkseid seeks total mental enslavement. Follow for more.",
+      "word_count": 73,
+      "estimated_duration_sec": 27.04,
       "speech_pacing_wps": 2.7,
       "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Fard",
-        "label2": "Sunnah"
-      },
-      "created_at": "2026-08-09T16:02:13.530093",
-      "updated_at": "2026-08-09T16:02:13.531106",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_03.json"
-    },
-    "farq_islamic_04": {
-      "id": "farq_islamic_04",
-      "title": "Zakat vs Sadaqah: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "approved",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Zakat",
-          "Sadaqah"
-        ]
-      ],
-      "script": "Ye hai Zakat aur ye hai Sadaqah, aakhir isme farq kya hai? Aksar log Zakat aur Sadaqah ko ek hi tarah ka khairat samajhte hain, lekin aisa nahi hai. Zakat Maaldar Musalman par saal mein ek baar nisab par 2.5% farz hai. Lekin Sadaqah Kkisi bhi waqt apni marzi se di jaane wali nafli khairat hai. Zakat farz haq hai, jabke Sadaqah dil ki khushi se diya jata hai. Mazeed videos ke liye follow karein.",
-      "word_count": 76,
-      "estimated_duration_sec": 28.15,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Zakat",
-        "label2": "Sadaqah"
-      },
-      "created_at": "2026-08-09T21:40:05.834394",
-      "updated_at": "2026-08-10T10:10:10.745088",
-      "notes": "Manually approved by user"
-    },
-    "farq_islamic_05": {
-      "id": "farq_islamic_05",
-      "title": "Quran vs Hadith: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Quran",
-          "Hadith"
-        ]
-      ],
-      "script": "Ye hai Quran aur ye hai Hadith, aakhir isme farq kya hai? Aksar log Quran aur Hadith dono ko ek jaisi wahy samajhte hain, lekin inme bunyadi farq hai. Quran seedha Allah ka kalam hai jo Jibreel AS ke zariye Nabi SAW par nazil hua aur lafz-ba-lafz mahfooz hai. Lekin Hadith Nabi SAW ke aqwaal, afaal aur tagreeraat hain jo sahaabah ne yaad rakhe aur baad mein sanad ke saath likhe gaye. Quran Allah ka seedha kalam hai, jabke Hadith Nabi SAW ki zindagi ki tafseer hai. Mazeed videos ke liye follow karein.",
-      "word_count": 95,
-      "estimated_duration_sec": 35.19,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
+      "unslop_sanitized": true,
       "validation_issues": [
-        "[Word Count] 95 words is outside ideal range (60-85)."
+        "[Word Count] 73 words is outside ideal range (75-85)."
       ],
       "labels": {
-        "label1": "Quran",
-        "label2": "Hadith"
+        "label1": "Thanos",
+        "label2": "Darkseid"
       },
-      "created_at": "2026-08-09T22:46:46.892484",
-      "updated_at": "2026-08-09T22:46:46.894140",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_05.json"
+      "seo_metadata": {
+        "seo_title": "Thanos vs Darkseid: What's the Difference?",
+        "ab_title": "The Real Difference Between Thanos vs Darkseid",
+        "thumbnail_text": "Thanos vs Darkseid Difference!",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#PopCulture"
+        ],
+        "description": "What's the real difference between Thanos vs Darkseid? Watch this 30-second breakdown.",
+        "pinned_comment": "Which one do you prefer: Thanos or Darkseid? Let us know!"
+      },
+      "created_at": "2026-08-11T11:02:19.998702",
+      "updated_at": "2026-08-11T11:02:19.998702",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_marvel_11.json"
     },
-    "farq_islamic_06": {
-      "id": "farq_islamic_06",
-      "title": "Shirk vs Bidah: Farq Kya Hai?",
+    "opp_dc_11": {
+      "id": "opp_dc_11",
+      "title": "Doctor Strange vs Doctor Fate",
       "type": "deepdive",
-      "channel": "farqkya",
+      "channel": "dontmixthis",
       "status": "approved",
-      "fandom": "Islamic",
+      "fandom": "DC",
       "pairs": [
         [
-          "Shirk",
-          "Bidah"
+          "Doctor Strange",
+          "Doctor Fate"
         ]
       ],
-      "script": "Ye hai Shirk aur ye hai Bidah, aakhir isme farq kya hai? Aksar log Shirk aur Bidah ko ek hi burai samajhte hain, lekin inme bada farq hai. Shirk Allah ke saath kisi ko shareek karna hai, yani ibadat mein ghair Allah ko shamil karna. Lekin Bidah Deen mein aisi nai cheez daalna hai jiske liye koi saboot na ho, chahe niyat achi bhi ho. Shirk tawheed ko tod deta hai, jabke Bidah sunnat ke khilaf naya tariqa hai. Mazeed videos ke liye follow karein.",
-      "word_count": 85,
-      "estimated_duration_sec": 31.48,
+      "script": "This is Doctor Strange. This is Doctor Fate. So what's the difference? Most fans think Doctor Fate copied Doctor Strange. It's actually the opposite. Doctor Strange draws arcane energy through study and spells as Sorcerer Supreme. But Doctor Fate is a mortal host possessed by Nabu, a Lord of Order through the Helmet of Fate. Strange casts spells with human agency, while Fate acts as a divine puppet of Order. Follow for more.",
+      "word_count": 73,
+      "estimated_duration_sec": 27.04,
       "speech_pacing_wps": 2.7,
       "playbook_compliant": true,
-      "validation_issues": [],
+      "unslop_sanitized": true,
+      "validation_issues": [
+        "[Word Count] 73 words is outside ideal range (75-85)."
+      ],
       "labels": {
-        "label1": "Shirk",
-        "label2": "Bidah"
+        "label1": "Doctor Strange",
+        "label2": "Doctor Fate"
       },
-      "created_at": "2026-08-09T22:47:12.594654",
-      "updated_at": "2026-08-09T22:48:22.007506",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_06.json",
+      "seo_metadata": {
+        "seo_title": "Doctor Strange vs Doctor Fate: What's the Difference?",
+        "ab_title": "The Real Difference Between Doctor Strange vs Doctor Fate",
+        "thumbnail_text": "Doctor Strange vs Doctor Fate Difference!",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#PopCulture"
+        ],
+        "description": "What's the real difference between Doctor Strange vs Doctor Fate? Watch this 30-second breakdown.",
+        "pinned_comment": "Which one do you prefer: Doctor Strange or Doctor Fate? Let us know!"
+      },
+      "created_at": "2026-08-11T11:03:39.369282",
+      "updated_at": "2026-08-11T11:04:48.391036",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_dc_11.json",
       "notes": "Manually approved by user"
     },
-    "farq_islamic_comp_03": {
-      "id": "farq_islamic_comp_03",
-      "title": "Tahaarat Ibadat aur Maafi: Farq Kya Hai",
-      "type": "compilation",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Wudu",
-          "Ghusl"
-        ],
-        [
-          "Salah",
-          "Dua"
-        ],
-        [
-          "Tawbah",
-          "Istighfar"
-        ]
-      ],
-      "script": "Ye hai Wudu aur ye hai Ghusl, aakhir isme farq kya hai? Wudu choti tahaarat namaz ke liye hai, jabke Ghusl poori tahaarat janabat ke baad zaruri hai. Ye hai Salah aur ye hai Dua, aakhir isme farq kya hai? Salah Allah ka muqarrar farz hai paanch waqt, jabke Dua kisi bhi waqt Allah se seedhi pukaar hai. Ye hai Tawbah aur ye hai Istighfar, aakhir isme farq kya hai? Tawbah dil se mukammal rujoo aur azm hai, jabke Istighfar zuban se maafi ki darkhwast hai. Mazeed videos ke liye follow karein.",
-      "word_count": 92,
-      "estimated_duration_sec": 34.07,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "pair1": [
-          "Wudu",
-          "Ghusl"
-        ],
-        "pair2": [
-          "Salah",
-          "Dua"
-        ],
-        "pair3": [
-          "Tawbah",
-          "Istighfar"
-        ]
-      },
-      "created_at": "2026-08-10T09:25:10.958942",
-      "updated_at": "2026-08-10T09:25:10.959944",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_comp_03.json"
-    },
-    "farq_islamic_comp_04": {
-      "id": "farq_islamic_comp_04",
-      "title": "Roza Kaffarah aur Jannah: Farq Kya Hai",
-      "type": "compilation",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Roza",
-          "Qaza Roza"
-        ],
-        [
-          "Kaffarah",
-          "Fidyah"
-        ],
-        [
-          "Jannah",
-          "Firdaus"
-        ]
-      ],
-      "script": "Ye hai Roza aur ye hai Qaza Roza, aakhir isme farq kya hai? Roza Ramadan mein ibadat ka sawab hai, jabke Qaza Roza choote hue roze ki baad mein zimmedari hai. Ye hai Kaffarah aur ye hai Fidyah, aakhir isme farq kya hai? Kaffarah kasdi ghalti ki saza hai, jabke Fidyah majburi mein ibadat na kar sakne ka muawwaza hai. Ye hai Jannah aur ye hai Firdaus, aakhir isme farq kya hai? Jannah jannat ka aam naam hai, jabke Firdaus jannat ka sabse aala darjah hai. Mazeed videos ke liye follow karein.",
-      "word_count": 92,
-      "estimated_duration_sec": 34.07,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "pair1": [
-          "Roza",
-          "Qaza Roza"
-        ],
-        "pair2": [
-          "Kaffarah",
-          "Fidyah"
-        ],
-        "pair3": [
-          "Jannah",
-          "Firdaus"
-        ]
-      },
-      "created_at": "2026-08-10T09:25:10.982708",
-      "updated_at": "2026-08-10T09:25:10.983706",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_islamic_comp_04.json"
-    },
-    "farq_fk_opt_10": {
-      "id": "farq_fk_opt_10",
-      "title": "Masjid vs Masjid al-Haram: Farq Kya Hai?",
+    "opp_anime_12": {
+      "id": "opp_anime_12",
+      "title": "Gojo Limitless vs Sukuna Malevolent Shrine",
       "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
+      "channel": "dontmixthis",
+      "status": "approved",
+      "fandom": "Anime",
       "pairs": [
         [
-          "Masjid",
-          "Masjid al-Haram"
+          "Unlimited Void",
+          "Malevolent Shrine"
         ]
       ],
-      "script": "Ek namaz ka sawab ek lakh namazon ke barabar kahan milta hai? Aam Masjid aam ibadat gah hai jahan jamaat ka aada sawab milta hai. Jabke Masjid al-Haram Makkah ki muqaddas masjid hai jahan ek namaz 1 lakh namaz ke barabar hai. Aam Masjid mein 27 guna sawab hai, jabke Masjid al-Haram mein 1 lakh guna. Aise hi Islamic comparisons ke liye follow karein.",
-      "hook_variants": [
-        "Ek namaz ka sawab ek lakh namazon ke barabar kahan milta hai?",
-        "Kya aapko Masjid aur Masjid al-Haram mein farq pata hai?",
-        "Masjid aur Masjid al-Haram ko ek samajhne ki ghalti mat karein!"
-      ],
+      "script": "This is Unlimited Void. This is Malevolent Shrine. So what's the difference? Most JJK fans think Gojo and Sukuna's domains work the same way. They don't. Unlimited Void floods the enemy's brain with infinite information to paralyze them. But Malevolent Shrine has no outer barrier, unleashing relentless slashes across a 200m radius. Gojo's domain overwhelms the mind, while Sukuna's domain shreds physical reality. Follow for more.",
       "word_count": 66,
       "estimated_duration_sec": 24.44,
       "speech_pacing_wps": 2.7,
       "playbook_compliant": true,
-      "validation_issues": [],
+      "unslop_sanitized": true,
+      "validation_issues": [
+        "[Word Count] 66 words is outside ideal range (75-85)."
+      ],
       "labels": {
-        "label1": "Masjid",
-        "label2": "Masjid al-Haram"
+        "label1": "Unlimited Void",
+        "label2": "Malevolent Shrine"
       },
-      "created_at": "2026-08-10T21:40:26.645773",
-      "updated_at": "2026-08-10T21:40:26.646826",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_10.json"
-    },
-    "farq_fk_opt_11": {
-      "id": "farq_fk_opt_11",
-      "title": "Haram vs Makruh: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Haram",
-          "Makruh"
-        ]
-      ],
-      "script": "Ek ko karne par gunah aur azab hai... lekin doosre ko karne par kya hoga? Haram shari'at ka qati aur lazmi mana karda amal hai jise karne par gunah hai. Jabke Makruh napasandida amal hai jise chhorne par sawab hai lekin karne par azab nahi. Haram qati gunah hai, jabke Makruh napasandida amal. Aise hi Islamic comparisons ke liye follow karein.",
-      "hook_variants": [
-        "Ek ko karne par gunah aur azab hai... lekin doosre ko karne par kya hoga?",
-        "Kya aapko Haram aur Makruh mein farq pata hai?",
-        "Haram aur Makruh ko ek samajhne ki ghalti mat karein!"
-      ],
-      "word_count": 61,
-      "estimated_duration_sec": 22.59,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Haram",
-        "label2": "Makruh"
+      "seo_metadata": {
+        "seo_title": "Unlimited Void vs Malevolent Shrine: What's the Difference?",
+        "ab_title": "The Real Difference Between Unlimited Void vs Malevolent Shrine",
+        "thumbnail_text": "Unlimited Void vs Malevolent Shrine Difference!",
+        "hashtags": [
+          "#Shorts",
+          "#DontMixThis",
+          "#PopCulture"
+        ],
+        "description": "What's the real difference between Unlimited Void vs Malevolent Shrine? Watch this 30-second breakdown.",
+        "pinned_comment": "Which one do you prefer: Unlimited Void or Malevolent Shrine? Let us know!"
       },
-      "created_at": "2026-08-10T23:01:11.193824",
-      "updated_at": "2026-08-10T23:01:11.195840",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_11.json"
-    },
-    "farq_fk_opt_12": {
-      "id": "farq_fk_opt_12",
-      "title": "Halal vs Tayyib: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Halal",
-          "Tayyib"
-        ]
-      ],
-      "script": "Kya aapko pata hai konsi khuraak jaiz hone ke saath paak aur faide-mand hoti hai? Halal shari'at ke mutabiq jaiz aur khorak ki ijazat rakhta hai. Jabke Tayyib paak, saaf, aur jism ke liye mufeed aur aala meyaar ka hota hai. Halal qanooni ijazat hai, jabke Tayyib uski paakizgi aur meyaar. Aise hi Islamic comparisons ke liye follow karein.",
-      "hook_variants": [
-        "Kya aapko pata hai konsi khuraak jaiz hone ke saath paak aur faide-mand hoti hai?",
-        "Kya aapko Halal aur Tayyib mein farq pata hai?",
-        "Halal aur Tayyib ko ek samajhne ki ghalti mat karein!"
-      ],
-      "word_count": 60,
-      "estimated_duration_sec": 22.22,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Halal",
-        "label2": "Tayyib"
-      },
-      "created_at": "2026-08-10T23:01:11.235845",
-      "updated_at": "2026-08-10T23:01:11.236843",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_12.json"
-    },
-    "farq_fk_opt_13": {
-      "id": "farq_fk_opt_13",
-      "title": "Iman vs Ihsan: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Iman",
-          "Ihsan"
-        ]
-      ],
-      "script": "Deen ka sabse aala maqam konsa hai... jab aap Allah ko dekh rahe ho? Iman dil se yaqeen aur ghaib par tasdeeq ka naam hai. Jabke Ihsan ibadat ka wo aala meyaar hai jaise aap Allah ko dekh rahe ho. Iman yaqeen ki bunyad hai, jabke Ihsan ibadat ka husn aur kamal. Aise hi Islamic comparisons ke liye follow karein.",
-      "hook_variants": [
-        "Deen ka sabse aala maqam konsa hai... jab aap Allah ko dekh rahe ho?",
-        "Kya aapko Iman aur Ihsan mein farq pata hai?",
-        "Iman aur Ihsan ko ek samajhne ki ghalti mat karein!"
-      ],
-      "word_count": 60,
-      "estimated_duration_sec": 22.22,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Iman",
-        "label2": "Ihsan"
-      },
-      "created_at": "2026-08-10T23:01:11.268438",
-      "updated_at": "2026-08-10T23:01:11.269438",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_13.json"
-    },
-    "farq_fk_opt_15": {
-      "id": "farq_fk_opt_15",
-      "title": "Suhoor vs Iftar: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Suhoor",
-          "Iftar"
-        ]
-      ],
-      "script": "Roze ke dono siraay kitne mubaarak hain... lekin kis mein barkat zyada hai? Suhoor subah saadiq se pehle roza shuru karne ka barkat wala khana hai. Jabke Iftar guroob-e-aftab ke waqt roza kholne ka khushgawar lamha hai. Suhoor roze ki barkat aur tayyari hai, jabke Iftar ibadat ka in'aam. Aise hi Islamic comparisons ke liye follow karein.",
-      "hook_variants": [
-        "Roze ke dono siraay kitne mubaarak hain... lekin kis mein barkat zyada hai?",
-        "Kya aapko Suhoor aur Iftar mein farq pata hai?",
-        "Suhoor aur Iftar ko ek samajhne ki ghalti mat karein!"
-      ],
-      "word_count": 59,
-      "estimated_duration_sec": 21.85,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Suhoor",
-        "label2": "Iftar"
-      },
-      "created_at": "2026-08-10T23:01:11.300538",
-      "updated_at": "2026-08-10T23:01:11.302076",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_15.json"
-    },
-    "farq_fk_opt_17": {
-      "id": "farq_fk_opt_17",
-      "title": "Muhajir vs Ansar: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Muhajir",
-          "Ansar"
-        ]
-      ],
-      "script": "Ek ne Makkah se sab kuch chhod kar hijrat ki... lekin doosre ne kya diya? Muhajir Makkah se Madina Hijrat karne wale Sahaba hain jinhone apna ghar bar qurban kiya. Jabke Ansar Madina ke muqami Sahaba hain jinhone hijrat karne walon ko apna adha maal diya. Muhajir qurbani dene wale hain, jabke Ansar madad karne wale. Aise hi Islamic comparisons ke liye follow karein.",
-      "hook_variants": [
-        "Ek ne Makkah se sab kuch chhod kar hijrat ki... lekin doosre ne kya diya?",
-        "Kya aapko Muhajir aur Ansar mein farq pata hai?",
-        "Muhajir aur Ansar ko ek samajhne ki ghalti mat karein!"
-      ],
-      "word_count": 64,
-      "estimated_duration_sec": 23.7,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Muhajir",
-        "label2": "Ansar"
-      },
-      "created_at": "2026-08-10T23:01:25.534984",
-      "updated_at": "2026-08-10T23:01:25.535981",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_17.json"
-    },
-    "farq_fk_opt_18": {
-      "id": "farq_fk_opt_18",
-      "title": "Riya vs Ikhlas: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Riya",
-          "Ikhlas"
-        ]
-      ],
-      "script": "Ek ibadat ko zaya kar deta hai... jabke doosra azeem sawab lata hai! Riya dikhaway ke liye ibadat karna hai jo aamaal ko zaya kar deta hai. Jabke Ikhlas sirf Allah ki raza ke liye amal karna hai jo ibadat ki rooh hai. Riya dikhaway ki deemak hai, jabke Ikhlas ibadat ki rooh. Aise hi Islamic comparisons ke liye follow karein.",
-      "hook_variants": [
-        "Ek ibadat ko zaya kar deta hai... jabke doosra azeem sawab lata hai!",
-        "Kya aapko Riya aur Ikhlas mein farq pata hai?",
-        "Riya aur Ikhlas ko ek samajhne ki ghalti mat karein!"
-      ],
-      "word_count": 61,
-      "estimated_duration_sec": 22.59,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Riya",
-        "label2": "Ikhlas"
-      },
-      "created_at": "2026-08-10T23:01:25.566038",
-      "updated_at": "2026-08-10T23:01:25.567037",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_18.json"
-    },
-    "farq_fk_opt_19": {
-      "id": "farq_fk_opt_19",
-      "title": "Tawakkul vs Sabr: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Tawakkul",
-          "Sabr"
-        ]
-      ],
-      "script": "Mushkil waqt mein momin ke do sabse bare hathyar konsay hain? Tawakkul asbaab ikhtiyar karke natija Allah par chhod dene ka yaqeen hai. Jabke Sabr aazmaish par dil ko qaaboo mein rakhna aur aah-o-pukaar na karna hai. Tawakkul Allah par bharosa hai, jabke Sabr aazmaish par saabat-qadmi. Aise hi Islamic comparisons ke liye follow karein.",
-      "hook_variants": [
-        "Mushkil waqt mein momin ke do sabse bare hathyar konsay hain?",
-        "Kya aapko Tawakkul aur Sabr mein farq pata hai?",
-        "Tawakkul aur Sabr ko ek samajhne ki ghalti mat karein!"
-      ],
-      "word_count": 58,
-      "estimated_duration_sec": 21.48,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Tawakkul",
-        "label2": "Sabr"
-      },
-      "created_at": "2026-08-10T23:01:25.591514",
-      "updated_at": "2026-08-10T23:01:25.593517",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_19.json"
-    },
-    "farq_fk_opt_20": {
-      "id": "farq_fk_opt_20",
-      "title": "Surah vs Ayat: Farq Kya Hai?",
-      "type": "deepdive",
-      "channel": "farqkya",
-      "status": "idea",
-      "fandom": "Islamic",
-      "pairs": [
-        [
-          "Surah",
-          "Ayat"
-        ]
-      ],
-      "script": "Quran Majeed ki bunyadi tarseem aur hifazat ka farq kya hai? Surah Quran Majeed ka ek pura baab ya chapter hai jise bismillah se shuru kiya jata hai. Jabke Ayat Quran Majeed ke baab ke andar ki ek nishani ya single sentence hai. Surah Quran ka pura chapter hai, jabke Ayat uski ek nishani. Aise hi Islamic comparisons ke liye follow karein.",
-      "hook_variants": [
-        "Quran Majeed ki bunyadi tarseem aur hifazat ka farq kya hai?",
-        "Kya aapko Surah aur Ayat mein farq pata hai?",
-        "Surah aur Ayat ko ek samajhne ki ghalti mat karein!"
-      ],
-      "word_count": 62,
-      "estimated_duration_sec": 22.96,
-      "speech_pacing_wps": 2.7,
-      "playbook_compliant": true,
-      "validation_issues": [],
-      "labels": {
-        "label1": "Surah",
-        "label2": "Ayat"
-      },
-      "created_at": "2026-08-10T23:01:29.206747",
-      "updated_at": "2026-08-10T23:01:29.208270",
-      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\farq_fk_opt_20.json"
+      "created_at": "2026-08-11T11:03:39.820846",
+      "updated_at": "2026-08-11T11:04:33.262628",
+      "artifact_path": "C:\\yt_editing_automation\\automation\\src\\script_gen\\..\\..\\generated_scripts\\opp_anime_12.json",
+      "notes": "Manually approved by user"
     }
   }
 }

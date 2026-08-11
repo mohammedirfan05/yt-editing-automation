@@ -1,25 +1,24 @@
 """
 Playbook Validator Module.
 Validates generated YouTube Shorts scripts against strict guidelines from docs/viral_shorts_playbook.md.
+Detects AI-slop filler and checks retention-driven playbook metrics.
 """
 
 import re
 from typing import Any, Dict, List, Tuple
+from .unslop_sanitizer import UnslopSanitizer
 
 
 class PlaybookValidator:
     """Validator enforcing rules from docs/viral_shorts_playbook.md."""
 
-    # Target metrics
-    TARGET_WPS = 2.7  # Words per second target speech pacing
+    TARGET_WPS = 2.7
 
-    # Deepdive boundaries
     DEEPDIVE_WORD_MIN = 75
     DEEPDIVE_WORD_MAX = 85
     DEEPDIVE_HARD_MIN = 65
     DEEPDIVE_HARD_MAX = 90
 
-    # Compilation boundaries
     COMPILATION_WORD_MIN = 90
     COMPILATION_WORD_MAX = 95
     COMPILATION_HARD_MIN = 80
@@ -47,24 +46,18 @@ class PlaybookValidator:
 
     @classmethod
     def count_words(cls, text: str) -> int:
-        """Counts spoken words in script text."""
-        # Clean punctuation for accurate word count
         clean_text = re.sub(r"[^\w\s']", " ", text)
         words = [w for w in clean_text.split() if w.strip()]
         return len(words)
 
     @classmethod
     def estimate_duration(cls, word_count: int, wps: float = TARGET_WPS) -> float:
-        """Estimates spoken audio duration in seconds."""
         return round(word_count / wps, 2)
 
     @classmethod
     def validate_script(cls, script_text: str, mode: str = "deepdive", channel: str = "dontmixthis") -> Tuple[bool, List[str], Dict[str, Any]]:
         """
-        Validates a script against Playbook guidelines.
-
-        Returns:
-            (is_compliant, list_of_errors_or_warnings, metrics_dict)
+        Validates a script against Playbook guidelines and AI slop detection.
         """
         if channel == "farqkya":
             return PlaybookValidatorUrdu.validate_script(script_text, mode=mode)
@@ -85,6 +78,12 @@ class PlaybookValidator:
         metrics["estimated_duration_sec"] = est_duration
         metrics["speech_pacing_wps"] = cls.TARGET_WPS
         metrics["mode"] = mode
+
+        # 0. AI Slop Detection (unslop check)
+        slop_issues = UnslopSanitizer.detect_slop(text_clean)
+        if slop_issues:
+            for s_issue in slop_issues:
+                warnings.append(s_issue)
 
         # 1. Mode Specific Word Count Checks
         if mode == "deepdive":
@@ -209,6 +208,12 @@ class PlaybookValidatorUrdu:
         metrics["mode"] = mode
         metrics["channel"] = "farqkya"
 
+        # 0. AI Slop Detection (unslop check)
+        slop_issues = UnslopSanitizer.detect_slop(text_clean)
+        if slop_issues:
+            for s_issue in slop_issues:
+                warnings.append(s_issue)
+
         # 1. Mode Specific Word Count Checks
         if mode == "deepdive":
             if word_count < cls.DEEPDIVE_HARD_MIN:
@@ -239,7 +244,6 @@ class PlaybookValidatorUrdu:
             if len(hook_matches) != 3:
                 errors.append(f"[Hook] Compilation mode requires exactly 3 repeated hook blocks. Found {len(hook_matches)}.")
 
-
         # 3. Misconception Check
         if mode == "deepdive":
             has_misconception = any(trig in text_lower for trig in cls.MISCONCEPTION_TRIGGERS)
@@ -261,4 +265,3 @@ class PlaybookValidatorUrdu:
         metrics["warnings"] = warnings
 
         return is_compliant, all_issues, metrics
-

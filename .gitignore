@@ -1,2 +1,23 @@
+# Environment & Secrets
 .env
 .env.*
+*.pem
+
+# Python Cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Runtime Artifacts & External Data
+my_yt_data/
+automation/batch_workspace/
+automation/batch_status.json
+automation/batch_report.json
+automation/scratch/
+automation/test.py
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

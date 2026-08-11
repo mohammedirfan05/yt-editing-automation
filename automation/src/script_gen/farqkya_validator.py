@@ -2,10 +2,12 @@
 Farq Kya Playbook Validator Module.
 Validates generated YouTube Shorts scripts for Farq Kya channel (Roman Urdu).
 Enforces hook syntax: "Ye hai X aur ye hai Y, aakhir isme farq kya hai?"
+Detects AI-slop filler and checks retention-driven playbook metrics.
 """
 
 import re
 from typing import Any, Dict, List, Tuple
+from .unslop_sanitizer import UnslopSanitizer
 
 
 class FarqKyaValidator:
@@ -55,7 +57,7 @@ class FarqKyaValidator:
     @classmethod
     def validate_script(cls, script_text: str, mode: str = "deepdive") -> Tuple[bool, List[str], Dict[str, Any]]:
         """
-        Validates a Farq Kya script against Playbook guidelines.
+        Validates a Farq Kya script against Playbook guidelines and AI slop detection.
         """
         errors = []
         warnings = []
@@ -74,6 +76,12 @@ class FarqKyaValidator:
         metrics["speech_pacing_wps"] = cls.TARGET_WPS
         metrics["mode"] = mode
         metrics["channel"] = "farqkya"
+
+        # 0. AI Slop Detection (unslop check)
+        slop_issues = UnslopSanitizer.detect_slop(text_clean)
+        if slop_issues:
+            for s_issue in slop_issues:
+                warnings.append(s_issue)
 
         # 1. Mode Specific Word Count Checks
         if mode == "deepdive":
